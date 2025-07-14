@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Awesome GitHub Repos</title>
+  <link rel="icon" href="https://www.github.com/favicon.ico" type="image/x-icon">
+  <style>
+    body {
+      background: #f7f6f3;
+      font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #222;
+    }
+    .notion-container {
+      max-width: 900px;
+      margin: 40px auto 40px auto;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 16px rgba(15,23,42,0.08);
+      padding: 48px 32px 32px 32px;
+      min-height: 80vh;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      font-weight: 700;
+      margin-top: 2.2em;
+      margin-bottom: 1em;
+      line-height: 1.2;
+    }
+    h1 { font-size: 2.5em; border-bottom: 1px solid #eee; padding-bottom: 0.3em; }
+    h2 { font-size: 2em; border-bottom: 1px solid #f0f0f0; padding-bottom: 0.2em; }
+    h3 { font-size: 1.4em; }
+    a {
+      color: #2f76da;
+      text-decoration: none;
+      border-bottom: 1px solid #e0e0e0;
+      transition: border 0.2s;
+    }
+    a:hover {
+      border-bottom: 1px solid #2f76da;
+    }
+    ul, ol {
+      padding-left: 1.5em;
+      margin: 1em 0;
+    }
+    li {
+      margin-bottom: 0.4em;
+      line-height: 1.7;
+    }
+    pre, code {
+      background: #f6f6f6;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', 'Fira Mono', 'Menlo', 'Consolas', monospace;
+      font-size: 0.98em;
+    }
+    pre {
+      padding: 1em;
+      overflow-x: auto;
+      margin: 1.5em 0;
+    }
+    code {
+      padding: 0.2em 0.4em;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 1.5em 0;
+      background: #fafbfc;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    th, td {
+      border: 1px solid #eaeaea;
+      padding: 0.6em 1em;
+      text-align: left;
+    }
+    th {
+      background: #f3f4f6;
+      font-weight: 600;
+    }
+    img {
+      max-width: 100%;
+      border-radius: 8px;
+      margin: 1em 0;
+    }
+    .repo-list {
+      margin-bottom: 2em;
+    }
+    .repo-item {
+      margin-bottom: 0.7em;
+      padding: 0.7em 1em;
+      border-radius: 8px;
+      background: #f8f9fa;
+      transition: background 0.2s;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.7em;
+    }
+    .repo-item:hover {
+      background: #f1f3f7;
+    }
+    .repo-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+    .repo-content {
+      flex: 1;
+    }
+    .repo-title {
+      font-weight: 600;
+      font-size: 1.08em;
+      margin-bottom: 0.1em;
+    }
+    .repo-desc {
+      color: #666;
+      font-size: 0.98em;
+      margin-bottom: 0.1em;
+    }
+    .repo-meta {
+      color: #aaa;
+      font-size: 0.92em;
+    }
+    @media (max-width: 600px) {
+      .notion-container {
+        padding: 16px 4vw;
+      }
+      h1 { font-size: 2em; }
+      h2 { font-size: 1.3em; }
+    }
+  </style>
+</head>
+<body>
+  <div class="notion-container">
+    <h1 style="display:flex;align-items:center;gap:0.7em;">
+      <a href="https://github.com/tonngw" target="_blank" style="display:inline-block;line-height:0;">
+        <img src="https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg" alt="Awesome" style="height:1.6em;vertical-align:middle;">
+      </a>
+      <a href="https://github.com/tonngw" target="_blank" style="display:inline-block;line-height:0;">
+        <img src="https://badgen.net/static/GitHub/Repos/blue" alt="Awesome GitHub Repos" style="height:1.6em;vertical-align:middle;">
+      </a>
+    </h1>
+    <h2>Table of Contents</h2>
+    <ul id="toc"></ul>
+    <div id="repo-content"></div>
+    <p style="margin-top:3em;color:#aaa;font-size:0.95em;text-align:center;">Powered by <a href="https://github.com/tonngw/awesome-github-repos">awesome-github-repos</a> | Notion 风格静态页</p>
+  </div>
+  <script>
+    async function loadData() {
+      const res = await fetch('data.json');
+      const data = await res.json();
+      const toc = document.getElementById('toc');
+      const content = document.getElementById('repo-content');
+      toc.innerHTML = '';
+      content.innerHTML = '';
+      // 目录
+      Object.keys(data).forEach(category => {
+        const li = document.createElement('li');
+        li.innerHTML = `<a href="#${category}">${category}</a>`;
+        toc.appendChild(li);
+      });
+      // 分类内容
+      Object.entries(data).forEach(([category, repos]) => {
+        const h2 = document.createElement('h2');
+        h2.id = category;
+        h2.textContent = category;
+        content.appendChild(h2);
+        const ul = document.createElement('div');
+        ul.className = 'repo-list';
+        repos.forEach(repo => {
+          const item = document.createElement('div');
+          item.className = 'repo-item';
+          item.innerHTML = `
+            <a href="${repo.owner.html_url}" target="_blank"><img class="repo-avatar" src="${repo.owner.avatar_url}" alt="${repo.owner.login}"></a>
+            <div class="repo-content">
+              <div class="repo-title"><a href="${repo.html_url}" target="_blank">${repo.full_name}</a></div>
+              <div class="repo-desc">${repo.description ? repo.description : ''}</div>
+              <div class="repo-meta">
+                ${repo.language ? `<span>${repo.language}</span> · ` : ''}
+                <span>⭐${repo.stargazers_count}</span>
+              </div>
+            </div>
+          `;
+          ul.appendChild(item);
+        });
+        content.appendChild(ul);
+      });
+    }
+    loadData();
+  </script>
+</body>
+</html> 
