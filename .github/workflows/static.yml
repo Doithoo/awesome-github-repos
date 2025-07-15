@@ -2,6 +2,12 @@
 name: Deploy static content to Pages
 
 on:
+  workflow_run:
+    # Listen workflow name
+    workflows: ["Update awesome list"]
+    # Only completed trigger
+    types:
+      - completed
   # Runs on pushes targeting the default branch
   push:
     branches: ["main"]
