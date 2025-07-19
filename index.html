@@ -1,265 +1,207 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Awesome GitHub Repos</title>
-  <link rel="icon" href="https://www.github.com/favicon.ico" type="image/x-icon">
-  <style>
-    body {
-      background: #f7f6f3;
-      font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
-      margin: 0;
-      padding: 0;
-      color: #222;
-    }
-    .notion-container {
-      max-width: 900px;
-      margin: 40px auto 40px auto;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 2px 16px rgba(15,23,42,0.08);
-      padding: 48px 32px 32px 32px;
-      min-height: 80vh;
-    }
-    h1, h2, h3, h4, h5, h6 {
-      font-weight: 700;
-      margin-top: 2.2em;
-      margin-bottom: 1em;
-      line-height: 1.2;
-    }
-    h1 { font-size: 2.5em; border-bottom: 1px solid #eee; padding-bottom: 0.3em; }
-    h2 { font-size: 2em; border-bottom: 1px solid #f0f0f0; padding-bottom: 0.2em; }
-    h3 { font-size: 1.4em; }
-    a {
-      color: #2f76da;
-      text-decoration: none;
-      border-bottom: none;
-      transition: border 0.2s;
-    }
-    a:hover {
-      border-bottom: 1px solid #2f76da;
-    }
-    ul, ol {
-      padding-left: 1.5em;
-      margin: 1em 0;
-    }
-    li {
-      margin-bottom: 0.4em;
-      line-height: 1.7;
-    }
-    pre, code {
-      background: #f6f6f6;
-      border-radius: 6px;
-      font-family: 'JetBrains Mono', 'Fira Mono', 'Menlo', 'Consolas', monospace;
-      font-size: 0.98em;
-    }
-    pre {
-      padding: 1em;
-      overflow-x: auto;
-      margin: 1.5em 0;
-    }
-    code {
-      padding: 0.2em 0.4em;
-    }
-    table {
-      border-collapse: collapse;
-      width: 100%;
-      margin: 1.5em 0;
-      background: #fafbfc;
-      border-radius: 8px;
-      overflow: hidden;
-    }
-    th, td {
-      border: 1px solid #eaeaea;
-      padding: 0.6em 1em;
-      text-align: left;
-    }
-    th {
-      background: #f3f4f6;
-      font-weight: 600;
-    }
-    img {
-      max-width: 100%;
-      border-radius: 8px;
-      margin: 1em 0;
-    }
-    .repo-list {
-      margin-bottom: 2em;
-    }
-    .repo-item {
-      margin-bottom: 0.7em;
-      padding: 0.7em 1em;
-      border-radius: 8px;
-      background: #f8f9fa;
-      transition: background 0.2s;
-      display: flex;
-      align-items: flex-start;
-      gap: 0.7em;
-    }
-    .repo-item:hover {
-      background: #f1f3f7;
-    }
-    .repo-avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      margin-top: 2px;
-      flex-shrink: 0;
-    }
-    .repo-content {
-      flex: 1;
-    }
-    .repo-title {
-      font-weight: 600;
-      font-size: 1.08em;
-      margin-bottom: 0.1em;
-    }
-    .repo-desc {
-      color: #666;
-      font-size: 0.98em;
-      margin-bottom: 0.1em;
-    }
-    .repo-meta {
-      color: #aaa;
-      font-size: 0.92em;
-    }
-    @media (max-width: 600px) {
-      .notion-container {
-        padding: 16px 4vw;
-      }
-      h1 { font-size: 2em; }
-      h2 { font-size: 1.3em; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Modern showcase of GitHub repositories with advanced filtering and search capabilities">
+    <meta name="author" content="GitHub Repository Showcase">
+    <title>GitHub Repository Showcase</title>
+
+    <!-- Preconnect to external domains for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Favicon -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
 </head>
+
 <body>
-  <div class="notion-container">
-    <h2 style="display:flex;align-items:center;gap:0.7em;">
-      <a href="https://github.com/tonngw" target="_blank" style="display:inline-block;line-height:0;">
-        <img src="https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg" alt="Awesome" style="height:1.6em;vertical-align:middle;">
-      </a>
-      <a href="https://github.com/tonngw" target="_blank" style="display:inline-block;line-height:0;">
-        <img src="https://badgen.net/static/GitHub/Repos/blue" alt="Awesome GitHub Repos" style="height:1.6em;vertical-align:middle;">
-      </a>
-    </h2>
-    <h2>Table of Contents</h2>
-    <ul id="toc"></ul>
-    <div id="repo-content"></div>
-    <p style="margin-top:3em;color:#aaa;font-size:0.95em;text-align:center;">Powered by <a href="https://github.com/tonngw/awesome-github-repos">awesome-github-repos</a> @tonngw</p>
-  </div>
-  <script>
-    async function loadData() {
-      const res = await fetch('data.json');
-      const data = await res.json();
-      const toc = document.getElementById('toc');
-      const content = document.getElementById('repo-content');
-      toc.innerHTML = '';
-      content.innerHTML = '';
-      const langColors = {
-        'javascript': '#f1e05a',
-        'python': '#3572A5',
-        'typescript': '#3178c6',
-        'go': '#00ADD8',
-        'java': '#b07219',
-        'c': '#555555',
-        'c++': '#f34b7d',
-        'c#': '#178600',
-        'php': '#4F5D95',
-        'html': '#e34c26',
-        'css': '#563d7c',
-        'rust': '#dea584',
-        'swift': '#ffac45',
-        'shell': '#89e051',
-        'jupyter notebook': '#DA5B0B',
-        'vue': '#41b883',
-        'markdown': '#083fa1',
-        'dockerfile': '#384d54',
-        'lua': '#000080',
-        'ruby': '#701516',
-        'kotlin': '#A97BFF',
-        'objective-c': '#438eff',
-        'assembly': '#6E4C13',
-        'tex': '#3D6117',
-        'roff': '#ecdebe',
-        'mdx': '#083fa1',
-        'svelte': '#ff3e00',
-        'vim script': '#199f4b',
-        'viml': '#199f4b',
-        'tree-sitter query': '#c0ffee',
-        'astro': '#ff5d01',
-      };
-      // toc
-      Object.keys(data).forEach(category => {
-        const li = document.createElement('li');
-        li.innerHTML = `<a href="#${category}">${category}</a>`;
-        toc.appendChild(li);
-      });
-      // add category content
-      Object.entries(data).forEach(([category, repos]) => {
-        const h2 = document.createElement('h2');
-        h2.id = category;
-        h2.textContent = category;
-        content.appendChild(h2);
-        // add Back to Top
-        const backTop = document.createElement('a');
-        backTop.href = "#";
-        backTop.textContent = "Back to Top";
-        backTop.style.display = "inline-block";
-        backTop.style.fontSize = "1em";
-        backTop.style.margin = "-0.8em 0 1.2em 0.2em";
-        backTop.style.color = "#555";
-        backTop.style.textDecoration = "none";
-        backTop.style.border = "none";
-        backTop.style.background = "#f3f4f6";
-        backTop.style.borderRadius = "8px";
-        backTop.style.padding = "5px 18px";
-        backTop.style.fontWeight = "500";
-        backTop.style.letterSpacing = "0.5px";
-        backTop.style.boxShadow = "0 1px 4px rgba(15,23,42,0.04)";
-        backTop.style.transition = "background 0.18s, box-shadow 0.18s";
-        backTop.onmouseover = function() {
-          backTop.style.background = '#e5e7eb';
-          backTop.style.boxShadow = '0 2px 8px rgba(15,23,42,0.10)';
-        };
-        backTop.onmouseout = function() {
-          backTop.style.background = '#f3f4f6';
-          backTop.style.boxShadow = '0 1px 4px rgba(15,23,42,0.04)';
-        };
-        backTop.onclick = function(e) {
-          e.preventDefault();
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        };
-        content.appendChild(backTop);
-        const ul = document.createElement('div');
-        ul.className = 'repo-list';
-        repos.forEach(repo => {
-          const item = document.createElement('div');
-          item.className = 'repo-item';
-          // add language dot
-          let langDot = '';
-          if (repo.language) {
-            const key = repo.language.trim().toLowerCase();
-            const color = langColors[key] || '#ccc';
-            langDot = `<span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:${color};margin-right:6px;vertical-align:middle;"></span>`;
-          }
-          item.innerHTML = `
-            <a href="${repo.owner.html_url}" target="_blank"><img class="repo-avatar" src="${repo.owner.avatar_url}" alt="${repo.owner.login}"></a>
-            <div class="repo-content">
-              <div class="repo-title"><a href="${repo.html_url}" target="_blank">${repo.full_name}</a></div>
-              <div class="repo-desc">${repo.description ? repo.description : ''}</div>
-              <div class="repo-meta">
-                ${repo.language ? `<span style='display:inline-flex;align-items:center;gap:0.2em;'>${langDot}<span>${repo.language}</span></span> · ` : ''}
-                <span>⭐${repo.stargazers_count}</span>
-              </div>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="header-title">
+                    <h1 class="title">
+                        <span class="title-icon">🚀</span>
+                        Awesome GitHub Repository
+                    </h1>
+                    <p class="subtitle">Discover amazing open source projects organized by programming language from my
+                        starred project</p>
+                </div>
+
+                <!-- Search and Filter Controls -->
+                <div class="controls">
+                    <div class="search-container">
+                        <div class="search-wrapper">
+                            <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <path d="m21 21-4.35-4.35"></path>
+                            </svg>
+                            <input type="text" id="searchInput" class="search-input"
+                                placeholder="Search repositories, topics, or descriptions... (Press / to focus)"
+                                autocomplete="off">
+                            <button class="search-clear" id="searchClear" aria-label="Clear search">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="filter-controls">
+                        <div class="filter-group">
+                            <label for="languageFilter" class="filter-label">Language</label>
+                            <select id="languageFilter" class="filter-select">
+                                <option value="">All Languages</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-group">
+                            <label for="sortSelect" class="filter-label">Sort by</label>
+                            <select id="sortSelect" class="filter-select">
+                                <option value="recent-likes">❤️ Recent Likes</option>
+                                <option value="stars">⭐ Popular (Most Stars)</option>
+                                <option value="stars-asc">⭐ Stars (Low to High)</option>
+                                <option value="name">📝 Name (A to Z)</option>
+                                <option value="name-desc">📝 Name (Z to A)</option>
+                                <option value="updated">🕒 Recently Updated</option>
+                                <option value="created">🆕 Recently Created</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Language Categorization -->
+                    <div class="categorization-controls">
+                        <div class="categorization-group">
+                            <label class="categorization-label">Language Sections:</label>
+                            <div class="categorization-buttons">
+                                <button class="categorization-btn active" data-category="recently">
+                                    🕒 Recently
+                                </button>
+                                <button class="categorization-btn" data-category="popular">
+                                    📊 Popular
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Language Filters -->
+                    <div class="quick-filters" id="quickFilters" style="display: none;">
+                        <span class="quick-filters-label">Popular:</span>
+                        <div class="quick-filter-buttons" id="quickFilterButtons">
+                            <!-- Quick filter buttons will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
             </div>
-          `;
-          ul.appendChild(item);
-        });
-        content.appendChild(ul);
-      });
-    }
-    loadData();
-  </script>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <!-- Statistics Bar -->
+            <div class="stats-bar" id="statsBar">
+                <div class="stats-content">
+                    <span class="stats-item">
+                        <span class="stats-icon">📚</span>
+                        <span class="stats-label">Total Repositories:</span>
+                        <span class="stats-value" id="totalCount">0</span>
+                    </span>
+                    <span class="stats-item">
+                        <span class="stats-icon">👁️</span>
+                        <span class="stats-label">Showing:</span>
+                        <span class="stats-value" id="filteredCount">0</span>
+                    </span>
+                    <span class="stats-item">
+                        <span class="stats-icon">🔤</span>
+                        <span class="stats-label">Languages:</span>
+                        <span class="stats-value" id="languageCount">0</span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Loading State -->
+            <div class="loading-state" id="loadingState">
+                <div class="loading-spinner"></div>
+                <p class="loading-text">Loading repositories...</p>
+            </div>
+
+            <!-- Repository Grid -->
+            <div class="repository-grid" id="repositoryGrid">
+                <!-- Repository cards will be dynamically inserted here -->
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <div class="empty-state-content">
+                    <div class="empty-state-icon">🔍</div>
+                    <h3 class="empty-state-title">No repositories found</h3>
+                    <p class="empty-state-description">
+                        Try adjusting your search terms or filters to find what you're looking for.
+                    </p>
+                    <div class="empty-state-suggestions">
+                        <h4>Search suggestions:</h4>
+                        <ul>
+                            <li>Try broader keywords (e.g., "web" instead of "website")</li>
+                            <li>Check for typos in your search terms</li>
+                            <li>Use programming language names (e.g., "javascript", "python")</li>
+                            <li>Search by popular topics (e.g., "ai", "react", "api")</li>
+                        </ul>
+                    </div>
+                    <button class="empty-state-button" id="resetFilters">Reset Filters</button>
+                </div>
+            </div>
+
+            <!-- Error State -->
+            <div class="error-state" id="errorState" style="display: none;">
+                <div class="error-state-content">
+                    <div class="error-state-icon">⚠️</div>
+                    <h3 class="error-state-title">Failed to load repositories</h3>
+                    <p class="error-state-description">
+                        There was an error loading the repository data. Please try again.
+                    </p>
+                    <button class="error-state-button" id="retryButton">Retry</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p class="footer-text">
+                    Built by ❤️ <a href="https://github.com/tonngw" target="_blank" rel="noopener noreferrer"
+                        class="footer-link">tonngw</a>
+                </p>
+                <div class="footer-links">
+                    <a href="https://github.com/tonngw/awesome-github-repos" target="_blank" rel="noopener noreferrer"
+                        class="footer-link">
+                        GitHub
+                    </a>
+                    <span class="footer-separator">•</span>
+                    <a href="https://github.com/tonngw/awesome-github-repos" target="_blank"
+                        class="footer-link">About</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="app.js"></script>
 </body>
-</html> 
+
+</html>
