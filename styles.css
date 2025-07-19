@@ -166,6 +166,77 @@ body {
   font-weight: 400;
 }
 
+/* Header Title Row with GitHub Link */
+.title-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-lg);
+  flex-wrap: wrap;
+}
+
+.github-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-sm) var(--spacing-md);
+  color: white;
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all var(--transition-normal);
+  white-space: nowrap;
+}
+
+.github-link:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.github-link:hover .github-icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.github-link:active {
+  transform: translateY(0);
+}
+
+.github-link:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.5);
+  outline-offset: 2px;
+}
+
+.github-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  transition: transform var(--transition-fast);
+}
+
+.github-text {
+  font-size: 0.875rem;
+}
+
+/* 可选的脉冲动画 - 页面加载时吸引注意 */
+.github-link {
+  animation: githubPulse 3s ease-in-out 2s;
+}
+
+@keyframes githubPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(255, 255, 255, 0);
+  }
+}
+
 /* Controls */
 .controls {
   display: flex;
@@ -554,6 +625,21 @@ body {
     gap: var(--spacing-sm);
   }
   
+  .title-row {
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+  
+  .github-link {
+    font-size: 0.8125rem;
+    padding: var(--spacing-xs) var(--spacing-sm);
+  }
+  
+  .github-icon {
+    width: 16px;
+    height: 16px;
+  }
+  
   .subtitle {
     font-size: 1rem;
   }
@@ -606,6 +692,21 @@ body {
 }
 
 @media (max-width: 480px) {
+  .github-link {
+    font-size: 0.75rem;
+    padding: 6px var(--spacing-xs);
+    gap: 4px;
+  }
+  
+  .github-icon {
+    width: 14px;
+    height: 14px;
+  }
+  
+  .github-text {
+    font-size: 0.75rem;
+  }
+  
   .search-input {
     padding: var(--spacing-sm) var(--spacing-lg) var(--spacing-sm) 2.5rem;
     font-size: 0.875rem;
