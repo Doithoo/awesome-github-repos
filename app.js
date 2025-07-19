@@ -1256,24 +1256,105 @@ class GitHubShowcase {
    * Show toast notification
    */
   showToast(message, type = 'info', duration = 3000) {
+    // Create toast container if it doesn't exist
+    let toastContainer = document.getElementById('toast-container');
+    if (!toastContainer) {
+      toastContainer = document.createElement('div');
+      toastContainer.id = 'toast-container';
+      toastContainer.className = 'toast-container';
+      document.body.appendChild(toastContainer);
+    }
+
     const toast = document.createElement('div');
-    toast.className = `toast ${type}`;
-    toast.textContent = message;
+    toast.className = `toast toast-${type}`;
 
-    document.body.appendChild(toast);
+    // Add icon based on type
+    const icon = this.getToastIcon(type);
+    toast.innerHTML = `
+      <div class="toast-content">
+        <span class="toast-icon">${icon}</span>
+        <span class="toast-message">${this.escapeHtml(message)}</span>
+        <button class="toast-close" aria-label="Close notification">×</button>
+      </div>
+    `;
 
-    // Trigger animation
-    setTimeout(() => toast.classList.add('visible'), 100);
+    // Add close functionality
+    const closeBtn = toast.querySelector('.toast-close');
+    closeBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.removeToast(toast);
+    });
+
+    // Add click to dismiss functionality
+    toast.addEventListener('click', () => {
+      this.removeToast(toast);
+    });
+
+    // Pause progress on hover
+    toast.addEventListener('mouseenter', () => {
+      toast.style.animationPlayState = 'paused';
+    });
+
+    toast.addEventListener('mouseleave', () => {
+      toast.style.animationPlayState = 'running';
+    });
+
+    // Set progress bar animation duration
+    toast.style.setProperty('--toast-duration', `${duration}ms`);
+
+    toastContainer.appendChild(toast);
+
+    // Trigger entrance animation
+    requestAnimationFrame(() => {
+      toast.classList.add('toast-visible');
+    });
 
     // Auto remove
-    setTimeout(() => {
-      toast.classList.remove('visible');
-      setTimeout(() => {
-        if (toast.parentNode) {
-          toast.parentNode.removeChild(toast);
-        }
-      }, 300);
+    const autoRemoveTimer = setTimeout(() => {
+      this.removeToast(toast);
     }, duration);
+
+    // Store timer for potential manual removal
+    toast.autoRemoveTimer = autoRemoveTimer;
+
+    // Limit number of toasts (keep only last 5)
+    const toasts = toastContainer.querySelectorAll('.toast');
+    if (toasts.length > 5) {
+      this.removeToast(toasts[0]);
+    }
+  }
+
+  /**
+   * Get icon for toast type
+   */
+  getToastIcon(type) {
+    const icons = {
+      success: '✓',
+      error: '✕',
+      warning: '⚠',
+      info: 'ℹ'
+    };
+    return icons[type] || icons.info;
+  }
+
+  /**
+   * Remove toast with animation
+   */
+  removeToast(toast) {
+    if (!toast || !toast.parentNode) return;
+
+    // Clear auto-remove timer
+    if (toast.autoRemoveTimer) {
+      clearTimeout(toast.autoRemoveTimer);
+    }
+
+    toast.classList.add('toast-removing');
+
+    setTimeout(() => {
+      if (toast.parentNode) {
+        toast.parentNode.removeChild(toast);
+      }
+    }, 300);
   }
 
   /**
@@ -1369,7 +1450,7 @@ class GitHubShowcase {
       }, 500);
 
       // Show success toast
-      this.showToast(`Loaded ${repositories.length} repositories successfully!`, 'success');
+      // this.showToast(`Loaded ${repositories.length} repositories successfully!`, 'success', 1000);
 
     } catch (error) {
       console.error('Error loading data:', error);
@@ -1416,7 +1497,7 @@ class GitHubShowcase {
       // Show search results toast
       const resultCount = this.state.filteredRepositories.length;
       if (searchTerm.trim()) {
-        this.showToast(`Found ${resultCount} repositories matching "${searchTerm.trim()}"`, 'info', 2000);
+        this.showToast(`🎉 Found ${resultCount} repositories matching "${searchTerm.trim()}"`, 'success', 1000);
       }
 
       // Track search analytics (if needed)
@@ -2653,6 +2734,9 @@ class GitHubShowcase {
 document.addEventListener('DOMContentLoaded', () => {
   const showcase = new GitHubShowcase();
   showcase.init();
+
+  // Expose to global scope for testing
+  window.showcase = showcase;
 });
 
 // Export for potential testing
