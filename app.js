@@ -97,7 +97,8 @@ class GitHubShowcase {
 
     // Filter functionality
     this.elements.languageFilter.addEventListener('change', (e) => {
-      this.handleLanguageFilter(e.target.value);
+      // this.handleLanguageFilter(e.target.value);
+      this.handleSearch(e.target.value);
     });
 
     // Sort functionality
@@ -627,6 +628,8 @@ class GitHubShowcase {
   handleLanguageFilter(language) {
     this.setState({ selectedLanguage: language });
     this.render();
+
+    // this.showToast(`🎉 Found ${resultCount} repositories matching "${searchTerm.trim()}"`, 'success', 1000);
   }
 
   /**
@@ -1529,8 +1532,10 @@ class GitHubShowcase {
     this.handleLanguageFilter(language);
 
     // Show filter toast
-    const count = this.calculateLanguageCounts()[language] || 0;
-    this.showToast(`Showing ${count} ${language} repositories`, 'info', 2000);
+    // const count = this.calculateLanguageCounts()[language] || 0;
+    const resultCount = this.state.filteredRepositories.length;
+    // this.showToast(`Showing ${resultCount} ${language} repositories`, 'success', 1000);
+    this.showToast(`🎉 Found ${resultCount} repositories matching "${language}" `, 'success', 1000);
   }
 
   /**
