@@ -1,0 +1,38 @@
+{
+  "name": "awesome-github-repos",
+  "version": "1.0.0",
+  "description": "A modern, elegant platform for showcasing your starred GitHub repositories",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve .",
+    "dev": "npx serve . --listen 3000",
+    "serve": "npx serve . --listen 8000",
+    "build": "echo 'Static site - no build needed'",
+    "preview": "npx serve . --listen 4173"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tonngw/awesome-github-repos.git"
+  },
+  "keywords": [
+    "github",
+    "repositories",
+    "showcase",
+    "portfolio",
+    "dark-theme",
+    "light-theme",
+    "responsive",
+    "vanilla-js",
+    "css-grid",
+    "accessibility"
+  ],
+  "author": "tonngw",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tonngw/awesome-github-repos/issues"
+  },
+  "homepage": "https://github.com/tonngw/awesome-github-repos#readme",
+  "devDependencies": {
+    "serve": "^14.2.1"
+  }
+}
