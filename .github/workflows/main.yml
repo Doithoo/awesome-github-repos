@@ -16,7 +16,7 @@ jobs:
       - name: Awesome generator
         uses: simonecorsi/mawesome@v2
         with:
-          template-path: ""
+          template-path: "template/README.ejs"
           output-filename: "data.md"
           api-token: ${{ secrets.API_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
