@@ -133,7 +133,7 @@
 
 ## TypeScript
 
-*   [presenton/presenton](https://github.com/presenton/presenton) - Open-Source AI Presentation Generator and API
+*   [presenton/presenton](https://github.com/presenton/presenton) - Open-Source AI Presentation Generator and API (Gamma, Beautiful AI, Decktopus Alternative)
 
 *   [chaitin/MonkeyCode](https://github.com/chaitin/MonkeyCode) - 企业级 AI 编程助手，支持私有化离线部署，兼容第三方及本地化大模型，具备企业级管理面板，具备代码安全功能。
 
