@@ -2,13 +2,13 @@
 
 ## Table of Contents
 
-*   [miscellaneous](#miscellaneous)
 *   [Python](#python)
 *   [TypeScript](#typescript)
 *   [MDX](#mdx)
 *   [Kotlin](#kotlin)
 *   [Jupyter Notebook](#jupyter-notebook)
 *   [C++](#c)
+*   [miscellaneous](#miscellaneous)
 *   [Cuda](#cuda)
 *   [Shell](#shell)
 *   [Swift](#swift)
@@ -25,61 +25,9 @@
 *   [LLVM](#llvm)
 *   [Dart](#dart)
 
-## miscellaneous
+## Python
 
 *   [xlite-dev/Qwen-Image](https://github.com/xlite-dev/Qwen-Image) - Qwen-Image is a powerful image generation foundation model capable of complex text rendering and precise image editing.
-
-*   [itMrBoy/resumePolice](https://github.com/itMrBoy/resumePolice) - 简历警察 🕵️‍♂️ 疯狂逮捕
-
-*   [contains-studio/agents](https://github.com/contains-studio/agents) - sharing current agents in use
-
-*   [pen9un/cursor-auto-helper](https://github.com/pen9un/cursor-auto-helper) - Cursor自动继续工具，Cursor自动重试，Cursor自动确认，Cursor用量统计，Cursor增强工具，Cursor辅助工具，Cursor自动化工具，Cursor主题设置，Cursor Auto Continue Tool，Cursor Auto Retry Tool，Cursor Auto Confirm Tool，Cursor Usage Statistics Tool，Cursor Efficiency Tool，Cursor Automation Tool，Cursor Theme Settings，agent after 25 tool calls，Cursor Tool Call Limit 🔧🤖🚀
-
-*   [pluwen/axure-cn](https://github.com/pluwen/axure-cn) - Chinese language file for Axure RP. Axure RP 简体中文语言包。支持 Axure 11、10、9。不定期更新。
-
-*   [valeman/Awesome\_Math\_Books](https://github.com/valeman/Awesome_Math_Books) -
-
-*   [lidangzzz/how-to-run-Q-and-A](https://github.com/lidangzzz/how-to-run-Q-and-A) - 立党润学笔记问答
-
-*   [HW-whistleblower/True-Story-of-Pangu](https://github.com/HW-whistleblower/True-Story-of-Pangu) - 诺亚盘古大模型研发背后的真正的心酸与黑暗的故事。
-
-*   [jbiaojerry/ebook-treasure-chest](https://github.com/jbiaojerry/ebook-treasure-chest) - 欢迎来到电子书下载宝库，一个汇聚了各类电子书下载链接的地方。无论你是喜欢阅读经典文学、经管励志、终身学习、职场创业、技术手册还是其他类型的书籍，这里都能满足你的需求。 该库涵盖了帆书app(原樊登读书)、微信读书、京东读书、喜马拉雅等读书app的大部分电子书。
-
-*   [it-ebooks-0/gpt-translated-pdf-zh](https://github.com/it-ebooks-0/gpt-translated-pdf-zh) -
-
-*   [LOWERTOP/Shadowrocket](https://github.com/LOWERTOP/Shadowrocket) - Shadowrocket 使用手册 补完计划
-
-*   [ljinkai/weekly](https://github.com/ljinkai/weekly) - 独立开发产品变现周刊，每周五发布。
-
-*   [SLAM-Handbook-contributors/slam-handbook-public-release](https://github.com/SLAM-Handbook-contributors/slam-handbook-public-release) - Release repo for our SLAM Handbook
-
-*   [cyfyifanchen/one-person-company](https://github.com/cyfyifanchen/one-person-company) - 遇事不决，Vibe 力学! One-Person Company AI Tools Series – continuously updated to help boost productivity and empower your solo business!
-
-*   [skywind3000/preserve-cd](https://github.com/skywind3000/preserve-cd) - Game Preservation Project
-
-*   [svcvit/Awesome-Dify-Workflow](https://github.com/svcvit/Awesome-Dify-Workflow) - 分享一些好用的 Dify DSL 工作流程，自用、学习两相宜。 Sharing some Dify workflows.
-
-*   [punkpeye/awesome-mcp-servers](https://github.com/punkpeye/awesome-mcp-servers) - A collection of MCP servers.
-
-*   [Gurubase/gurubase](https://github.com/Gurubase/gurubase) - Turn Your Content Into a 24/7 AI Support Assistant
-
-*   [Acmesec/PromptJailbreakManual](https://github.com/Acmesec/PromptJailbreakManual) - Prompt越狱手册
-
-*   [1c7/chinese-independent-developer](https://github.com/1c7/chinese-independent-developer) - 👩🏿‍💻👨🏾‍💻👩🏼‍💻👨🏽‍💻👩🏻‍💻中国独立开发者项目列表 -- 分享大家都在做什么
-
-*   [cbamls/AI\_Tutorial](https://github.com/cbamls/AI_Tutorial) - 精选机器学习，NLP，图像识别， 深度学习等人工智能领域学习资料，搜索，推荐，广告系统架构及算法技术资料整理。算法大牛笔记汇总
-
-*   [wgwang/awesome-LLMs-In-China](https://github.com/wgwang/awesome-LLMs-In-China) - 中国大模型
-
-*   [xlucn/oh-my-foss-android](https://github.com/xlucn/oh-my-foss-android) - 个人收集的实用、良心开源安卓软件
-
-*   [weijunext/indie-hacker-tools](https://github.com/weijunext/indie-hacker-tools) - 收录独立开发者出海技术栈和工具
-
-*   [lukasmasuch/best-of-ml-python](https://github.com/lukasmasuch/best-of-ml-python) - 🏆 A ranked list of awesome machine learning Python libraries. Updated weekly.
-
-*   [DreamerWinston/Learn-Map-Full-Stack](https://github.com/DreamerWinston/Learn-Map-Full-Stack) - 全栈学习路线图
-
-## Python
 
 *   [FoundationAgents/OpenManus](https://github.com/FoundationAgents/OpenManus) - No fortress, purely open ground.  OpenManus is Coming.
 
@@ -267,8 +215,6 @@
 
 *   [xiao-zaiyi/illa-helper](https://github.com/xiao-zaiyi/illa-helper) - 浸入式学语言助手 (Immersive Language Learning Assistant)
 
-*   [sst/opencode](https://github.com/sst/opencode) - AI coding agent, built for the terminal.
-
 *   [Nutlope/self.so](https://github.com/Nutlope/self.so) - LinkedIn -> personal site generator
 
 *   [any4ai/AnyCrawl](https://github.com/any4ai/AnyCrawl) - AnyCrawl 🚀: A Node.js/TypeScript crawler that turns websites into LLM-ready data and extracts structured SERP results from Google/Bing/Baidu/etc. Native multi-threading for bulk processing.
@@ -351,6 +297,58 @@
 
 *   [luwill/Deep-Learning-Image-Segmentation](https://github.com/luwill/Deep-Learning-Image-Segmentation) - Deep Learning Image Segmentation: Theory and Practice
 
+## miscellaneous
+
+*   [itMrBoy/resumePolice](https://github.com/itMrBoy/resumePolice) - 简历警察 🕵️‍♂️ 疯狂逮捕
+
+*   [contains-studio/agents](https://github.com/contains-studio/agents) - sharing current agents in use
+
+*   [pen9un/cursor-auto-helper](https://github.com/pen9un/cursor-auto-helper) - Cursor自动继续工具，Cursor自动重试，Cursor自动确认，Cursor用量统计，Cursor增强工具，Cursor辅助工具，Cursor自动化工具，Cursor主题设置，Cursor Auto Continue Tool，Cursor Auto Retry Tool，Cursor Auto Confirm Tool，Cursor Usage Statistics Tool，Cursor Efficiency Tool，Cursor Automation Tool，Cursor Theme Settings，agent after 25 tool calls，Cursor Tool Call Limit 🔧🤖🚀
+
+*   [pluwen/axure-cn](https://github.com/pluwen/axure-cn) - Chinese language file for Axure RP. Axure RP 简体中文语言包。支持 Axure 11、10、9。不定期更新。
+
+*   [valeman/Awesome\_Math\_Books](https://github.com/valeman/Awesome_Math_Books) -
+
+*   [lidangzzz/how-to-run-Q-and-A](https://github.com/lidangzzz/how-to-run-Q-and-A) - 立党润学笔记问答
+
+*   [HW-whistleblower/True-Story-of-Pangu](https://github.com/HW-whistleblower/True-Story-of-Pangu) - 诺亚盘古大模型研发背后的真正的心酸与黑暗的故事。
+
+*   [jbiaojerry/ebook-treasure-chest](https://github.com/jbiaojerry/ebook-treasure-chest) - 欢迎来到电子书下载宝库，一个汇聚了各类电子书下载链接的地方。无论你是喜欢阅读经典文学、经管励志、终身学习、职场创业、技术手册还是其他类型的书籍，这里都能满足你的需求。 该库涵盖了帆书app(原樊登读书)、微信读书、京东读书、喜马拉雅等读书app的大部分电子书。
+
+*   [it-ebooks-0/gpt-translated-pdf-zh](https://github.com/it-ebooks-0/gpt-translated-pdf-zh) -
+
+*   [LOWERTOP/Shadowrocket](https://github.com/LOWERTOP/Shadowrocket) - Shadowrocket 使用手册 补完计划
+
+*   [ljinkai/weekly](https://github.com/ljinkai/weekly) - 独立开发产品变现周刊，每周五发布。
+
+*   [SLAM-Handbook-contributors/slam-handbook-public-release](https://github.com/SLAM-Handbook-contributors/slam-handbook-public-release) - Release repo for our SLAM Handbook
+
+*   [cyfyifanchen/one-person-company](https://github.com/cyfyifanchen/one-person-company) - 遇事不决，Vibe 力学! One-Person Company AI Tools Series – continuously updated to help boost productivity and empower your solo business!
+
+*   [skywind3000/preserve-cd](https://github.com/skywind3000/preserve-cd) - Game Preservation Project
+
+*   [svcvit/Awesome-Dify-Workflow](https://github.com/svcvit/Awesome-Dify-Workflow) - 分享一些好用的 Dify DSL 工作流程，自用、学习两相宜。 Sharing some Dify workflows.
+
+*   [punkpeye/awesome-mcp-servers](https://github.com/punkpeye/awesome-mcp-servers) - A collection of MCP servers.
+
+*   [Gurubase/gurubase](https://github.com/Gurubase/gurubase) - Turn Your Content Into a 24/7 AI Support Assistant
+
+*   [Acmesec/PromptJailbreakManual](https://github.com/Acmesec/PromptJailbreakManual) - Prompt越狱手册
+
+*   [1c7/chinese-independent-developer](https://github.com/1c7/chinese-independent-developer) - 👩🏿‍💻👨🏾‍💻👩🏼‍💻👨🏽‍💻👩🏻‍💻中国独立开发者项目列表 -- 分享大家都在做什么
+
+*   [cbamls/AI\_Tutorial](https://github.com/cbamls/AI_Tutorial) - 精选机器学习，NLP，图像识别， 深度学习等人工智能领域学习资料，搜索，推荐，广告系统架构及算法技术资料整理。算法大牛笔记汇总
+
+*   [wgwang/awesome-LLMs-In-China](https://github.com/wgwang/awesome-LLMs-In-China) - 中国大模型
+
+*   [xlucn/oh-my-foss-android](https://github.com/xlucn/oh-my-foss-android) - 个人收集的实用、良心开源安卓软件
+
+*   [weijunext/indie-hacker-tools](https://github.com/weijunext/indie-hacker-tools) - 收录独立开发者出海技术栈和工具
+
+*   [lukasmasuch/best-of-ml-python](https://github.com/lukasmasuch/best-of-ml-python) - 🏆 A ranked list of awesome machine learning Python libraries. Updated weekly.
+
+*   [DreamerWinston/Learn-Map-Full-Stack](https://github.com/DreamerWinston/Learn-Map-Full-Stack) - 全栈学习路线图
+
 ## Cuda
 
 *   [xlite-dev/LeetCUDA](https://github.com/xlite-dev/LeetCUDA) - 📚LeetCUDA: Modern CUDA Learn Notes with PyTorch for Beginners🐑, 200+ CUDA Kernels, Tensor Cores, HGEMM, FA-2 MMA.🎉
@@ -414,6 +412,8 @@
 *   [chaitin/MonkeyCode](https://github.com/chaitin/MonkeyCode) - 企业级 AI 编程助手，支持私有化离线部署，兼容第三方及本地化大模型，具备企业级管理面板，具备代码安全功能。
 
 *   [Done-0/fuck-u-code](https://github.com/Done-0/fuck-u-code) - 屎山代码检测器，评估代码的”屎山等级“，并输出美观的终端报告。
+
+*   [sst/opencode](https://github.com/sst/opencode) - AI coding agent, built for the terminal.
 
 *   [krillinai/KlicStudio](https://github.com/krillinai/KlicStudio) -  A video translation and dubbing tool powered by LLMs, offering 99 language translations and one-click full-process deployment. It can generate content optimized for platforms like YouTube，TikTok, and Shorts.  AI视频翻译配音工具，99种语言双向翻译，一键部署全流程，可以生成适配抖音，小红书，哔哩哔哩，视频号，TikTok，Youtube Shorts等形态的内容
 
