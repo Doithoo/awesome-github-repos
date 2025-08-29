@@ -2,11 +2,11 @@
 
 ## Table of Contents
 
-*   [JavaScript](#javascript)
-*   [Go](#go)
 *   [Java](#java)
 *   [Python](#python)
 *   [TypeScript](#typescript)
+*   [JavaScript](#javascript)
+*   [Go](#go)
 *   [Shell](#shell)
 *   [Vue](#vue)
 *   [Zig](#zig)
@@ -25,61 +25,9 @@
 *   [C#](#c-2)
 *   [LLVM](#llvm)
 
-## JavaScript
-
-*   [asgeirtj/system\_prompts\_leaks](https://github.com/asgeirtj/system_prompts_leaks) - Collection of extracted System Prompts from popular chatbots like ChatGPT, Claude & Gemini
-
-*   [siteboon/claudecodeui](https://github.com/siteboon/claudecodeui) - Use Claude Code or Cursor CLI on mobile and web with Claude Code UI. Claude Code UI free open source webui/GUI that helps you manage your Claude Code session and projects remotely
-
-*   [mswnlz/edu-knowlege](https://github.com/mswnlz/edu-knowlege) - 教育各种资料，从幼儿园到小学、中学，涵盖学而思，万维、猿辅导等多个机构，持续增加中
-
-*   [cv-cat/Spider\_XHS](https://github.com/cv-cat/Spider_XHS) - 小红书爬虫数据采集，小红书全域运营解决方案
-
-*   [xixu-me/Xget](https://github.com/xixu-me/Xget) - 超高性能、安全的一站式开源资源获取加速引擎。其性能远超传统加速器，为您提供跨多个平台的统一高效的加速体验，涵盖代码储存库、包管理、AI 推理 API、容器镜像、模型及数据集等 | Ultra-high performance, secure, all-in-one open-source resource acceleration engine. Significantly outperforms traditional accelerators, providing unified and efficient acceleration across multiple platforms
-
-*   [davila7/claude-code-templates](https://github.com/davila7/claude-code-templates) - CLI tool for configuring and monitoring Claude Code
-
-*   [keremciu/sketch-iconfont](https://github.com/keremciu/sketch-iconfont) - This plugin helps you easily insert and manage icons from icon fonts.
-
-*   [WiseLibs/better-sqlite3](https://github.com/WiseLibs/better-sqlite3) - The fastest and simplest library for SQLite3 in Node.js.
-
-*   [tonngw/awesome-github-repos](https://github.com/tonngw/awesome-github-repos) - 🚀 A curated collection of awesome GitHub repositories, organized by language and topic from my starred projects. Modern, elegant platform for showcasing your starred GitHub repositories.
-
-*   [fogsightai/fogsight](https://github.com/fogsightai/fogsight) - Fogsight is an AI agent and animation engine powered by Large Language Models.
-
-*   [Figma-Cool/figmaCN](https://github.com/Figma-Cool/figmaCN) - 中文 Figma 插件，设计师人工翻译校验
-
-*   [listen1/listen1\_desktop](https://github.com/listen1/listen1_desktop) - one for all free music in china (Windows, Mac, Linux desktop)
-
-*   [LYiHub/mad-professor-public](https://github.com/LYiHub/mad-professor-public) - An AI companion for reading papers.
-
-*   [jaywcjlove/awesome-mac](https://github.com/jaywcjlove/awesome-mac) -  Now we have become very big, Different from the original idea. Collect premium software in various categories.
-
-*   [BingKui/javascript-zh](https://github.com/BingKui/javascript-zh) - Airbnb 出品，目前非常流行的 JavaScript 代码规范（中文版）。其内对各种 js 范式的写法进行了详细的规定与说明，按照此规范写出的代码将会更加合理。
-
-*   [schlagmichdoch/PairDrop](https://github.com/schlagmichdoch/PairDrop) - PairDrop: Transfer Files Cross-Platform. No Setup, No Signup.
-
-## Go
-
-*   [ghuntley/how-to-build-a-coding-agent](https://github.com/ghuntley/how-to-build-a-coding-agent) - A workshop that teaches you how to build your own coding agent. Similar to Roo code, Cline, Amp, Cursor, Windsurf or OpenCode.
-
-*   [NVIDIA/nvidia-container-toolkit](https://github.com/NVIDIA/nvidia-container-toolkit) - Build and run containers leveraging NVIDIA GPUs
-
-*   [cli/cli](https://github.com/cli/cli) - GitHub’s official command line tool
-
-*   [charmbracelet/crush](https://github.com/charmbracelet/crush) - The glamourous AI coding agent for your favourite terminal 💘
-
-*   [QuantumNous/new-api](https://github.com/QuantumNous/new-api) - AI模型接口管理与分发系统，支持将多种大模型转为统一格式调用，支持OpenAI、Claude等格式，可供个人或者企业内部管理与分发渠道使用，本项目基于One API二次开发。🍥 The next-generation LLM gateway and AI asset management system supports multiple languages.
-
-*   [chaitin/MonkeyCode](https://github.com/chaitin/MonkeyCode) - 企业级 AI 编程助手，支持私有化离线部署，兼容第三方及本地化大模型，具备企业级管理面板，具备代码安全功能。
-
-*   [Done-0/fuck-u-code](https://github.com/Done-0/fuck-u-code) - 屎山代码检测器，评估代码的”屎山等级“，并输出美观的终端报告。
-
-*   [krillinai/KlicStudio](https://github.com/krillinai/KlicStudio) -  A video translation and dubbing tool powered by LLMs, offering 99 language translations and one-click full-process deployment. It can generate content optimized for platforms like YouTube，TikTok, and Shorts.  AI视频翻译配音工具，99种语言双向翻译，一键部署全流程，可以生成适配抖音，小红书，哔哩哔哩，视频号，TikTok，Youtube Shorts等形态的内容
-
-*   [sinclairtarget/git-who](https://github.com/sinclairtarget/git-who) - Git blame for file trees
-
 ## Java
+
+*   [liyupi/yu-ai-code-mother](https://github.com/liyupi/yu-ai-code-mother) - 编程导航 2025 年 AI + 微服务全栈新项目，基于 Spring Boot 3 + LangChain4j 构建对标大厂的 AI 应用生成平台，支持多种模式的智能代码生成、可视化编辑预览、一键部署分享、应用管理、AI 智能路由等。覆盖 AI 智能体开发、LangGraph4j 工作流、Tool Calling、SSE、Vue 3 全栈开发、Spring Cloud 微服务架构、MySQL / Redis / COS / Caffeine 存储、Nginx、多种设计模式、ARMS + Prometheus + Grafana 监控、Cursor Vibe Coding 等核心技术。 用一套教程掌握大厂级 AI 智能体开发+前后端核心技术，成为 AI 时代企业的香饽饽，给你的简历增加竞争力
 
 *   [Stirling-Tools/Stirling-PDF](https://github.com/Stirling-Tools/Stirling-PDF) - #1 Locally hosted web application that allows you to perform various operations on PDF files
 
@@ -90,6 +38,14 @@
 *   [ageerle/ruoyi-ai](https://github.com/ageerle/ruoyi-ai) - RuoYi AI 是一个全栈式 AI 开发平台，旨在帮助开发者快速构建和部署个性化的 AI 应用。
 
 ## Python
+
+*   [Sanster/IOPaint](https://github.com/Sanster/IOPaint) - Image inpainting tool powered by SOTA AI Model. Remove any unwanted object, defect, people from your pictures or erase and replace(powered by stable diffusion) any thing on your pictures.
+
+*   [Picsart-AI-Research/MI-GAN](https://github.com/Picsart-AI-Research/MI-GAN) - \[ICCV 2023] MI-GAN: A Simple Baseline for Image Inpainting on Mobile Devices
+
+*   [microsoft/VibeVoice](https://github.com/microsoft/VibeVoice) - Frontier Open-Source Text-to-Speech
+
+*   [ModelTC/Qwen-Image-Lightning](https://github.com/ModelTC/Qwen-Image-Lightning) - Qwen-Image-Lightning: Speed up Qwen-Image model with distillation
 
 *   [HKUDS/AI-Researcher](https://github.com/HKUDS/AI-Researcher) - "AI-Researcher: Autonomous Scientific Innovation" -- A production-ready version: https://novix.science/chat
 
@@ -205,13 +161,9 @@
 
 *   [roboflow/rf-detr](https://github.com/roboflow/rf-detr) - RF-DETR is a real-time object detection model architecture developed by Roboflow, SOTA on COCO and designed for fine-tuning.
 
-*   [jianchang512/clone-voice](https://github.com/jianchang512/clone-voice) - A sound cloning tool with a web interface, using your voice or any sound to record audio / 一个带web界面的声音克隆工具，使用你的音色或任意声音来录制音频
-
-*   [andrewyng/aisuite](https://github.com/andrewyng/aisuite) - Simple, unified interface to multiple Generative AI providers
-
-*   [harry0703/MoneyPrinterTurbo](https://github.com/harry0703/MoneyPrinterTurbo) - 利用AI大模型，一键生成高清短视频 Generate short videos with one click using AI LLM.
-
 ## TypeScript
+
+*   [colinhacks/zod](https://github.com/colinhacks/zod) - TypeScript-first schema validation with static type inference
 
 *   [elizaOS/eliza](https://github.com/elizaOS/eliza) - Autonomous agents for everyone
 
@@ -317,7 +269,59 @@
 
 *   [qiaoshouqing/familytree](https://github.com/qiaoshouqing/familytree) - A minimalist open-source family tree website project.
 
-*   [modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers) - Model Context Protocol Servers
+## JavaScript
+
+*   [asgeirtj/system\_prompts\_leaks](https://github.com/asgeirtj/system_prompts_leaks) - Collection of extracted System Prompts from popular chatbots like ChatGPT, Claude & Gemini
+
+*   [siteboon/claudecodeui](https://github.com/siteboon/claudecodeui) - Use Claude Code or Cursor CLI on mobile and web with Claude Code UI. Claude Code UI free open source webui/GUI that helps you manage your Claude Code session and projects remotely
+
+*   [mswnlz/edu-knowlege](https://github.com/mswnlz/edu-knowlege) - 教育各种资料，从幼儿园到小学、中学，涵盖学而思，万维、猿辅导等多个机构，持续增加中
+
+*   [cv-cat/Spider\_XHS](https://github.com/cv-cat/Spider_XHS) - 小红书爬虫数据采集，小红书全域运营解决方案
+
+*   [xixu-me/Xget](https://github.com/xixu-me/Xget) - 超高性能、安全的一站式开源资源获取加速引擎。其性能远超传统加速器，为您提供跨多个平台的统一高效的加速体验，涵盖代码储存库、包管理、AI 推理 API、容器镜像、模型及数据集等 | Ultra-high performance, secure, all-in-one open-source resource acceleration engine. Significantly outperforms traditional accelerators, providing unified and efficient acceleration across multiple platforms
+
+*   [davila7/claude-code-templates](https://github.com/davila7/claude-code-templates) - CLI tool for configuring and monitoring Claude Code
+
+*   [keremciu/sketch-iconfont](https://github.com/keremciu/sketch-iconfont) - This plugin helps you easily insert and manage icons from icon fonts.
+
+*   [WiseLibs/better-sqlite3](https://github.com/WiseLibs/better-sqlite3) - The fastest and simplest library for SQLite3 in Node.js.
+
+*   [tonngw/awesome-github-repos](https://github.com/tonngw/awesome-github-repos) - 🚀 A curated collection of awesome GitHub repositories, organized by language and topic from my starred projects. Modern, elegant platform for showcasing your starred GitHub repositories.
+
+*   [fogsightai/fogsight](https://github.com/fogsightai/fogsight) - Fogsight is an AI agent and animation engine powered by Large Language Models.
+
+*   [Figma-Cool/figmaCN](https://github.com/Figma-Cool/figmaCN) - 中文 Figma 插件，设计师人工翻译校验
+
+*   [listen1/listen1\_desktop](https://github.com/listen1/listen1_desktop) - one for all free music in china (Windows, Mac, Linux desktop)
+
+*   [LYiHub/mad-professor-public](https://github.com/LYiHub/mad-professor-public) - An AI companion for reading papers.
+
+*   [jaywcjlove/awesome-mac](https://github.com/jaywcjlove/awesome-mac) -  Now we have become very big, Different from the original idea. Collect premium software in various categories.
+
+*   [BingKui/javascript-zh](https://github.com/BingKui/javascript-zh) - Airbnb 出品，目前非常流行的 JavaScript 代码规范（中文版）。其内对各种 js 范式的写法进行了详细的规定与说明，按照此规范写出的代码将会更加合理。
+
+*   [schlagmichdoch/PairDrop](https://github.com/schlagmichdoch/PairDrop) - PairDrop: Transfer Files Cross-Platform. No Setup, No Signup.
+
+## Go
+
+*   [ghuntley/how-to-build-a-coding-agent](https://github.com/ghuntley/how-to-build-a-coding-agent) - A workshop that teaches you how to build your own coding agent. Similar to Roo code, Cline, Amp, Cursor, Windsurf or OpenCode.
+
+*   [NVIDIA/nvidia-container-toolkit](https://github.com/NVIDIA/nvidia-container-toolkit) - Build and run containers leveraging NVIDIA GPUs
+
+*   [cli/cli](https://github.com/cli/cli) - GitHub’s official command line tool
+
+*   [charmbracelet/crush](https://github.com/charmbracelet/crush) - The glamourous AI coding agent for your favourite terminal 💘
+
+*   [QuantumNous/new-api](https://github.com/QuantumNous/new-api) - AI模型接口管理与分发系统，支持将多种大模型转为统一格式调用，支持OpenAI、Claude等格式，可供个人或者企业内部管理与分发渠道使用，本项目基于One API二次开发。🍥 The next-generation LLM gateway and AI asset management system supports multiple languages.
+
+*   [chaitin/MonkeyCode](https://github.com/chaitin/MonkeyCode) - 企业级 AI 编程助手，支持私有化离线部署，兼容第三方及本地化大模型，具备企业级管理面板，具备代码安全功能。
+
+*   [Done-0/fuck-u-code](https://github.com/Done-0/fuck-u-code) - 屎山代码检测器，评估代码的”屎山等级“，并输出美观的终端报告。
+
+*   [krillinai/KlicStudio](https://github.com/krillinai/KlicStudio) -  A video translation and dubbing tool powered by LLMs, offering 99 language translations and one-click full-process deployment. It can generate content optimized for platforms like YouTube，TikTok, and Shorts.  AI视频翻译配音工具，99种语言双向翻译，一键部署全流程，可以生成适配抖音，小红书，哔哩哔哩，视频号，TikTok，Youtube Shorts等形态的内容
+
+*   [sinclairtarget/git-who](https://github.com/sinclairtarget/git-who) - Git blame for file trees
 
 ## Shell
 
@@ -334,8 +338,6 @@
 *   [hanshuaikang/AI-Media2Doc](https://github.com/hanshuaikang/AI-Media2Doc) - 一键将音视频转化为小红书/公众号/知识笔记/思维导图/视频字幕等各种风格的文档。
 
 *   [jason5ng32/MyIP](https://github.com/jason5ng32/MyIP) - The best IP Toolbox. Easy to check what's your IPs, IP geolocation, check for DNS leaks, examine WebRTC connections, speed test, ping test, MTR test, check website availability, whois search and more! || 🇨🇳 可能是最好用的IP工具箱。轻松检查你的 IP，IP 地理位置，检查DNS泄漏，检查 WebRTC 连接，速度测试，ping 测试，MTR测试，检查网站可用性，查询 Whois 信息等等。
-
-*   [doocs/md](https://github.com/doocs/md) - ✍ WeChat Markdown Editor | 一款高度简洁的微信 Markdown 编辑器：支持 Markdown 语法、自定义主题样式、内容管理、多图床、AI 助手等特性
 
 ## Zig
 
@@ -392,8 +394,6 @@
 *   [punkpeye/awesome-mcp-servers](https://github.com/punkpeye/awesome-mcp-servers) - A collection of MCP servers.
 
 *   [Gurubase/gurubase](https://github.com/Gurubase/gurubase) - Turn Your Content Into a 24/7 AI Support Assistant
-
-*   [Acmesec/PromptJailbreakManual](https://github.com/Acmesec/PromptJailbreakManual) - Prompt越狱手册
 
 ## MDX
 
