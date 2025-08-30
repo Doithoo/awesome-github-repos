@@ -3,12 +3,12 @@
 ## Table of Contents
 
 *   [Java](#java)
+*   [Vue](#vue)
 *   [Python](#python)
 *   [TypeScript](#typescript)
 *   [JavaScript](#javascript)
 *   [Go](#go)
 *   [Shell](#shell)
-*   [Vue](#vue)
 *   [Zig](#zig)
 *   [Rust](#rust)
 *   [miscellaneous](#miscellaneous)
@@ -27,6 +27,8 @@
 
 ## Java
 
+*   [tgmeng-com/tgmeng-api](https://github.com/tgmeng-com/tgmeng-api) - 糖果梦热搜-后端
+
 *   [liyupi/yu-ai-code-mother](https://github.com/liyupi/yu-ai-code-mother) - 编程导航 2025 年 AI + 微服务全栈新项目，基于 Spring Boot 3 + LangChain4j 构建对标大厂的 AI 应用生成平台，支持多种模式的智能代码生成、可视化编辑预览、一键部署分享、应用管理、AI 智能路由等。覆盖 AI 智能体开发、LangGraph4j 工作流、Tool Calling、SSE、Vue 3 全栈开发、Spring Cloud 微服务架构、MySQL / Redis / COS / Caffeine 存储、Nginx、多种设计模式、ARMS + Prometheus + Grafana 监控、Cursor Vibe Coding 等核心技术。 用一套教程掌握大厂级 AI 智能体开发+前后端核心技术，成为 AI 时代企业的香饽饽，给你的简历增加竞争力
 
 *   [Stirling-Tools/Stirling-PDF](https://github.com/Stirling-Tools/Stirling-PDF) - #1 Locally hosted web application that allows you to perform various operations on PDF files
@@ -36,6 +38,16 @@
 *   [jd-opensource/joyagent-jdgenie](https://github.com/jd-opensource/joyagent-jdgenie) - 开源的端到端产品级通用智能体
 
 *   [ageerle/ruoyi-ai](https://github.com/ageerle/ruoyi-ai) - RuoYi AI 是一个全栈式 AI 开发平台，旨在帮助开发者快速构建和部署个性化的 AI 应用。
+
+## Vue
+
+*   [tgmeng-com/tgmeng-top-search-frontend](https://github.com/tgmeng-com/tgmeng-top-search-frontend) - 糖果梦热搜-前端
+
+*   [wechat-article/wechat-article-exporter](https://github.com/wechat-article/wechat-article-exporter) - 一个在线的微信公众号文章批量下载工具，支持下载阅读量与评论数据，支持私有化部署，通过浏览器进行使用，无需进行安装
+
+*   [hanshuaikang/AI-Media2Doc](https://github.com/hanshuaikang/AI-Media2Doc) - 一键将音视频转化为小红书/公众号/知识笔记/思维导图/视频字幕等各种风格的文档。
+
+*   [jason5ng32/MyIP](https://github.com/jason5ng32/MyIP) - The best IP Toolbox. Easy to check what's your IPs, IP geolocation, check for DNS leaks, examine WebRTC connections, speed test, ping test, MTR test, check website availability, whois search and more! || 🇨🇳 可能是最好用的IP工具箱。轻松检查你的 IP，IP 地理位置，检查DNS泄漏，检查 WebRTC 连接，速度测试，ping 测试，MTR测试，检查网站可用性，查询 Whois 信息等等。
 
 ## Python
 
@@ -183,7 +195,7 @@
 
 *   [KuekHaoYang/KPrompt](https://github.com/KuekHaoYang/KPrompt) - A specialized workbench for developers to engineer high-performance AI interactions, featuring a System Prompt Architect and a Conversational Prompt Refiner.
 
-*   [requestly/requestly](https://github.com/requestly/requestly) - Free and open-source API Client & Interceptor
+*   [requestly/requestly](https://github.com/requestly/requestly) - Free and open-source API Client & Interceptor.
 
 *   [n8n-io/n8n](https://github.com/n8n-io/n8n) - Fair-code workflow automation platform with native AI capabilities. Combine visual building with custom code, self-host or cloud, 400+ integrations.
 
@@ -212,6 +224,8 @@
 *   [fmaclen/hollama](https://github.com/fmaclen/hollama) - A minimal LLM chat app that runs entirely in your browser
 
 *   [presenton/presenton](https://github.com/presenton/presenton) - Open-Source AI Presentation Generator and API (Gamma, Beautiful AI, Decktopus Alternative)
+
+*   [chaitin/MonkeyCode](https://github.com/chaitin/MonkeyCode) - 企业级 AI 编程助手，支持私有化离线部署，兼容第三方及本地化大模型，具备企业级管理面板，具备代码安全功能。
 
 *   [chaitin/PandaWiki](https://github.com/chaitin/PandaWiki) - PandaWiki 是一款 AI 大模型驱动的开源知识库搭建系统，帮助你快速构建智能化的 产品文档、技术文档、FAQ、博客系统，借助大模型的力量为你提供 AI 创作、AI 问答、AI 搜索等能力。
 
@@ -315,13 +329,9 @@
 
 *   [QuantumNous/new-api](https://github.com/QuantumNous/new-api) - AI模型接口管理与分发系统，支持将多种大模型转为统一格式调用，支持OpenAI、Claude等格式，可供个人或者企业内部管理与分发渠道使用，本项目基于One API二次开发。🍥 The next-generation LLM gateway and AI asset management system supports multiple languages.
 
-*   [chaitin/MonkeyCode](https://github.com/chaitin/MonkeyCode) - 企业级 AI 编程助手，支持私有化离线部署，兼容第三方及本地化大模型，具备企业级管理面板，具备代码安全功能。
-
-*   [Done-0/fuck-u-code](https://github.com/Done-0/fuck-u-code) - 屎山代码检测器，评估代码的”屎山等级“，并输出美观的终端报告。
+*   [Done-0/fuck-u-code](https://github.com/Done-0/fuck-u-code) - Legacy-Mess Detector – assess the “legacy-mess level” of your code and output a beautiful terminal report | 屎山代码检测器，评估代码的“屎山等级”并输出美观的终端报告
 
 *   [krillinai/KlicStudio](https://github.com/krillinai/KlicStudio) -  A video translation and dubbing tool powered by LLMs, offering 99 language translations and one-click full-process deployment. It can generate content optimized for platforms like YouTube，TikTok, and Shorts.  AI视频翻译配音工具，99种语言双向翻译，一键部署全流程，可以生成适配抖音，小红书，哔哩哔哩，视频号，TikTok，Youtube Shorts等形态的内容
-
-*   [sinclairtarget/git-who](https://github.com/sinclairtarget/git-who) - Git blame for file trees
 
 ## Shell
 
@@ -330,14 +340,6 @@
 *   [stretchcloud/claude-code-unified-agents](https://github.com/stretchcloud/claude-code-unified-agents) -
 
 *   [yuaotian/go-cursor-help](https://github.com/yuaotian/go-cursor-help) - 解决Cursor在免费订阅期间出现以下提示的问题:  Your request has been blocked as our system has detected suspicious activity / You've reached your trial request limit.  /  Too many free trial accounts used on this machine.
-
-## Vue
-
-*   [wechat-article/wechat-article-exporter](https://github.com/wechat-article/wechat-article-exporter) - 一个在线的微信公众号文章批量下载工具，支持下载阅读量与评论数据，支持私有化部署，通过浏览器进行使用，无需进行安装
-
-*   [hanshuaikang/AI-Media2Doc](https://github.com/hanshuaikang/AI-Media2Doc) - 一键将音视频转化为小红书/公众号/知识笔记/思维导图/视频字幕等各种风格的文档。
-
-*   [jason5ng32/MyIP](https://github.com/jason5ng32/MyIP) - The best IP Toolbox. Easy to check what's your IPs, IP geolocation, check for DNS leaks, examine WebRTC connections, speed test, ping test, MTR test, check website availability, whois search and more! || 🇨🇳 可能是最好用的IP工具箱。轻松检查你的 IP，IP 地理位置，检查DNS泄漏，检查 WebRTC 连接，速度测试，ping 测试，MTR测试，检查网站可用性，查询 Whois 信息等等。
 
 ## Zig
 
@@ -392,8 +394,6 @@
 *   [svcvit/Awesome-Dify-Workflow](https://github.com/svcvit/Awesome-Dify-Workflow) - 分享一些好用的 Dify DSL 工作流程，自用、学习两相宜。 Sharing some Dify workflows.
 
 *   [punkpeye/awesome-mcp-servers](https://github.com/punkpeye/awesome-mcp-servers) - A collection of MCP servers.
-
-*   [Gurubase/gurubase](https://github.com/Gurubase/gurubase) - Turn Your Content Into a 24/7 AI Support Assistant
 
 ## MDX
 
