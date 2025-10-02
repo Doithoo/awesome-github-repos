@@ -506,7 +506,7 @@
 
 *   [cv-cat/Spider\_XHS](https://github.com/cv-cat/Spider_XHS) - 小红书爬虫数据采集，小红书全域运营解决方案
 
-*   [xixu-me/Xget](https://github.com/xixu-me/Xget) - 超高性能、安全的一站式开发者资源访问加速引擎。其性能远超传统加速器，为您提供跨多个平台的统一高效的加速体验，涵盖代码储存库、包管理、AI 推理 API、容器镜像、模型及数据集等 | Ultra-high-performance, secure, all-in-one acceleration engine for developer resource access. Its performance far exceeds that of traditional accelerators, providing you with a unified and efficient acceleration experience across multiple platforms
+*   [xixu-me/Xget](https://github.com/xixu-me/Xget) - 超高性能、安全的一站式开发者资源加速引擎。其性能远超传统加速器，为您提供跨多个平台的统一高效的加速体验，涵盖代码储存库、包管理、AI 推理 API、容器镜像、模型及数据集等 | Ultra-high-performance, secure acceleration engine for developer resources. It far outperforms traditional accelerators and delivers a unified high-speed experience
 
 *   [davila7/claude-code-templates](https://github.com/davila7/claude-code-templates) - CLI tool for configuring and monitoring Claude Code
 
