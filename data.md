@@ -142,7 +142,7 @@
 
 *   [unclecode/crawl4ai](https://github.com/unclecode/crawl4ai) - 🚀🤖 Crawl4AI: Open-source LLM Friendly Web Crawler & Scraper. Don't be shy, join here: https://discord.gg/jP8KfhDhyN
 
-*   [davidkimai/Context-Engineering](https://github.com/davidkimai/Context-Engineering) - "Context engineering is the delicate art and science of filling the context window with just the right information for the next step." — Andrej Karpathy. A frontier, first-principles guide inspired by Karpathy and 3Blue1Brown for moving beyond prompt engineering to the wider discipline of context design, orchestration, and optimization.
+*   [davidkimai/Context-Engineering](https://github.com/davidkimai/Context-Engineering) - "Context engineering is the delicate art and science of filling the context window with just the right information for the next step." — Andrej Karpathy. A frontier, first-principles handbook inspired by Karpathy and 3Blue1Brown for moving beyond prompt engineering to the wider discipline of context design, orchestration, and optimization.
 
 *   [ComposioHQ/grok-cli](https://github.com/ComposioHQ/grok-cli) -
 
@@ -332,7 +332,7 @@
 
 *   [xiao-zaiyi/illa-helper](https://github.com/xiao-zaiyi/illa-helper) - 浸入式学语言助手 (Immersive Language Learning Assistant)
 
-*   [sst/opencode](https://github.com/sst/opencode) - AI coding agent, built for the terminal.
+*   [sst/opencode](https://github.com/sst/opencode) - The AI coding agent built for the terminal.
 
 *   [Nutlope/self.so](https://github.com/Nutlope/self.so) - LinkedIn -> personal site generator
 
@@ -512,7 +512,7 @@
 
 *   [keremciu/sketch-iconfont](https://github.com/keremciu/sketch-iconfont) - This plugin helps you easily insert and manage icons from icon fonts.
 
-*   [QuantumNous/new-api](https://github.com/QuantumNous/new-api) - AI模型聚合管理分发系统，支持将多种大模型转为统一格式调用，支持OpenAI、Claude、Gemini等格式，可供个人或者企业内部管理与分发渠道使用，本项目基于One API二次开发。🍥 The next-generation LLM gateway and AI asset management system supports multiple languages.
+*   [QuantumNous/new-api](https://github.com/QuantumNous/new-api) - AI模型聚合管理分发系统，支持将多种大模型转为统一格式调用，支持OpenAI、Claude、Gemini等格式，可供个人或者企业内部管理与分发渠道使用。🍥 The next-generation LLM gateway and AI asset management system supports multiple languages.
 
 *   [WiseLibs/better-sqlite3](https://github.com/WiseLibs/better-sqlite3) - The fastest and simplest library for SQLite3 in Node.js.
 
