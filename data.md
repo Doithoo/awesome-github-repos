@@ -2,6 +2,7 @@
 
 ## Table of Contents
 
+*   [C++](#c)
 *   [Python](#python)
 *   [TypeScript](#typescript)
 *   [Go](#go)
@@ -13,7 +14,6 @@
 *   [JavaScript](#javascript)
 *   [HTML](#html)
 *   [Java](#java)
-*   [C++](#c)
 *   [Objective-C](#objective-c)
 *   [C](#c-1)
 *   [CSS](#css)
@@ -29,6 +29,26 @@
 *   [TeX](#tex)
 *   [LLVM](#llvm)
 *   [Dart](#dart)
+
+## C++
+
+*   [meta-pytorch/torchcomms](https://github.com/meta-pytorch/torchcomms) - torchcomms: a modern PyTorch communications API
+
+*   [rizinorg/cutter](https://github.com/rizinorg/cutter) - Free and Open Source Reverse Engineering Platform powered by rizin
+
+*   [Mozilla-Ocho/llamafile](https://github.com/Mozilla-Ocho/llamafile) - Distribute and run LLMs with a single file.
+
+*   [NVlabs/tiny-cuda-nn](https://github.com/NVlabs/tiny-cuda-nn) - Lightning fast C++/CUDA neural network framework
+
+*   [browseros-ai/BrowserOS](https://github.com/browseros-ai/BrowserOS) - 🌐 The open-source Agentic browser; privacy-first alternative to ChatGPT Atlas, Perplexity Comet, Dia.
+
+*   [luwill/Deep-Learning-Image-Segmentation](https://github.com/luwill/Deep-Learning-Image-Segmentation) - Deep Learning Image Segmentation: Theory and Practice
+
+*   [LadybirdBrowser/ladybird](https://github.com/LadybirdBrowser/ladybird) - Truly independent web browser
+
+*   [protocolbuffers/protobuf](https://github.com/protocolbuffers/protobuf) - Protocol Buffers - Google's data interchange format
+
+*   [draios/sysdig](https://github.com/draios/sysdig) - Linux system exploration and troubleshooting tool with first class support for containers
 
 ## Python
 
@@ -73,8 +93,6 @@
 *   [RimoChan/sese-engine](https://github.com/RimoChan/sese-engine) - 【sese-engine】新时代的搜索引擎！
 
 *   [dataease/SQLBot](https://github.com/dataease/SQLBot) - 🔥 基于大模型和 RAG 的智能问数系统，对话式数据分析神器。Text-to-SQL Generation via LLMs using RAG.
-
-*   [github/spec-kit](https://github.com/github/spec-kit) - 💫 Toolkit to help you get started with Spec-Driven Development
 
 *   [wendy7756/AI-Video-Transcriber](https://github.com/wendy7756/AI-Video-Transcriber) -  Transcribe and summarize video content using AI. Open-source, multi-platform, and supports multiple languages.
 
@@ -234,7 +252,7 @@
 
 *   [docling-project/docling](https://github.com/docling-project/docling) - Get your documents ready for gen AI
 
-*   [All-Hands-AI/OpenHands](https://github.com/All-Hands-AI/OpenHands) - 🙌 OpenHands: Code Less, Make More
+*   [OpenHands/OpenHands](https://github.com/OpenHands/OpenHands) - 🙌 OpenHands: Code Less, Make More
 
 *   [mingrammer/diagrams](https://github.com/mingrammer/diagrams) - :art: Diagram as Code for prototyping cloud system architectures
 
@@ -318,7 +336,7 @@
 
 *   [nocodb/nocodb](https://github.com/nocodb/nocodb) - 🔥 🔥 🔥 Open Source Airtable Alternative
 
-*   [Mentra-Community/MentraOS](https://github.com/Mentra-Community/MentraOS) - The open-source OS for smart glasses with dozens of apps. Get captions, AI assistant, notifications, translation, and more. Devs now write 1 app that runs on any pair of smart glases.
+*   [Mentra-Community/MentraOS](https://github.com/Mentra-Community/MentraOS) - MentraOS is how you build smart glasses apps. And it's 100% open source. Get captions, AI assistant, notifications, translation, and more. Devs now write 1 app that runs on any pair of smart glases.
 
 *   [supermemoryai/apple-mcp](https://github.com/supermemoryai/apple-mcp) - Collection of apple-native tools for the model context protocol.
 
@@ -334,7 +352,7 @@
 
 *   [antvis/X6](https://github.com/antvis/X6) - 🚀 JavaScript diagramming library that uses SVG and HTML for rendering.
 
-*   [allweonedev/presentation-ai](https://github.com/allweonedev/presentation-ai) - Open source AI presentation generator Gamma Alternative. Create professional slides with customizable themes and AI-generated content in minutes.
+*   [allweonedev/presentation-ai](https://github.com/allweonedev/presentation-ai) - ALLWEONE® Open source AI presentation generator Gamma Alternative. Create professional slides with customizable themes and AI-generated content in minutes.
 
 *   [ItzCrazyKns/Perplexica](https://github.com/ItzCrazyKns/Perplexica) - Perplexica is an AI-powered search engine. It is an Open source alternative to Perplexity AI
 
@@ -600,8 +618,6 @@
 
 *   [km1994/LLMs\_interview\_notes](https://github.com/km1994/LLMs_interview_notes) - 该仓库主要记录 大模型（LLMs） 算法工程师相关的面试题
 
-*   [km1994/LLMsNineStoryDemonTower](https://github.com/km1994/LLMsNineStoryDemonTower) - 【LLMs九层妖塔】分享 LLMs在自然语言处理（ChatGLM、Chinese-LLaMA-Alpaca、小羊驼 Vicuna、LLaMA、GPT4ALL等）、信息检索（langchain）、语言合成、语言识别、多模态等领域（Stable Diffusion、MiniGPT-4、VisualGLM-6B、Ziya-Visual等）等 实战与经验。
-
 ## Jupyter Notebook
 
 *   [Paulescu/image-classification-with-local-vlms](https://github.com/Paulescu/image-classification-with-local-vlms) - Learn to build and deploy local Visual Language Models for Edge AI
@@ -647,6 +663,8 @@
 *   [obra/superpowers](https://github.com/obra/superpowers) - Claude Code superpowers: core skills library
 
 *   [wukongdaily/AutoBuildImmortalWrt](https://github.com/wukongdaily/AutoBuildImmortalWrt) - 它是一个工作流。可快速构建 可选docker、可选自定义固件大小的 immortalWrt。它相当于一个云端的ImageBuilder,属于构建的范畴,不算是编译。目前也支持第三方插件的按需集成。
+
+*   [github/spec-kit](https://github.com/github/spec-kit) - 💫 Toolkit to help you get started with Spec-Driven Development
 
 *   [automazeio/ccpm](https://github.com/automazeio/ccpm) - Project management system for Claude Code using GitHub Issues and Git worktrees for parallel agent execution.
 
@@ -761,24 +779,6 @@
 *   [ageerle/ruoyi-ai](https://github.com/ageerle/ruoyi-ai) - RuoYi AI 是一个全栈式 AI 开发平台，旨在帮助开发者快速构建和部署个性化的 AI 应用。
 
 *   [houbb/sensitive-word](https://github.com/houbb/sensitive-word) -  👮‍♂️The sensitive word tool for java.(敏感词/违禁词/违法词/脏词。基于 DFA 算法实现的高性能 java 敏感词过滤工具框架。内置支持单词标签分类分级。请勿发布涉及政治、广告、营销、翻墙、违反国家法律法规等内容。高性能敏感词检测过滤组件，附带繁体简体互换，支持全角半角互换，汉字转拼音，模糊搜索等功能。)
-
-## C++
-
-*   [rizinorg/cutter](https://github.com/rizinorg/cutter) - Free and Open Source Reverse Engineering Platform powered by rizin
-
-*   [Mozilla-Ocho/llamafile](https://github.com/Mozilla-Ocho/llamafile) - Distribute and run LLMs with a single file.
-
-*   [NVlabs/tiny-cuda-nn](https://github.com/NVlabs/tiny-cuda-nn) - Lightning fast C++/CUDA neural network framework
-
-*   [browseros-ai/BrowserOS](https://github.com/browseros-ai/BrowserOS) - 🌐 The open-source Agentic browser; privacy-first alternative to ChatGPT Atlas, Perplexity Comet, Dia.
-
-*   [luwill/Deep-Learning-Image-Segmentation](https://github.com/luwill/Deep-Learning-Image-Segmentation) - Deep Learning Image Segmentation: Theory and Practice
-
-*   [LadybirdBrowser/ladybird](https://github.com/LadybirdBrowser/ladybird) - Truly independent web browser
-
-*   [protocolbuffers/protobuf](https://github.com/protocolbuffers/protobuf) - Protocol Buffers - Google's data interchange format
-
-*   [draios/sysdig](https://github.com/draios/sysdig) - Linux system exploration and troubleshooting tool with first class support for containers
 
 ## Objective-C
 
