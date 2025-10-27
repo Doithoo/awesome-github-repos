@@ -56,7 +56,7 @@
 
 *   [bytedance/lynx](https://github.com/bytedance/lynx) - Lynx: Towards High-Fidelity Personalized Video Generation
 
-*   [yusufkaraaslan/Skill\_Seekers](https://github.com/yusufkaraaslan/Skill_Seekers) - Single powerful tool to convert ANY documentation website into a Claude skill
+*   [yusufkaraaslan/Skill\_Seekers](https://github.com/yusufkaraaslan/Skill_Seekers) - Convert documentation websites, GitHub repositories, and PDFs into Claude AI skills with automatic conflict detection
 
 *   [deepseek-ai/DeepSeek-OCR](https://github.com/deepseek-ai/DeepSeek-OCR) - Contexts Optical Compression
 
