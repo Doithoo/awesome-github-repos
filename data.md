@@ -2,12 +2,12 @@
 
 ## Table of Contents
 
+*   [C++](#c)
 *   [TypeScript](#typescript)
 *   [JavaScript](#javascript)
 *   [Python](#python)
 *   [Go](#go)
 *   [miscellaneous](#miscellaneous)
-*   [C++](#c)
 *   [Vue](#vue)
 *   [Jupyter Notebook](#jupyter-notebook)
 *   [Shell](#shell)
@@ -29,6 +29,22 @@
 *   [TeX](#tex)
 *   [LLVM](#llvm)
 *   [Dart](#dart)
+
+## C++
+
+*   [nndeploy/nndeploy](https://github.com/nndeploy/nndeploy) - 一款简单易用和高性能的AI部署框架 | An Easy-to-Use and High-Performance AI Deployment Framework
+
+*   [ggml-org/llama.cpp](https://github.com/ggml-org/llama.cpp) - LLM inference in C/C++
+
+*   [meta-pytorch/torchcomms](https://github.com/meta-pytorch/torchcomms) - torchcomms: a modern PyTorch communications API
+
+*   [rizinorg/cutter](https://github.com/rizinorg/cutter) - Free and Open Source Reverse Engineering Platform powered by rizin
+
+*   [NVlabs/tiny-cuda-nn](https://github.com/NVlabs/tiny-cuda-nn) - Lightning fast C++/CUDA neural network framework
+
+*   [browseros-ai/BrowserOS](https://github.com/browseros-ai/BrowserOS) - 🌐 The open-source Agentic browser; privacy-first alternative to ChatGPT Atlas, Perplexity Comet, Dia.
+
+*   [luwill/Deep-Learning-Image-Segmentation](https://github.com/luwill/Deep-Learning-Image-Segmentation) - Deep Learning Image Segmentation: Theory and Practice
 
 ## TypeScript
 
@@ -179,6 +195,8 @@
 *   [SimonAKing/Gwitter](https://github.com/SimonAKing/Gwitter) - Turn GitHub Issues into your personal microblog platform
 
 *   [stan-smith/FossFLOW](https://github.com/stan-smith/FossFLOW) - Make beautiful isometric infrastructure diagrams
+
+*   [dulikaifazr/Cougar-CLI](https://github.com/dulikaifazr/Cougar-CLI) - Cougar CLI - An AI programming agent for the command line
 
 *   [linshenkx/prompt-optimizer](https://github.com/linshenkx/prompt-optimizer) - 一款提示词优化器，助力于编写高质量的提示词
 
@@ -442,8 +460,6 @@
 
 *   [bytedance/Dolphin](https://github.com/bytedance/Dolphin) - The official repo for “Dolphin: Document Image Parsing via Heterogeneous Anchor Prompting”, ACL, 2025.
 
-*   [dulikaifazr/Free-Lite](https://github.com/dulikaifazr/Free-Lite) - 只需几步即可学习构建一款软件
-
 *   [bytedance/trae-agent](https://github.com/bytedance/trae-agent) - Trae Agent is an LLM-based agent for general purpose software engineering tasks.
 
 *   [aoguai/LiYing](https://github.com/aoguai/LiYing) - LiYing is an automated photo processing program designed for automating the post-processing workflow of ID photos in general photo studios. | LiYing 是一套适用于自动化 完成一般照相馆后期证件照处理流程的照片自动处理的程序。
@@ -533,8 +549,6 @@
 *   [Pythagora-io/gpt-pilot](https://github.com/Pythagora-io/gpt-pilot) - The first real AI developer
 
 *   [arcee-ai/DistillKit](https://github.com/arcee-ai/DistillKit) - An Open Source Toolkit For LLM Distillation
-
-*   [datalab-to/marker](https://github.com/datalab-to/marker) - Convert PDF to markdown + JSON quickly with high accuracy
 
 ## Go
 
@@ -667,20 +681,6 @@
 *   [DreamerWinston/Learn-Map-Full-Stack](https://github.com/DreamerWinston/Learn-Map-Full-Stack) - 全栈学习路线图
 
 *   [WangRongsheng/awesome-LLM-resources](https://github.com/WangRongsheng/awesome-LLM-resources) - 🧑‍🚀 全世界最好的LLM资料总结（语音视频生成、Agent、辅助编程、数据处理、模型训练、模型推理、o1 模型、MCP、小语言模型、视觉语言模型） | Summary of the world's best LLM resources.
-
-## C++
-
-*   [ggml-org/llama.cpp](https://github.com/ggml-org/llama.cpp) - LLM inference in C/C++
-
-*   [meta-pytorch/torchcomms](https://github.com/meta-pytorch/torchcomms) - torchcomms: a modern PyTorch communications API
-
-*   [rizinorg/cutter](https://github.com/rizinorg/cutter) - Free and Open Source Reverse Engineering Platform powered by rizin
-
-*   [NVlabs/tiny-cuda-nn](https://github.com/NVlabs/tiny-cuda-nn) - Lightning fast C++/CUDA neural network framework
-
-*   [browseros-ai/BrowserOS](https://github.com/browseros-ai/BrowserOS) - 🌐 The open-source Agentic browser; privacy-first alternative to ChatGPT Atlas, Perplexity Comet, Dia.
-
-*   [luwill/Deep-Learning-Image-Segmentation](https://github.com/luwill/Deep-Learning-Image-Segmentation) - Deep Learning Image Segmentation: Theory and Practice
 
 ## Vue
 
