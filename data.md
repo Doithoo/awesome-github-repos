@@ -32,7 +32,7 @@
 
 ## miscellaneous
 
-*   [666OS/ClashMac](https://github.com/666OS/ClashMac) - 基于 Clash (mihomo) 内核的轻量级 macOS 菜单栏客户端
+*   [666OS/ClashMac](https://github.com/666OS/ClashMac) - 基于 Clash (mihomo) 内核的轻量级 macOS 菜单栏客户端。Lightweight macOS Clash (mihomo) menu bar client.
 
 *   [Loyalsoldier/clash-rules](https://github.com/Loyalsoldier/clash-rules) - 🦄️ 🎃 👻 Clash Premium 规则集(RULE-SET)，兼容 ClashX Pro、Clash for Windows 等基于 Clash Premium 内核的客户端。
 
@@ -148,7 +148,7 @@
 
 *   [zhongyu09/openchatbi](https://github.com/zhongyu09/openchatbi) - OpenChatBI is an intelligent chat-based BI tool powered by large language models, designed to help users query, analyze, and visualize data through natural language conversations. It uses LangGraph and LangChain to build chat agent and workflows that support natural language to SQL conversion and data analysis.
 
-*   [sansan0/TrendRadar](https://github.com/sansan0/TrendRadar) - 🎯 告别信息过载，AI 助你看懂新闻资讯热点，简单的舆情监控分析 - 多平台热点聚合+基于 MCP 的AI分析工具。监控35个平台（抖音、知乎、B站、华尔街见闻、财联社等），智能筛选+自动推送+AI对话分析（用自然语言深度挖掘新闻：趋势追踪、情感分析、相似检索等13种工具）。支持企业微信/个人微信/飞书/钉钉/Telegram/邮件/ntfy/bark/slack 推送，30秒网页部署，1分钟手机通知，无需编程。支持Docker部署⭐ 让算法为你服务，用AI理解热点【不要 fork】 !而是 【use this template】
+*   [sansan0/TrendRadar](https://github.com/sansan0/TrendRadar) - 🎯 告别信息过载，AI 助你看懂新闻资讯热点，简单的舆情监控分析 - 多平台热点聚合+基于 MCP 的AI分析工具。监控35个平台（抖音、知乎、B站、华尔街见闻、财联社等），智能筛选+自动推送+AI对话分析（用自然语言深度挖掘新闻：趋势追踪、情感分析、相似检索等13种工具）。支持企业微信/个人微信/飞书/钉钉/Telegram/邮件/ntfy/bark/slack 推送，1分钟手机通知，无需编程。支持Docker部署⭐ 让算法为你服务，用AI理解热点【 当前仅推荐Docker部署，Fork/Actions方式暂停（正在与GitHub官方沟通中）】
 
 *   [anthropics/claude-code-security-review](https://github.com/anthropics/claude-code-security-review) - An AI-powered security review GitHub Action using Claude to analyze code changes for security vulnerabilities.
 
@@ -628,7 +628,7 @@
 
 *   [xiao-zaiyi/illa-helper](https://github.com/xiao-zaiyi/illa-helper) - 浸入式学语言助手 (Immersive Language Learning Assistant)
 
-*   [sst/opencode](https://github.com/sst/opencode) - The AI coding agent built for the terminal.
+*   [sst/opencode](https://github.com/sst/opencode) - The open source coding agent.
 
 *   [Nutlope/self.so](https://github.com/Nutlope/self.so) - LinkedIn -> personal site generator
 
@@ -820,7 +820,7 @@
 
 *   [BloopAI/vibe-kanban](https://github.com/BloopAI/vibe-kanban) - Kanban board to manage your AI coding agents
 
-*   [Zackriya-Solutions/meeting-minutes](https://github.com/Zackriya-Solutions/meeting-minutes) -  Open-source Rust based AI meeting assistant with Parakeet/Whisper live transcription, speaker diarization, and Ollama summarization. 100% local processing. no cloud required. Meetily (Meetly Ai - https://meetily.ai) is the #1 Self-hosted Ai meeting note taker for macOS & Windows.
+*   [Zackriya-Solutions/meeting-minutes](https://github.com/Zackriya-Solutions/meeting-minutes) -  Open-source Rust based AI meeting assistant with 4x faster Parakeet/Whisper live transcription, speaker diarization, and Ollama summarization. 100% local processing. no cloud required. Meetily (Meetly Ai - https://meetily.ai) is the #1 Self-hosted Ai meeting note taker for macOS & Windows.
 
 ## Roff
 
