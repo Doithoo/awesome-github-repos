@@ -218,7 +218,7 @@
 
 *   [addyosmani/squish](https://github.com/addyosmani/squish) - Squish - Batch Browser-based Image Compression
 
-*   [JOYCEQL/magic-resume](https://github.com/JOYCEQL/magic-resume) - free online AI resume editor
+*   [JOYCEQL/magic-resume](https://github.com/JOYCEQL/magic-resume) - free online AI resume editor，the only official website is  https://magicv.art
 
 *   [xiaoxiunique/1k-github-stars](https://github.com/xiaoxiunique/1k-github-stars) -
 
@@ -866,7 +866,7 @@
 
 *   [ZGGSONG/LangIndicator](https://github.com/ZGGSONG/LangIndicator) - Windows平台的输入法中英文切换指示器（微软拼音输入法，不保证其他输入法的有效性）
 
-*   [ZGGSONG/STranslate](https://github.com/ZGGSONG/STranslate) - A ready-to-go translation ocr tool developed with WPF/WPF 开发的一款即用即走的翻译、OCR工具
+*   [STranslate/STranslate](https://github.com/STranslate/STranslate) - A ready-to-go translation ocr tool developed with WPF/WPF 开发的一款即用即走的翻译、OCR工具
 
 *   [TechieGuy12/FileWatcher](https://github.com/TechieGuy12/FileWatcher) - A file and folder monitor that can send notifications, perform actions, or execute a command when a file or folder is changed.
 
