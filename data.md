@@ -5,7 +5,6 @@
 *   [JavaScript](#javascript)
 *   [miscellaneous](#miscellaneous)
 *   [TypeScript](#typescript)
-*   [HTML](#html)
 *   [Python](#python)
 *   [Swift](#swift)
 *   [Go](#go)
@@ -14,6 +13,7 @@
 *   [Jupyter Notebook](#jupyter-notebook)
 *   [Shell](#shell)
 *   [Scala](#scala)
+*   [HTML](#html)
 *   [Java](#java)
 *   [Objective-C](#objective-c)
 *   [C](#c-1)
@@ -416,17 +416,7 @@
 
 *   [xjh22222228/nav](https://github.com/xjh22222228/nav) - 发现导航 , 好用强大轻量级导航网站 Discover navigation, easy to use, powerful lightweight navigation website
 
-## HTML
-
-*   [kbtxwer/IELTS](https://github.com/kbtxwer/IELTS) - 剑桥雅思
-
-*   [joyce677/TrendRadar](https://github.com/joyce677/TrendRadar) - 一键监控今日头条、百度热搜、微博、抖音、知乎、B站等35个平台，智能关键词筛选，自动生成热点分析报告。支持企业微信、飞书、钉钉、Telegram推送，30秒网页部署，1分钟手机通知，无需编程基础。还有文字和图片版api可调用
-
-*   [ripienaar/free-for-dev](https://github.com/ripienaar/free-for-dev) - A list of SaaS, PaaS and IaaS offerings that have free tiers of interest to devops and infradev
-
-*   [colin1114/clash](https://github.com/colin1114/clash) -
-
-*   [xxnuo/serverless-markdown-convertor](https://github.com/xxnuo/serverless-markdown-convertor) - Markdown Conversion
+*   [getomni-ai/zerox](https://github.com/getomni-ai/zerox) - OCR & Document Extraction using vision models
 
 ## Python
 
@@ -454,7 +444,7 @@
 
 *   [zhongyu09/openchatbi](https://github.com/zhongyu09/openchatbi) - OpenChatBI is an intelligent chat-based BI tool powered by large language models, designed to help users query, analyze, and visualize data through natural language conversations. It uses LangGraph and LangChain to build chat agent and workflows that support natural language to SQL conversion and data analysis.
 
-*   [sansan0/TrendRadar](https://github.com/sansan0/TrendRadar) - 🎯 告别信息过载，AI 助你看懂新闻资讯热点，简单的舆情监控分析 - 多平台热点聚合+基于 MCP 的AI分析工具。监控35个平台（抖音、知乎、B站、华尔街见闻、财联社等），智能筛选+自动推送+AI对话分析（用自然语言深度挖掘新闻：趋势追踪、情感分析、相似检索等13种工具）。支持企业微信/个人微信/飞书/钉钉/Telegram/邮件/ntfy/bark/slack 推送，1分钟手机通知，无需编程。支持Docker部署⭐ 让算法为你服务，用AI理解热点
+*   [sansan0/TrendRadar](https://github.com/sansan0/TrendRadar) - 🎯 告别信息过载，AI 助你看懂新闻资讯热点，简单的舆情监控分析 - 多平台热点聚合+基于 MCP 的AI分析工具。监控35个平台（抖音、知乎、B站、华尔街见闻、财联社等），智能筛选+自动推送+AI对话分析（用自然语言深度挖掘新闻：趋势追踪、情感分析、相似检索等13种工具）。支持企业微信/个人微信/飞书/钉钉/Telegram/邮件/ntfy/bark/slack 推送，1分钟手机通知，无需编程。支持Docker部署，支持数据远程云存储⭐ 让算法为你服务，用AI理解热点
 
 *   [anthropics/claude-code-security-review](https://github.com/anthropics/claude-code-security-review) - An AI-powered security review GitHub Action using Claude to analyze code changes for security vulnerabilities.
 
@@ -588,7 +578,7 @@
 
 *   [langchain-ai/open\_deep\_research](https://github.com/langchain-ai/open_deep_research) -
 
-*   [hesreallyhim/awesome-claude-code](https://github.com/hesreallyhim/awesome-claude-code) - \[FOR USERS HAVING PERFORMANCE ISSUES: USE README\_BACKUP INSTEAD] A curated list of awesome commands, files, and workflows for Claude Code
+*   [hesreallyhim/awesome-claude-code](https://github.com/hesreallyhim/awesome-claude-code) - A curated list of awesome commands, files, and workflows for Claude Code
 
 *   [unclecode/crawl4ai](https://github.com/unclecode/crawl4ai) - 🚀🤖 Crawl4AI: Open-source LLM Friendly Web Crawler & Scraper. Don't be shy, join here: https://discord.gg/jP8KfhDhyN
 
@@ -724,7 +714,7 @@
 
 *   [liu-ziting/what-to-eat](https://github.com/liu-ziting/what-to-eat) - 一饭封神：一个基于 AI 的智能菜谱生成平台，支持中华八大菜系 + 国际料理，提供营养分析、酒水推荐、菜谱效果图生成等全方位烹饪指导。
 
-*   [tgmeng-com/tgmeng-top-search-frontend](https://github.com/tgmeng-com/tgmeng-top-search-frontend) - 糖果梦热搜-前端
+*   [tgmeng-com/tgmeng-top-search-frontend](https://github.com/tgmeng-com/tgmeng-top-search-frontend) - 🔥 糖果梦热榜 - 前端 实时聚合全网热榜 | 支持数百+数据源 | 分钟级更新 | RSS 订阅 | 多平台推送（钉钉/飞书/企微/Telegram/NTFY/GOTIFY） | 摸鱼模式（Excel、VsCode） | 一键部署（Vercel、Netlify、Docker）前端页面：https://tgmeng.com
 
 *   [hanshuaikang/AI-Media2Doc](https://github.com/hanshuaikang/AI-Media2Doc) - 一键将音视频转化为小红书/公众号/知识笔记/思维导图/视频字幕等各种风格的文档。
 
@@ -778,6 +768,16 @@
 
 *   [joernio/joern](https://github.com/joernio/joern) - Open-source code analysis platform for C/C++/Java/Binary/Javascript/Python/Kotlin based on code property graphs. Discord https://discord.gg/vv4MH284Hc
 
+## HTML
+
+*   [joyce677/TrendRadar](https://github.com/joyce677/TrendRadar) - 一键监控今日头条、百度热搜、微博、抖音、知乎、B站等35个平台，智能关键词筛选，自动生成热点分析报告。支持企业微信、飞书、钉钉、Telegram推送，30秒网页部署，1分钟手机通知，无需编程基础。还有文字和图片版api可调用
+
+*   [ripienaar/free-for-dev](https://github.com/ripienaar/free-for-dev) - A list of SaaS, PaaS and IaaS offerings that have free tiers of interest to devops and infradev
+
+*   [colin1114/clash](https://github.com/colin1114/clash) -
+
+*   [xxnuo/serverless-markdown-convertor](https://github.com/xxnuo/serverless-markdown-convertor) - Markdown Conversion
+
 ## Java
 
 *   [GrowingGit/GitHub-Chinese-Top-Charts](https://github.com/GrowingGit/GitHub-Chinese-Top-Charts) - :cn: GitHub中文排行榜，各语言分设「软件 | 资料」榜单，精准定位中文好项目。各取所需，高效学习。
@@ -786,7 +786,7 @@
 
 *   [nagisa77/OpenIsle](https://github.com/nagisa77/OpenIsle) - 完全开源的社区平台
 
-*   [tgmeng-com/tgmeng-api](https://github.com/tgmeng-com/tgmeng-api) - 糖果梦热搜-后端
+*   [tgmeng-com/tgmeng-api](https://github.com/tgmeng-com/tgmeng-api) - 🔥 糖果梦热榜 - 后端 实时聚合全网热榜 | 支持数百+数据源 | 分钟级更新 | RSS 订阅 | 多平台推送（钉钉/飞书/企微/Telegram/NTFY/GOTIFY） | 摸鱼模式（Excel、VsCode） | 一键部署（GitHub Action、Docker）前端页面：https://tgmeng.com
 
 *   [liyupi/yu-ai-code-mother](https://github.com/liyupi/yu-ai-code-mother) - 编程导航 2025 年 AI + 微服务全栈新项目，基于 Spring Boot 3 + LangChain4j 构建对标大厂的 AI 应用生成平台，支持多种模式的智能代码生成、可视化编辑预览、一键部署分享、应用管理、AI 智能路由等。覆盖 AI 智能体开发、LangGraph4j 工作流、Tool Calling、SSE、Vue 3 全栈开发、Spring Cloud 微服务架构、MySQL / Redis / COS / Caffeine 存储、Nginx、多种设计模式、ARMS + Prometheus + Grafana 监控、Cursor Vibe Coding 等核心技术。 用一套教程掌握大厂级 AI 智能体开发+前后端核心技术，成为 AI 时代企业的香饽饽，给你的简历增加竞争力
 
