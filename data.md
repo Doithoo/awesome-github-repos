@@ -111,7 +111,7 @@
 
 *   [rossant/awesome-math](https://github.com/rossant/awesome-math) - A curated list of awesome mathematics resources
 
-*   [dexmal2025/dexbotic](https://github.com/dexmal2025/dexbotic) - Dexbotic: Open-Source Vision-Language-Action Toolbox
+*   [dexmal/dexbotic](https://github.com/dexmal/dexbotic) - Dexbotic: Open-Source Vision-Language-Action Toolbox
 
 *   [bytedance/lynx](https://github.com/bytedance/lynx) - Lynx: Towards High-Fidelity Personalized Video Generation
 
@@ -651,7 +651,7 @@
 
 *   [liujuntao123/smart-excalidraw-next](https://github.com/liujuntao123/smart-excalidraw-next) - A smart, powerful, and beautiful excalidraw drawing tool.Draw Professional Charts with Natural Language
 
-*   [mgks/docmd](https://github.com/mgks/docmd) - Generate minimal, fast & beautiful docs from Markdown. No React, no bloat, just content. Built for developers.
+*   [docmd-io/docmd](https://github.com/docmd-io/docmd) - Generate minimal, fast & beautiful docs from Markdown. No React, no bloat, just content. Built for developers.
 
 *   [miroslavpejic85/call-me](https://github.com/miroslavpejic85/call-me) - 🟢 Call-Me: Your Go-To for Instant Video Calls!
 
