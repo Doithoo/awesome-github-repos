@@ -327,7 +327,7 @@
 
 *   [tripleyak/SkillForge](https://github.com/tripleyak/SkillForge) - The ultimate meta-skill for generating best-in-class Claude Code skills.
 
-*   [allmonday/pydantic-resolve](https://github.com/allmonday/pydantic-resolve) - A tool capable of handling everything from simple data construction to complex business model management.
+*   [allmonday/pydantic-resolve](https://github.com/allmonday/pydantic-resolve) - pydantic-resolve is a Pydantic-based data construction tool that enables you to assemble complex data structures declaratively instead of writing boring imperative glue code.
 
 *   [shareAI-lab/learn-claude-code](https://github.com/shareAI-lab/learn-claude-code) - How can we build a true AI agent? Like Claude Code.
 
@@ -359,7 +359,7 @@
 
 *   [gavrielc/Nano-PDF](https://github.com/gavrielc/Nano-PDF) - Edit PDF files with Nano Banana
 
-*   [kieranklaassen/compound-engineering-plugin](https://github.com/kieranklaassen/compound-engineering-plugin) - Official Claude Code compound engineering plugin
+*   [EveryInc/compound-engineering-plugin](https://github.com/EveryInc/compound-engineering-plugin) - Official Claude Code compound engineering plugin
 
 *   [yunlongwen/AI-CodeNexus](https://github.com/yunlongwen/AI-CodeNexus) - AI-CodeNexus 是一个编程资讯与工具聚合平台，致力于为开发者提供最新、最优质的技术资讯和开发工具。
 
@@ -823,7 +823,7 @@
 
 *   [EnzeD/vibe-coding](https://github.com/EnzeD/vibe-coding) -
 
-*   [666OS/ClashMac](https://github.com/666OS/ClashMac) - 为 macOS 打造的原生代理体验 | Native Proxy Experience Built for macOS
+*   [666OS/ClashMac](https://github.com/666OS/ClashMac) - Native Proxy Experience Built for macOS
 
 *   [Loyalsoldier/clash-rules](https://github.com/Loyalsoldier/clash-rules) - 🦄️ 🎃 👻 Clash Premium 规则集(RULE-SET)，兼容 ClashX Pro、Clash for Windows 等基于 Clash Premium 内核的客户端。
 
