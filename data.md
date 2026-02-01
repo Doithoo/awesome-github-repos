@@ -43,7 +43,7 @@
 
 *   [richards199999/Thinking-Claude](https://github.com/richards199999/Thinking-Claude) - Let your Claude able to think
 
-*   [markdown-viewer/markdown-viewer-extension](https://github.com/markdown-viewer/markdown-viewer-extension) - Markdown to perfect Word in one click — Mermaid, Graphviz, Vega, Infographic, LaTeX (editable), code highlighting, local processing
+*   [markdown-viewer/markdown-viewer-extension](https://github.com/markdown-viewer/markdown-viewer-extension) - Markdown to perfect Word in one click — Mermaid, Vega, drawio, canvas, Infographic, Graphviz, LaTeX (editable), code highlighting, local processing
 
 *   [ygwyg/merchant](https://github.com/ygwyg/merchant) - The backend for selling things on the internet.
 
