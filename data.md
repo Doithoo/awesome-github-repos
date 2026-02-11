@@ -197,8 +197,6 @@
 
 *   [opactorai/Claudable](https://github.com/opactorai/Claudable) - Claudable is an open-source web builder that leverages local CLI agents, such as Claude Code, Codex, Gemini CLI, Qwen Code, and Cursor Agent, to build and deploy products effortlessly.
 
-*   [KuekHaoYang/KPrompt](https://github.com/KuekHaoYang/KPrompt) - A specialized workbench for developers to engineer high-performance AI interactions, featuring a System Prompt Architect and a Conversational Prompt Refiner.
-
 *   [wechat-article/wechat-article-exporter](https://github.com/wechat-article/wechat-article-exporter) - 一款在线的 微信公众号文章批量下载 工具，支持导出阅读量与评论数据，无需搭建任何环境，可通过 在线网站 使用，支持 docker 私有化部署和 Cloudflare 部署。  支持下载各种文件格式，其中 HTML 格式可100%还原文章排版与样式。
 
 *   [requestly/requestly](https://github.com/requestly/requestly) - Free and open-source API Client & Interceptor.
@@ -465,7 +463,7 @@
 
 *   [tripleyak/SkillForge](https://github.com/tripleyak/SkillForge) - The ultimate meta-skill for generating best-in-class Claude Code skills.
 
-*   [allmonday/pydantic-resolve](https://github.com/allmonday/pydantic-resolve) - pydantic-resolve is a Pydantic-based data construction tool that enables you to assemble complex data structures declaratively instead of writing boring imperative glue code.
+*   [allmonday/pydantic-resolve](https://github.com/allmonday/pydantic-resolve) - A tool for building domain layer modeling and use case assembly.
 
 *   [shareAI-lab/learn-claude-code](https://github.com/shareAI-lab/learn-claude-code) - Bash is all You need - Write a nano Claude Code 0 - 1
 
@@ -746,6 +744,8 @@
 *   [cwxndl/LLM](https://github.com/cwxndl/LLM) - 大语言模型应用：RAG、NL2SQL、聊天机器人、预训练、MOE混合专家模型、微调训练、强化学习、天池数据竞赛
 
 *   [arcee-ai/PruneMe](https://github.com/arcee-ai/PruneMe) - Automated Identification of Redundant Layer Blocks for Pruning in Large Language Models
+
+*   [huggingface/llm-swarm](https://github.com/huggingface/llm-swarm) - Manage scalable open LLM inference endpoints in Slurm clusters
 
 ## Shell
 
