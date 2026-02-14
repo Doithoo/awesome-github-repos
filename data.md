@@ -557,7 +557,7 @@
 
 *   [kaifcoder/gemini\_multipdf\_chat](https://github.com/kaifcoder/gemini_multipdf_chat) - Gemini PDF Chatbot: A Streamlit-based application powered by the Gemini conversational AI model. Upload multiple PDF files, extract text, and engage in natural language conversations to receive detailed responses based on the document context. Enhance your interaction with PDF documents using this intuitive and intelligent chatbot.
 
-*   [agentscope-ai/agentscope](https://github.com/agentscope-ai/agentscope) - AgentScope: Agent-Oriented Programming for Building LLM Applications
+*   [agentscope-ai/agentscope](https://github.com/agentscope-ai/agentscope) - AgentScope is a production-ready, easy-to-use agent framework with essential abstractions that work with rising model capability and built-in support for finetuning.
 
 *   [Arindam200/awesome-ai-apps](https://github.com/Arindam200/awesome-ai-apps) - A collection of projects showcasing RAG, agents, workflows, and other AI use cases
 
