@@ -465,7 +465,7 @@
 
 *   [allmonday/pydantic-resolve](https://github.com/allmonday/pydantic-resolve) - A tool for building domain layer modeling and use case assembly.
 
-*   [shareAI-lab/learn-claude-code](https://github.com/shareAI-lab/learn-claude-code) - Bash is all You need - Write a nano Claude-Code-like Agent 0 - 1
+*   [shareAI-lab/learn-claude-code](https://github.com/shareAI-lab/learn-claude-code) - A nano Claude Code–like agent, built from 0 to 1
 
 *   [chintan-projects/private-doc-qa](https://github.com/chintan-projects/private-doc-qa) - Upload docs → chat with them → never leaves device
 
