@@ -327,7 +327,7 @@
 
 *   [lbjlaq/Antigravity-Manager](https://github.com/lbjlaq/Antigravity-Manager) - Professional Antigravity Account Manager & Switcher. One-click seamless account switching for Antigravity Tools. Built with Tauri v2 + React (Rust).专业的 Antigravity 账号管理与切换工具。为 Antigravity 提供一键无缝账号切换功能。
 
-*   [canmi21/vane](https://github.com/canmi21/vane) - A flow-based reverse proxy with multi-layer routing and programmable pipelines.
+*   [canmi21/vane](https://github.com/canmi21/vane) - A multi-layer routing and programmable proxy engine.
 
 *   [openai/codex](https://github.com/openai/codex) - Lightweight coding agent that runs in your terminal
 
