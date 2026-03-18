@@ -61,7 +61,7 @@
 
 *   [iszhouhua/social-media-copilot](https://github.com/iszhouhua/social-media-copilot) - 社媒助手开源版 - 小红书、抖音、快手等平台数据采集的浏览器插件，可通过API调用，支持Docker部署。
 
-*   [shareAI-lab/learn-claude-code](https://github.com/shareAI-lab/learn-claude-code) - Bash is all you need -  A nano Claude Code–like agent, built from 0 to 1
+*   [shareAI-lab/learn-claude-code](https://github.com/shareAI-lab/learn-claude-code) - Bash is all you need -  A nano claude code–like agent harness, built from 0 to 1
 
 *   [antvis/Infographic](https://github.com/antvis/Infographic) - 🦋 An Infographic Generation and Rendering Framework, bring words to life with AI!
 
@@ -529,7 +529,7 @@
 
 *   [ComposioHQ/awesome-claude-skills](https://github.com/ComposioHQ/awesome-claude-skills) - A curated list of awesome Claude Skills, resources, and tools for customizing Claude AI workflows
 
-*   [hugohe3/ppt-master](https://github.com/hugohe3/ppt-master) - AI 驱动的 SVG 演示文稿生成系统，支持 PPT、小红书、朋友圈等多格式 | 15 个示例 | 229 页 | 生成可编辑的 ppt 格式
+*   [hugohe3/ppt-master](https://github.com/hugohe3/ppt-master) - AI generates editable, beautifully designed PPTX from any document — no design skills needed    | 15 examples, 229 pages
 
 *   [stanfordnlp/dspy](https://github.com/stanfordnlp/dspy) - DSPy: The framework for programming—not prompting—language models
 
