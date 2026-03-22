@@ -789,7 +789,7 @@
 
 *   [miroslavpejic85/call-me](https://github.com/miroslavpejic85/call-me) - 🟢 Call-Me: Your Go-To for Instant Video Calls!
 
-*   [Yalums/lyra-exporter](https://github.com/Yalums/lyra-exporter) - Visualize full conversation branches in timeline. A unified hub for global search and exporting. Compatible with Claude, ChatGPT, Grok, Gemini, AI Studio, NotebookLM, SillyTavern and more
+*   [Laumss/loominary](https://github.com/Laumss/loominary) - Conversations shouldn't just live in a scroll bar. Loominary gives your Claude and SillyTavern conversations a home — a local archive of every conversation, yours to keep.
 
 *   [DavidHDev/react-bits](https://github.com/DavidHDev/react-bits) - An open source collection of animated, interactive & fully customizable React components for building memorable websites.
 
@@ -827,7 +827,7 @@
 
 *   [LYiHub/mad-professor-public](https://github.com/LYiHub/mad-professor-public) - An AI companion for reading papers.
 
-*   [jaywcjlove/awesome-mac](https://github.com/jaywcjlove/awesome-mac) -  Now we have become very big, Different from the original idea. Collect premium software in various categories.
+*   [jaywcjlove/awesome-mac](https://github.com/jaywcjlove/awesome-mac) -  This project is dedicated to collecting high-quality macOS software and organizing them systematically by different categories for easy search and use.
 
 *   [BingKui/javascript-zh](https://github.com/BingKui/javascript-zh) - Airbnb 出品，目前非常流行的 JavaScript 代码规范（中文版）。其内对各种 js 范式的写法进行了详细的规定与说明，按照此规范写出的代码将会更加合理。
 
