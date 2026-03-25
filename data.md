@@ -6,9 +6,8 @@
 *   [Python](#python)
 *   [TypeScript](#typescript)
 *   [miscellaneous](#miscellaneous)
-*   [CSS](#css)
-*   [Dart](#dart)
 *   [Shell](#shell)
+*   [Dart](#dart)
 *   [Rust](#rust)
 *   [Swift](#swift)
 *   [HTML](#html)
@@ -24,6 +23,7 @@
 *   [Java](#java)
 *   [Objective-C](#objective-c)
 *   [C](#c-1)
+*   [CSS](#css)
 *   [Zig](#zig)
 *   [Cuda](#cuda)
 *   [Roff](#roff)
@@ -371,7 +371,7 @@
 
 *   [llamastack/llama-stack](https://github.com/llamastack/llama-stack) - Composable building blocks to build LLM Apps
 
-*   [gpustack/gpustack](https://github.com/gpustack/gpustack) - Performance-optimized AI inference on your GPUs. Unlock superior throughput by selecting and tuning engines like vLLM or SGLang.
+*   [gpustack/gpustack](https://github.com/gpustack/gpustack) - A GPU cluster manager that configures and orchestrates inference engines like vLLM and SGLang for high-performance AI model deployment.
 
 *   [AIFengheshu/Plug-play-modules](https://github.com/AIFengheshu/Plug-play-modules) - 2025年全网最全即插即用模块，免费分享！CVPR2025，AAAI2025，ICLR2025，TNNLS2025，arXiv2025......包含人工智能全领域（机器学习、深度学习等），适用于图像分类、目标检测、实例分割、语义分割、全景分割、姿态识别、医学图像分割、视频目标分割、图像抠图、图像编辑、单目标跟踪、多目标跟踪、行人重识别、RGBT、图像去噪、去雨、去雾、去阴影、去模糊、超分辨率、去反光、去摩尔纹、图像恢复、图像修复、高光谱图像恢复、图像融合、图像上色、高动态范围成像、视频与图像压缩、3D点云、3D目标检测、3D语义分割、3D姿态识别等各类计算机视觉和图像处理任务，以及自然语言处理、大语言模型、多模态等其他各类人工智能相关任务。持续更新中......
 
@@ -457,7 +457,7 @@
 
 *   [RanFeng/clipsketch-ai](https://github.com/RanFeng/clipsketch-ai) - 将视频瞬间转化为手绘故事 Turn Video Moments into Hand-Drawn Stories
 
-*   [EveryInc/compound-engineering-plugin](https://github.com/EveryInc/compound-engineering-plugin) - Official Claude Code compound engineering plugin
+*   [EveryInc/compound-engineering-plugin](https://github.com/EveryInc/compound-engineering-plugin) - Office Compound Engineering plugin for Claude Code, Codex, and more
 
 *   [SamuelZ12/longcut](https://github.com/SamuelZ12/longcut) - The best way to learn from long videos
 
@@ -785,21 +785,9 @@
 
 *   [DreamerWinston/Learn-Map-Full-Stack](https://github.com/DreamerWinston/Learn-Map-Full-Stack) - 全栈学习路线图
 
-## CSS
+## Shell
 
 *   [zarazhangrui/frontend-slides](https://github.com/zarazhangrui/frontend-slides) - Create beautiful slides on the web using Claude's frontend skills
-
-*   [tianyaxiang/NavSphere](https://github.com/tianyaxiang/NavSphere) - NavSphere： 一个基于 Github 存储的网址导航程序支持部署至cloudflare，一键部署至 Vercel，数据存储在 Github，零成本搭建一个网站导航！
-
-## Dart
-
-*   [KaringX/clashmi](https://github.com/KaringX/clashmi) - Clash Mihomo for iOS/MacOS/Android/Windows/Linux
-
-*   [Anxcye/anx-reader](https://github.com/Anxcye/anx-reader) - Featuring powerful AI capabilities and supporting various e-book formats, it makes reading smarter and more focused.
-
-*   [localsend/localsend](https://github.com/localsend/localsend) - An open-source cross-platform alternative to AirDrop
-
-## Shell
 
 *   [PeonPing/peon-ping](https://github.com/PeonPing/peon-ping) - Warcraft III Peon voice notifications (+ more!) for Claude Code, Codex, IDEs, and any AI agent. Stop babysitting your terminal. Employ a Peon today.
 
@@ -822,6 +810,14 @@
 *   [stretchcloud/claude-code-unified-agents](https://github.com/stretchcloud/claude-code-unified-agents) -
 
 *   [yuaotian/go-cursor-help](https://github.com/yuaotian/go-cursor-help) - 解决Cursor在免费订阅期间出现以下提示的问题:  Your request has been blocked as our system has detected suspicious activity / You've reached your trial request limit.  /  Too many free trial accounts used on this machine.
+
+## Dart
+
+*   [KaringX/clashmi](https://github.com/KaringX/clashmi) - Clash Mihomo for iOS/MacOS/Android/Windows/Linux
+
+*   [Anxcye/anx-reader](https://github.com/Anxcye/anx-reader) - Featuring powerful AI capabilities and supporting various e-book formats, it makes reading smarter and more focused.
+
+*   [localsend/localsend](https://github.com/localsend/localsend) - An open-source cross-platform alternative to AirDrop
 
 ## Rust
 
@@ -1056,6 +1052,10 @@
 *   [matrixcascade/PainterEngine](https://github.com/matrixcascade/PainterEngine) - PainterEngine is a application/game engine with software renderer,PainterEngine can be transplanted to any platform that supports C
 
 *   [eunomia-bpf/bpf-developer-tutorial](https://github.com/eunomia-bpf/bpf-developer-tutorial) - eBPF Developer Tutorial: Learning eBPF Step by Step with Examples
+
+## CSS
+
+*   [tianyaxiang/NavSphere](https://github.com/tianyaxiang/NavSphere) - NavSphere： 一个基于 Github 存储的网址导航程序支持部署至cloudflare，一键部署至 Vercel，数据存储在 Github，零成本搭建一个网站导航！
 
 ## Zig
 
