@@ -2,11 +2,11 @@
 
 ## Table of Contents
 
+*   [JavaScript](#javascript)
 *   [PHP](#php)
 *   [Python](#python)
 *   [TypeScript](#typescript)
 *   [miscellaneous](#miscellaneous)
-*   [JavaScript](#javascript)
 *   [HTML](#html)
 *   [Rust](#rust)
 *   [Shell](#shell)
@@ -28,6 +28,98 @@
 *   [Roff](#roff)
 *   [Less](#less)
 *   [C#](#c-2)
+
+## JavaScript
+
+*   [1sdv/TripStar](https://github.com/1sdv/TripStar) - 旅途星辰 (TripStar)是一个创新的 AI 文旅智能体应用，旨在解决用户在规划旅行时面临的“信息过载”和“决策疲劳”问题。
+
+*   [rohitg00/awesome-claude-code-toolkit](https://github.com/rohitg00/awesome-claude-code-toolkit) - The most comprehensive toolkit for Claude Code -- 135 agents, 35 curated skills (+400,000 via SkillKit), 42 commands, 176+ plugins, 20 hooks, 15 rules, 7 templates, 14 MCP configs, 26 companion apps, 52 ecosystem entries, and more.
+
+*   [rohitg00/pro-workflow](https://github.com/rohitg00/pro-workflow) - Claude Code learns from your corrections: self-correcting memory that compounds over 50+ sessions. Context engineering, parallel worktrees, agent teams, and 17 battle-tested skills.
+
+*   [apify/awesome-skills](https://github.com/apify/awesome-skills) - Community collection of Apify agent skills for AI coding assistants
+
+*   [santifer/career-ops](https://github.com/santifer/career-ops) - AI-powered job search system built on Claude Code. 14 skill modes, Go dashboard, PDF generation, batch processing.
+
+*   [openai/codex-plugin-cc](https://github.com/openai/codex-plugin-cc) - Use Codex from Claude Code to review code or delegate tasks.
+
+*   [jarrodwatts/claude-hud](https://github.com/jarrodwatts/claude-hud) - A Claude Code plugin that shows what's happening - context usage, active tools, running agents, and todo progress
+
+*   [VonChange/utao](https://github.com/VonChange/utao) - 油桃TV 电视浏览器 可看各大卫视CCTV直播 无需电视VIP 适配爱奇艺等主流视频平台
+
+*   [tonyqinatcmu/SlideBot-AI](https://github.com/tonyqinatcmu/SlideBot-AI) - 🎨 SlideBot AI - AI-Powered Presentation Generator
+
+*   [affaan-m/everything-claude-code](https://github.com/affaan-m/everything-claude-code) - The agent harness performance optimization system. Skills, instincts, memory, security, and research-first development for Claude Code, Codex, Opencode, Cursor and beyond.
+
+*   [youhunwl/TVAPP](https://github.com/youhunwl/TVAPP) -  收集全网 Android TV电视盒子应用，涵盖影视、直播、K歌、工具、游戏等类型，整理优质APK资源，支持便捷下载与自动更新。提供安全验证、分类索引与兼容性标注，助力用户打造家庭影音娱乐中心！              ✅ TVBox/影视仓等影音壳接口配置源。
+
+*   [cporter202/scraping-apis-for-devs](https://github.com/cporter202/scraping-apis-for-devs) - This GitHub repo is a powerhouse collection of scraping APIs for developers that you can start using immediately to build everything from simple automations to full-scale applications.
+
+*   [datawhalechina/easy-vibe](https://github.com/datawhalechina/easy-vibe) - 💻 vibe coding 2026 | Your first modern programming course for beginners to master step by step.
+
+*   [nagix/mini-tokyo-3d](https://github.com/nagix/mini-tokyo-3d) - A real-time 3D digital map of Tokyo's public transport system
+
+*   [doocs/cose](https://github.com/doocs/cose) - 😃 md 编辑器使用的浏览器扩展，支持一键将文章同步到多个内容平台。
+
+*   [yeahhe365/gemini-nexus](https://github.com/yeahhe365/gemini-nexus) - Gemini Nexus 是一款深度集成 Google Gemini 能力的 Chrome 扩展程序。它不仅仅是一个侧边栏插件，而是通过注入式的悬浮工具栏、强大的图像 AI 处理以及前沿的浏览器控制协议 (MCP)，将 AI 的触角伸向网页浏览的每一个交互细节。
+
+*   [pdone/lx-music-source](https://github.com/pdone/lx-music-source) - 洛雪音乐源
+
+*   [xszn/xszn.github.io](https://github.com/xszn/xszn.github.io) - 挑选一款易用的、流行的普世产品，让生活、学习和工作也很有效率。
+
+*   [wesbos/awesome-uses](https://github.com/wesbos/awesome-uses) - A list of /uses pages detailing developer setups, gear, software and configs.
+
+*   [xiaolin-007/clash-verge-script](https://github.com/xiaolin-007/clash-verge-script) - clash-verge 防DNS泄露脚本
+
+*   [RemotePinee/AudioVisual](https://github.com/RemotePinee/AudioVisual) - 解锁所有国内媒体流的钥匙
+
+*   [Feather-2/Burner-X](https://github.com/Feather-2/Burner-X) - Burner X - 浏览器即开即用，AI文献识别、文档批量翻译、阅读与智能分析工具 丨BYOK
+
+*   [gamosoft/NoteDiscovery](https://github.com/gamosoft/NoteDiscovery) - Your Self-Hosted Knowledge Base
+
+*   [liujuntao123/smart-excalidraw-next](https://github.com/liujuntao123/smart-excalidraw-next) - A smart, powerful, and beautiful excalidraw drawing tool.Draw Professional Charts with Natural Language
+
+*   [miroslavpejic85/call-me](https://github.com/miroslavpejic85/call-me) - 🟢 WebRTC click-to-call platform for instant real-time communication in a persistent shared room with unlimited participants where users can join and call each other instantly. No signup or setup required.
+
+*   [Laumss/loominary](https://github.com/Laumss/loominary) - Conversations shouldn't just live in a scroll bar. Loominary gives your Claude and SillyTavern conversations a home — a local archive of every conversation, yours to keep.
+
+*   [DavidHDev/react-bits](https://github.com/DavidHDev/react-bits) - An open source collection of animated, interactive & fully customizable React components for building memorable websites.
+
+*   [expo/google-fonts](https://github.com/expo/google-fonts) - Use any of the 1000+ fonts (and their variants) from fonts.google.com in your Expo app.
+
+*   [iChochy/NCE](https://github.com/iChochy/NCE) - 《新概念英语》全四册在线课文朗读、单句点读、中英对照
+
+*   [dataease/SQLBot](https://github.com/dataease/SQLBot) - 🔥 基于大模型和 RAG 的智能问数系统，对话式数据分析神器。Text-to-SQL Generation via LLMs using RAG.
+
+*   [JimmyLv/awesome-nano-banana](https://github.com/JimmyLv/awesome-nano-banana) - Awesome curated collection of images and prompts generated by gemini-2.5-flash-image (aka Nano Banana) state-of-the-art image generation and editing model. Explore AI generated visuals created with Gemini, showcasing Google’s advanced image generation capabilities.
+
+*   [foliojs/pdfkit](https://github.com/foliojs/pdfkit) - A JavaScript PDF generation library for Node and the browser
+
+*   [songguoxs/gpt4o-image-prompts](https://github.com/songguoxs/gpt4o-image-prompts) - Nano Banana(nanobanana),GPT-5(GPT5),GPT-4o(GPT4o) Image Prompts，Nanobanana Prompts，nanobanana提示词
+
+*   [wendy7756/podcast-transcriber](https://github.com/wendy7756/podcast-transcriber) - An open-source tool that turns podcasts into high-quality transcripts and AI-powered summaries.
+
+*   [mswnlz/edu-knowlege](https://github.com/mswnlz/edu-knowlege) - 教育各种资料，从幼儿园到小学、中学，涵盖学而思，万维、猿辅导等多个机构，持续增加中
+
+*   [cv-cat/Spider\_XHS](https://github.com/cv-cat/Spider_XHS) - 小红书爬虫数据采集，小红书全域运营解决方案
+
+*   [xixu-me/xget](https://github.com/xixu-me/xget) - Ultra-high-performance, secure, all-in-one acceleration engine for developer resources
+
+*   [keremciu/sketch-iconfont](https://github.com/keremciu/sketch-iconfont) - This plugin helps you easily insert and manage icons from icon fonts.
+
+*   [WiseLibs/better-sqlite3](https://github.com/WiseLibs/better-sqlite3) - The fastest and simplest library for SQLite3 in Node.js.
+
+*   [tonngw/awesome-github-repos](https://github.com/tonngw/awesome-github-repos) - 🚀 A curated collection of awesome GitHub repositories, organized by language and topic from my starred projects. Modern, elegant platform for showcasing your starred GitHub repositories.
+
+*   [fogsightai/fogsight](https://github.com/fogsightai/fogsight) - Fogsight is an AI agent and animation engine powered by Large Language Models.
+
+*   [Figma-Cool/figmaCN](https://github.com/Figma-Cool/figmaCN) - 中文 Figma 插件，设计师人工翻译校验
+
+*   [listen1/listen1\_desktop](https://github.com/listen1/listen1_desktop) - one for all free music in china (Windows, Mac, Linux desktop)
+
+*   [LYiHub/mad-professor-public](https://github.com/LYiHub/mad-professor-public) - An AI companion for reading papers.
+
+*   [BingKui/javascript-zh](https://github.com/BingKui/javascript-zh) - Airbnb 出品，目前非常流行的 JavaScript 代码规范（中文版）。其内对各种 js 范式的写法进行了详细的规定与说明，按照此规范写出的代码将会更加合理。
 
 ## PHP
 
@@ -116,8 +208,6 @@
 *   [nextlevelbuilder/ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) - An AI SKILL that provide design intelligence for building professional UI/UX multiple platforms
 
 *   [zai-org/Open-AutoGLM](https://github.com/zai-org/Open-AutoGLM) - An Open Phone Agent Model & Framework. Unlocking the AI Phone for Everyone
-
-*   [Anionex/banana-slides](https://github.com/Anionex/banana-slides) - 一个基于nano banana pro🍌的原生AI PPT生成应用，迈向真正的＂Vibe PPT＂; 支持上传任意模板图片；上传任意素材&智能解析；一句话/大纲/页面描述自动生成PPT；口头修改指定区域、一键导出可编辑ppt - An AI-native slides generator based on nano banana pro🍌
 
 *   [chaofengc/IQA-PyTorch](https://github.com/chaofengc/IQA-PyTorch) - 🔎 🖼️ 🔥PyTorch Toolbox for Image Quality Assessment, including PSNR, SSIM, LPIPS, FID, NIQE, NRQM(Ma), MUSIQ, TOPIQ, NIMA, DBCNN, BRISQUE, PI and more...
 
@@ -209,7 +299,7 @@
 
 *   [microsoft/VibeVoice](https://github.com/microsoft/VibeVoice) - Open-Source Frontier Voice AI
 
-*   [ModelTC/Qwen-Image-Lightning](https://github.com/ModelTC/Qwen-Image-Lightning) - Qwen-Image-Lightning: Speed up Qwen-Image model with distillation
+*   [ModelTC/LightX2V-Qwen-Image-Lightning](https://github.com/ModelTC/LightX2V-Qwen-Image-Lightning) - Qwen-Image-Lightning: Speed up Qwen-Image model with distillation
 
 *   [HKUDS/AI-Researcher](https://github.com/HKUDS/AI-Researcher) - \[NeurIPS2025] "AI-Researcher: Autonomous Scientific Innovation" -- A production-ready version: https://novix.science/chat
 
@@ -307,8 +397,6 @@
 
 *   [jiji262/douyin-downloader](https://github.com/jiji262/douyin-downloader) - A practical Douyin downloader for both single-item and profile batch downloads, with progress display, retries, SQLite deduplication, and browser fallback support. 抖音批量下载工具，去水印，支持视频、图集、合集、音乐(原声)。免费！免费！免费！
 
-*   [gojasper/LBM](https://github.com/gojasper/LBM) - LBM: Latent Bridge Matching for Fast Image-to-Image Translation ✨ (ICCV 2025 Highlight)
-
 ## TypeScript
 
 *   [refactoringhq/tolaria](https://github.com/refactoringhq/tolaria) - Desktop app to manage markdown knowledge bases
@@ -384,6 +472,8 @@
 *   [glitternetwork/pinme](https://github.com/glitternetwork/pinme) - Deploy Your Frontend in a Single Command. Claude Code Skills supported.
 
 *   [DayuanJiang/next-ai-draw-io](https://github.com/DayuanJiang/next-ai-draw-io) - A next.js web application that integrates AI capabilities with draw.io diagrams. This app allows you to create, modify, and enhance diagrams through natural language commands and AI-assisted visualization.
+
+*   [Anionex/banana-slides](https://github.com/Anionex/banana-slides) - 一个基于nano banana pro🍌的原生AI PPT生成应用，迈向真正的＂Vibe PPT＂; 支持上传任意模板图片；上传任意素材&智能解析；一句话/大纲/页面描述自动生成PPT；口头修改指定区域、一键导出可编辑ppt - An AI-native slides generator based on nano banana pro🍌
 
 *   [YouMind-OpenLab/awesome-nano-banana-pro-prompts](https://github.com/YouMind-OpenLab/awesome-nano-banana-pro-prompts) - 🍌 World's largest Nano Banana Pro prompt library — 10,000+ curated prompts with preview images, 16 languages. Google Gemini AI image generation. Free & open source.
 
@@ -710,96 +800,6 @@
 *   [cyfyifanchen/one-person-company](https://github.com/cyfyifanchen/one-person-company) - 遇事不决，Vibe 力学! One-Person Company AI Tools Series – continuously updated to help boost productivity and empower your solo business!
 
 *   [skywind3000/preserve-cd](https://github.com/skywind3000/preserve-cd) - Game Preservation Project
-
-## JavaScript
-
-*   [rohitg00/awesome-claude-code-toolkit](https://github.com/rohitg00/awesome-claude-code-toolkit) - The most comprehensive toolkit for Claude Code -- 135 agents, 35 curated skills (+400,000 via SkillKit), 42 commands, 176+ plugins, 20 hooks, 15 rules, 7 templates, 14 MCP configs, 26 companion apps, 52 ecosystem entries, and more.
-
-*   [rohitg00/pro-workflow](https://github.com/rohitg00/pro-workflow) - Claude Code learns from your corrections: self-correcting memory that compounds over 50+ sessions. Context engineering, parallel worktrees, agent teams, and 17 battle-tested skills.
-
-*   [apify/awesome-skills](https://github.com/apify/awesome-skills) - Community collection of Apify agent skills for AI coding assistants
-
-*   [santifer/career-ops](https://github.com/santifer/career-ops) - AI-powered job search system built on Claude Code. 14 skill modes, Go dashboard, PDF generation, batch processing.
-
-*   [openai/codex-plugin-cc](https://github.com/openai/codex-plugin-cc) - Use Codex from Claude Code to review code or delegate tasks.
-
-*   [jarrodwatts/claude-hud](https://github.com/jarrodwatts/claude-hud) - A Claude Code plugin that shows what's happening - context usage, active tools, running agents, and todo progress
-
-*   [VonChange/utao](https://github.com/VonChange/utao) - 油桃TV 电视浏览器 可看各大卫视CCTV直播 无需电视VIP 适配爱奇艺等主流视频平台
-
-*   [tonyqinatcmu/SlideBot-AI](https://github.com/tonyqinatcmu/SlideBot-AI) - 🎨 SlideBot AI - AI-Powered Presentation Generator
-
-*   [affaan-m/everything-claude-code](https://github.com/affaan-m/everything-claude-code) - The agent harness performance optimization system. Skills, instincts, memory, security, and research-first development for Claude Code, Codex, Opencode, Cursor and beyond.
-
-*   [youhunwl/TVAPP](https://github.com/youhunwl/TVAPP) -  收集全网 Android TV电视盒子应用，涵盖影视、直播、K歌、工具、游戏等类型，整理优质APK资源，支持便捷下载与自动更新。提供安全验证、分类索引与兼容性标注，助力用户打造家庭影音娱乐中心！              ✅ TVBox/影视仓等影音壳接口配置源。
-
-*   [cporter202/scraping-apis-for-devs](https://github.com/cporter202/scraping-apis-for-devs) - This GitHub repo is a powerhouse collection of scraping APIs for developers that you can start using immediately to build everything from simple automations to full-scale applications.
-
-*   [datawhalechina/easy-vibe](https://github.com/datawhalechina/easy-vibe) - 💻 vibe coding 2026 | Your first modern programming course for beginners to master step by step.
-
-*   [nagix/mini-tokyo-3d](https://github.com/nagix/mini-tokyo-3d) - A real-time 3D digital map of Tokyo's public transport system
-
-*   [doocs/cose](https://github.com/doocs/cose) - 😃 md 编辑器使用的浏览器扩展，支持一键将文章同步到多个内容平台。
-
-*   [yeahhe365/gemini-nexus](https://github.com/yeahhe365/gemini-nexus) - Gemini Nexus 是一款深度集成 Google Gemini 能力的 Chrome 扩展程序。它不仅仅是一个侧边栏插件，而是通过注入式的悬浮工具栏、强大的图像 AI 处理以及前沿的浏览器控制协议 (MCP)，将 AI 的触角伸向网页浏览的每一个交互细节。
-
-*   [pdone/lx-music-source](https://github.com/pdone/lx-music-source) - 洛雪音乐源
-
-*   [xszn/xszn.github.io](https://github.com/xszn/xszn.github.io) - 挑选一款易用的、流行的普世产品，让生活、学习和工作也很有效率。
-
-*   [wesbos/awesome-uses](https://github.com/wesbos/awesome-uses) - A list of /uses pages detailing developer setups, gear, software and configs.
-
-*   [xiaolin-007/clash-verge-script](https://github.com/xiaolin-007/clash-verge-script) - clash-verge 防DNS泄露脚本
-
-*   [RemotePinee/AudioVisual](https://github.com/RemotePinee/AudioVisual) - 解锁所有国内媒体流的钥匙
-
-*   [Feather-2/Burner-X](https://github.com/Feather-2/Burner-X) - Burner X - 浏览器即开即用，AI文献识别、文档批量翻译、阅读与智能分析工具 丨BYOK
-
-*   [gamosoft/NoteDiscovery](https://github.com/gamosoft/NoteDiscovery) - Your Self-Hosted Knowledge Base
-
-*   [liujuntao123/smart-excalidraw-next](https://github.com/liujuntao123/smart-excalidraw-next) - A smart, powerful, and beautiful excalidraw drawing tool.Draw Professional Charts with Natural Language
-
-*   [miroslavpejic85/call-me](https://github.com/miroslavpejic85/call-me) - 🟢 WebRTC click-to-call platform for instant real-time communication in a persistent shared room with unlimited participants where users can join and call each other instantly. No signup or setup required.
-
-*   [Laumss/loominary](https://github.com/Laumss/loominary) - Conversations shouldn't just live in a scroll bar. Loominary gives your Claude and SillyTavern conversations a home — a local archive of every conversation, yours to keep.
-
-*   [DavidHDev/react-bits](https://github.com/DavidHDev/react-bits) - An open source collection of animated, interactive & fully customizable React components for building memorable websites.
-
-*   [expo/google-fonts](https://github.com/expo/google-fonts) - Use any of the 1000+ fonts (and their variants) from fonts.google.com in your Expo app.
-
-*   [iChochy/NCE](https://github.com/iChochy/NCE) - 《新概念英语》全四册在线课文朗读、单句点读、中英对照
-
-*   [dataease/SQLBot](https://github.com/dataease/SQLBot) - 🔥 基于大模型和 RAG 的智能问数系统，对话式数据分析神器。Text-to-SQL Generation via LLMs using RAG.
-
-*   [JimmyLv/awesome-nano-banana](https://github.com/JimmyLv/awesome-nano-banana) - Awesome curated collection of images and prompts generated by gemini-2.5-flash-image (aka Nano Banana) state-of-the-art image generation and editing model. Explore AI generated visuals created with Gemini, showcasing Google’s advanced image generation capabilities.
-
-*   [foliojs/pdfkit](https://github.com/foliojs/pdfkit) - A JavaScript PDF generation library for Node and the browser
-
-*   [songguoxs/gpt4o-image-prompts](https://github.com/songguoxs/gpt4o-image-prompts) - Nano Banana(nanobanana),GPT-5(GPT5),GPT-4o(GPT4o) Image Prompts，Nanobanana Prompts，nanobanana提示词
-
-*   [wendy7756/podcast-transcriber](https://github.com/wendy7756/podcast-transcriber) - An open-source tool that turns podcasts into high-quality transcripts and AI-powered summaries.
-
-*   [mswnlz/edu-knowlege](https://github.com/mswnlz/edu-knowlege) - 教育各种资料，从幼儿园到小学、中学，涵盖学而思，万维、猿辅导等多个机构，持续增加中
-
-*   [cv-cat/Spider\_XHS](https://github.com/cv-cat/Spider_XHS) - 小红书爬虫数据采集，小红书全域运营解决方案
-
-*   [xixu-me/xget](https://github.com/xixu-me/xget) - Ultra-high-performance, secure, all-in-one acceleration engine for developer resources
-
-*   [keremciu/sketch-iconfont](https://github.com/keremciu/sketch-iconfont) - This plugin helps you easily insert and manage icons from icon fonts.
-
-*   [WiseLibs/better-sqlite3](https://github.com/WiseLibs/better-sqlite3) - The fastest and simplest library for SQLite3 in Node.js.
-
-*   [tonngw/awesome-github-repos](https://github.com/tonngw/awesome-github-repos) - 🚀 A curated collection of awesome GitHub repositories, organized by language and topic from my starred projects. Modern, elegant platform for showcasing your starred GitHub repositories.
-
-*   [fogsightai/fogsight](https://github.com/fogsightai/fogsight) - Fogsight is an AI agent and animation engine powered by Large Language Models.
-
-*   [Figma-Cool/figmaCN](https://github.com/Figma-Cool/figmaCN) - 中文 Figma 插件，设计师人工翻译校验
-
-*   [listen1/listen1\_desktop](https://github.com/listen1/listen1_desktop) - one for all free music in china (Windows, Mac, Linux desktop)
-
-*   [LYiHub/mad-professor-public](https://github.com/LYiHub/mad-professor-public) - An AI companion for reading papers.
-
-*   [BingKui/javascript-zh](https://github.com/BingKui/javascript-zh) - Airbnb 出品，目前非常流行的 JavaScript 代码规范（中文版）。其内对各种 js 范式的写法进行了详细的规定与说明，按照此规范写出的代码将会更加合理。
 
 ## HTML
 
