@@ -33,6 +33,8 @@
 
 ## Python
 
+*   [Zafer-Liu/Data-Analysis-Agent](https://github.com/Zafer-Liu/Data-Analysis-Agent) - 面向商业分析师的智能数据分析体。Intelligent Data Analysis Agent for Business Analysts.
+
 *   [unslothai/unsloth](https://github.com/unslothai/unsloth) - Unsloth Studio is a web UI for training and running open models like Gemma 4, Qwen3.6, DeepSeek, gpt-oss locally.
 
 *   [nduckmink/arkon](https://github.com/nduckmink/arkon) - Arkon gives organizations centralized control over how employees use any Ai Client. Admins manage resources, access policies, and workspace contexts from a single portal. Employees connect once via the Model Context Protocol (MCP) and get the right context automatically.
@@ -374,8 +376,6 @@
 *   [wbopan/moffee](https://github.com/wbopan/moffee) - moffee: Make Markdown Ready to Present
 
 *   [shanglianlm0525/CvPytorch](https://github.com/shanglianlm0525/CvPytorch) - CvPytorch is an open source COMPUTER VISION toolbox based on PyTorch.
-
-*   [jingyaogong/minimind](https://github.com/jingyaogong/minimind) - 🧠「大模型」2小时完全从0训练64M的小参数LLM！Train a 64M-parameter LLM from scratch in just 2h!
 
 ## JavaScript
 
