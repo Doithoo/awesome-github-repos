@@ -33,6 +33,8 @@
 
 ## Python
 
+*   [SWE-agent/mini-swe-agent](https://github.com/SWE-agent/mini-swe-agent) - The 100 line AI agent that solves GitHub issues or helps you in your command line. Radically simple, no huge configs, no giant monorepo—but scores >74% on SWE-bench verified!
+
 *   [Zafer-Liu/Data-Analysis-Agent](https://github.com/Zafer-Liu/Data-Analysis-Agent) - 面向商业分析师的智能数据分析体。Intelligent Data Analysis Agent for Business Analysts.
 
 *   [unslothai/unsloth](https://github.com/unslothai/unsloth) - Unsloth Studio is a web UI for training and running open models like Gemma 4, Qwen3.6, DeepSeek, gpt-oss locally.
@@ -311,7 +313,7 @@
 
 *   [johnson7788/MultiAgentPPT](https://github.com/johnson7788/MultiAgentPPT) - MultiAgentPPT 是一个集成了 A2A（Agent2Agent）+ MCP（Model Context Protocol）+ ADK（Agent Development Kit） 架构的智能化演示文稿生成系统，支持通过多智能体协作和流式并发机制
 
-*   [TW-NLP/ChineseErrorCorrector](https://github.com/TW-NLP/ChineseErrorCorrector) - 一个面向中文文本纠错任务的综合平台，集学术研究、模型训练、模型评测和推理部署于一体，覆盖拼写纠错与语法纠错两个核心方向。
+*   [TW-NLP/ChineseErrorCorrector](https://github.com/TW-NLP/ChineseErrorCorrector) - 一个面向中文文本纠错任务的综合平台，集学术研究、模型训练、模型评测和推理部署于一体，覆盖拼写纠错与语法纠错两个核心方向。( 2026 ACL Main )
 
 *   [jbiaojerry/ebook-treasure-chest](https://github.com/jbiaojerry/ebook-treasure-chest) - 欢迎来到电子书下载宝库，一个汇聚了各类电子书下载链接的地方。无论你是喜欢阅读经典文学、经管励志、终身学习、职场创业、技术手册还是其他类型的书籍，这里都能满足你的需求。 该库涵盖了帆书app(原樊登读书)、微信读书、京东读书、喜马拉雅等读书app的大部分电子书。
 
@@ -381,7 +383,7 @@
 
 *   [pbakaus/impeccable](https://github.com/pbakaus/impeccable) - The design language that makes your AI harness better at design.
 
-*   [huangserva/3DCellForge](https://github.com/huangserva/3DCellForge) - AI-powered interactive 3D cell generation and exploration studio.
+*   [huangserva/3DCellForge](https://github.com/huangserva/3DCellForge) - AI-powered interactive 3D model generation, inspection, and presentation studio.
 
 *   [mutonby/openshorts](https://github.com/mutonby/openshorts) - Free & open source AI video platform — Clip Generator, AI Shorts (UGC with AI actors) & YouTube Studio. Self-hosted, no watermarks.
 
@@ -459,8 +461,6 @@
 
 *   [wendy7756/podcast-transcriber](https://github.com/wendy7756/podcast-transcriber) - An open-source tool that turns podcasts into high-quality transcripts and AI-powered summaries.
 
-*   [elizaOS/eliza](https://github.com/elizaOS/eliza) - Autonomous agents for everyone
-
 *   [mswnlz/edu-knowlege](https://github.com/mswnlz/edu-knowlege) - 教育各种资料，从幼儿园到小学、中学，涵盖学而思，万维、猿辅导等多个机构，持续增加中
 
 *   [cv-cat/Spider\_XHS](https://github.com/cv-cat/Spider_XHS) - 小红书爬虫数据采集，小红书全域运营解决方案
@@ -509,7 +509,7 @@
 
 *   [op7418/Seedance-Product-Video](https://github.com/op7418/Seedance-Product-Video) - Seedance Product Video Skills
 
-*   [forrestchang/andrej-karpathy-skills](https://github.com/forrestchang/andrej-karpathy-skills) - A single CLAUDE.md file to improve Claude Code behavior, derived from Andrej Karpathy's observations on LLM coding pitfalls.
+*   [multica-ai/andrej-karpathy-skills](https://github.com/multica-ai/andrej-karpathy-skills) - A single CLAUDE.md file to improve Claude Code behavior, derived from Andrej Karpathy's observations on LLM coding pitfalls.
 
 *   [markdown-viewer/skills](https://github.com/markdown-viewer/skills) - Opinionated skills for AI coding agents to create stunning diagrams and visualizations directly in Markdown. These skills extend agent capabilities across diagram generation, data visualization, and technical documentation.
 
@@ -813,6 +813,8 @@
 
 *   [nocodb/nocodb](https://github.com/nocodb/nocodb) - 🔥 🔥 🔥 A Free & Self-hostable Airtable Alternative
 
+*   [Mentra-Community/MentraOS](https://github.com/Mentra-Community/MentraOS) - MentraOS is the leading smart glasses platform + SDK. Stream your view, transcribe audio, talk to AI and capture photos hands-free on compatible glasses.
+
 *   [supermemoryai/apple-mcp](https://github.com/supermemoryai/apple-mcp) - Collection of apple-native tools for the model context protocol.
 
 *   [hangwin/mcp-chrome](https://github.com/hangwin/mcp-chrome) - Chrome MCP Server is a Chrome extension-based Model Context Protocol (MCP) server that exposes your Chrome browser functionality to AI assistants like Claude, enabling complex browser automation, content analysis, and semantic search.
@@ -853,6 +855,8 @@
 
 *   [Stirling-Tools/Stirling-PDF](https://github.com/Stirling-Tools/Stirling-PDF) - #1 PDF Application on GitHub that lets you edit PDFs on any device anywhere
 
+*   [elizaOS/eliza](https://github.com/elizaOS/eliza) - Autonomous agents for everyone
+
 *   [siteboon/claudecodeui](https://github.com/siteboon/claudecodeui) - Use Claude Code, Cursor CLI or Codex on mobile and web with CloudCLI (aka Claude Code UI). CloudCLI is a free open source webui/GUI that helps you manage your Claude Code session and projects remotely
 
 *   [google-gemini/gemini-cli](https://github.com/google-gemini/gemini-cli) - An open-source AI agent that brings the power of Gemini directly into your terminal.
@@ -880,8 +884,6 @@
 *   [cypress-io/cypress](https://github.com/cypress-io/cypress) - Fast, easy and reliable testing for anything that runs in a browser.
 
 *   [firecrawl/open-lovable](https://github.com/firecrawl/open-lovable) - 🔥 Clone and recreate any website as a modern React app in seconds
-
-*   [LLM-Red-Team/jimeng-free-api](https://github.com/LLM-Red-Team/jimeng-free-api) - 🚀 即梦3.0逆向API【特长：图像生成顶流】，零配置部署，多路token支持，仅供测试，如需商用请前往官方开放平台。
 
 *   [ThinkInAIXYZ/deepchat](https://github.com/ThinkInAIXYZ/deepchat) - 🐬DeepChat - A smart assistant that connects powerful AI to your personal world
 
@@ -1059,7 +1061,7 @@
 
 *   [anthropics/claude-code](https://github.com/anthropics/claude-code) - Claude Code is an agentic coding tool that lives in your terminal, understands your codebase, and helps you code faster by executing routine tasks, explaining complex code, and handling git workflows - all through natural language commands.
 
-*   [wukongdaily/AutoBuildImmortalWrt](https://github.com/wukongdaily/AutoBuildImmortalWrt) - 它是一个工作流。可快速构建 可选docker、可选自定义固件大小的 immortalWrt。它相当于一个云端的ImageBuilder,属于构建的范畴,不算是编译。目前也支持第三方插件的按需集成。
+*   [wukongdaily/ImmortalWrt-ImageBuilder](https://github.com/wukongdaily/ImmortalWrt-ImageBuilder) - 它是一个工作流。可快速构建 可选docker、可选自定义固件大小的 immortalWrt。它相当于一个云端的ImageBuilder,属于构建的范畴,不算是编译。目前也支持第三方插件的按需集成。
 
 *   [Cranot/claude-code-guide](https://github.com/Cranot/claude-code-guide) - The Complete Claude Code CLI Guide - Live & Auto-Updated Every 2 Days
 
@@ -1090,8 +1092,6 @@
 ## C
 
 *   [darktable-org/darktable](https://github.com/darktable-org/darktable) - darktable is an open source photography workflow application and raw developer
-
-*   [Mentra-Community/MentraOS](https://github.com/Mentra-Community/MentraOS) - MentraOS is the leading smart glasses platform + SDK. Stream your view, transcribe audio, talk to AI and capture photos hands-free on compatible glasses.
 
 *   [cfenollosa/os-tutorial](https://github.com/cfenollosa/os-tutorial) - How to create an OS from scratch
 
