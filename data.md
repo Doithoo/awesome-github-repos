@@ -313,7 +313,7 @@
 
 *   [johnson7788/MultiAgentPPT](https://github.com/johnson7788/MultiAgentPPT) - MultiAgentPPT 是一个集成了 A2A（Agent2Agent）+ MCP（Model Context Protocol）+ ADK（Agent Development Kit） 架构的智能化演示文稿生成系统，支持通过多智能体协作和流式并发机制
 
-*   [TW-NLP/ChineseErrorCorrector](https://github.com/TW-NLP/ChineseErrorCorrector) - 一个面向中文文本纠错任务的综合平台，集学术研究、模型评测和推理部署于一体，覆盖拼写纠错与语法纠错两个核心方向。( 2026 ACL Main )
+*   [TW-NLP/ChineseErrorCorrector](https://github.com/TW-NLP/ChineseErrorCorrector) - 一个面向中文文本纠错任务的综合平台，集学术研究、模型训练、模型评测和推理部署于一体，文本纠错新Sota。( 2026 ACL Main )
 
 *   [jbiaojerry/ebook-treasure-chest](https://github.com/jbiaojerry/ebook-treasure-chest) - 欢迎来到电子书下载宝库，一个汇聚了各类电子书下载链接的地方。无论你是喜欢阅读经典文学、经管励志、终身学习、职场创业、技术手册还是其他类型的书籍，这里都能满足你的需求。 该库涵盖了帆书app(原樊登读书)、微信读书、京东读书、喜马拉雅等读书app的大部分电子书。
 
@@ -345,7 +345,7 @@
 
 *   [aigc3d/LHM](https://github.com/aigc3d/LHM) - \[ICCV2025] LHM: Large Animatable Human Reconstruction Model from a Single Image in Seconds
 
-*   [roboflow/rf-detr](https://github.com/roboflow/rf-detr) - \[ICLR 2026] RF-DETR is a real-time object detection and segmentation model architecture developed by Roboflow, SOTA on COCO, designed for fine-tuning.
+*   [roboflow/rf-detr](https://github.com/roboflow/rf-detr) - RF-DETR is a real-time object detection and segmentation model architecture developed by Roboflow, SOTA on COCO, designed for fine-tuning. \[ICLR 2026]
 
 *   [jianchang512/clone-voice](https://github.com/jianchang512/clone-voice) - A sound cloning tool with a web interface, using your voice or any sound to record audio / 一个带web界面的声音克隆工具，使用你的音色或任意声音来录制音频
 
@@ -425,7 +425,7 @@
 
 *   [doocs/cose](https://github.com/doocs/cose) - 😃 md 编辑器使用的浏览器扩展，支持一键将文章同步到多个内容平台。
 
-*   [yeahhe365/Gemini-Nexus](https://github.com/yeahhe365/Gemini-Nexus) - Gemini Nexus 是一款深度集成 Google Gemini 能力的 Chrome 扩展程序。它不仅仅是一个侧边栏插件，而是通过注入式的悬浮工具栏、强大的图像 AI 处理以及前沿的浏览器控制协议 (MCP)，将 AI 的触角伸向网页浏览的每一个交互细节。
+*   [yeahhe365/Gemini-Nexus](https://github.com/yeahhe365/Gemini-Nexus) - Gemini Nexus 是一款面向浏览器场景的 AI 助手扩展，集成 Gemini Web、Gemini API 与 OpenAI 兼容接口，支持网页上下文、图像处理、工具调用和 MCP 浏览器控制。
 
 *   [pdone/lx-music-source](https://github.com/pdone/lx-music-source) - 洛雪音乐源
 
