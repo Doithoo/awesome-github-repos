@@ -53,7 +53,7 @@
 
 *   [abus-aikorea/voice-pro](https://github.com/abus-aikorea/voice-pro) - Gradio WebUI for creators and developers, featuring key TTS (Edge-TTS, kokoro) and zero-shot Voice Cloning (E2 & F5-TTS, CosyVoice), with Whisper audio processing, YouTube download, Demucs vocal isolation, and multilingual translation.
 
-*   [dsd2077/CyberVerse](https://github.com/dsd2077/CyberVerse) - CyberVerse is an open-source digital human agent platform with real-time video calling. Create an AI agent you can see and talk to, face to face, just like a video call.
+*   [dsd2077/CyberVerse](https://github.com/dsd2077/CyberVerse) - Open-source real-time audio/video agent platform. Build voice-first AI agents with WebRTC, persona memory, tools, RAG, and optional digital-human video.
 
 *   [wxyhgk/retain-pdf](https://github.com/wxyhgk/retain-pdf) - 在保留版面、公式与结构的前提下进行 PDF 翻译，适用于科研与技术文档
 
@@ -407,6 +407,8 @@
 
 *   [openai/codex-plugin-cc](https://github.com/openai/codex-plugin-cc) - Use Codex from Claude Code to review code or delegate tasks.
 
+*   [himself65/finance-skills](https://github.com/himself65/finance-skills) - A collection of skills for AI financial analysis and trading.
+
 *   [jarrodwatts/claude-hud](https://github.com/jarrodwatts/claude-hud) - A Claude Code plugin that shows what's happening - context usage, active tools, running agents, and todo progress
 
 *   [VonChange/utao](https://github.com/VonChange/utao) - 油桃TV 电视浏览器 可看各大卫视CCTV直播 无需电视VIP 适配爱奇艺等主流视频平台
@@ -717,8 +719,6 @@
 
 *   [Janlaywss/cloud-code](https://github.com/Janlaywss/cloud-code) - cloud-code
 
-*   [himself65/finance-skills](https://github.com/himself65/finance-skills) - A collection of skills for AI financial analysis and trading.
-
 *   [Lum1104/Understand-Anything](https://github.com/Lum1104/Understand-Anything) - Graphs that teach > graphs that impress. Turn any code, or knowledge base (Karpathy LLM wiki), into an interactive knowledge graph you can explore, search, and ask questions about. Works with Claude Code, Codex, Cursor, Copilot, Gemini CLI, and more.
 
 *   [nexu-io/nexu](https://github.com/nexu-io/nexu) - The simplest desktop client for OpenClaw 🦞 — bridge your Agent to WeChat, Feishu, Slack & Discord in one click. Works with Claude Code, Codex & any LLM. BYOK, Oauth, local-first, chat from your phone 24/7.
@@ -969,7 +969,7 @@
 
 *   [zcaceres/markdownify-mcp](https://github.com/zcaceres/markdownify-mcp) - A Model Context Protocol server for converting almost anything to Markdown
 
-*   [liuzi6612/nav](https://github.com/liuzi6612/nav) - 好用强大轻量级导航网站 Discover navigation, easy to use, powerful lightweight navigation website
+*   [liuzi6612/nav](https://github.com/liuzi6612/nav) - 发现导航，好用强大轻量级导航网站 Discover navigation, easy to use, powerful lightweight navigation website
 
 *   [getomni-ai/zerox](https://github.com/getomni-ai/zerox) - OCR & Document Extraction using vision models
 
@@ -1177,7 +1177,7 @@
 
 *   [hanshuaikang/AI-Media2Doc](https://github.com/hanshuaikang/AI-Media2Doc) - 一键将音视频转化为小红书/公众号/知识笔记/思维导图/视频字幕等各种风格的文档。
 
-*   [jason5ng32/MyIP](https://github.com/jason5ng32/MyIP) - The best IP Toolbox. Easy to check what's your IPs, IP geolocation, check for DNS leaks, examine WebRTC connections, speed test, ping test, MTR test, check website availability, whois search and more!
+*   [jason5ng32/MyIP](https://github.com/jason5ng32/MyIP) - The best IP Toolbox. Check your IP address & geolocation, test IP for WebRTC and DNS IP leaks, run an IP quality check, browser fingerprint check, website availability check, network speed test, global latency test, MTR test, Whois search, and more.
 
 *   [doocs/md](https://github.com/doocs/md) - ✍ WeChat Markdown Editor | 一款高度简洁的微信 Markdown 编辑器：支持 Markdown 语法、自定义主题样式、内容管理、多图床、AI 助手等特性
 
