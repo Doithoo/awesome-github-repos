@@ -34,6 +34,8 @@
 
 ## Python
 
+*   [wiltodelta/remove-ai-watermarks](https://github.com/wiltodelta/remove-ai-watermarks) - CLI and library for removing visible (Gemini) and invisible (SynthID, C2PA, EXIF) AI watermarks from images
+
 *   [Imbad0202/academic-research-skills](https://github.com/Imbad0202/academic-research-skills) - Academic Research Skills for Claude Code: research → write → review → revise → finalize
 
 *   [toby-bridges/api-relay-audit](https://github.com/toby-bridges/api-relay-audit) - Security audit tool for third-party AI API relay/proxy services. Detects hidden prompt injection, prompt leakage, instruction override, and context truncation.
@@ -232,6 +234,8 @@
 
 *   [agentscope-ai/agentscope](https://github.com/agentscope-ai/agentscope) - Build and run agents you can see, understand and trust.
 
+*   [Canner/WrenAI](https://github.com/Canner/WrenAI) - Turn any AI Agents into world-class data analysts through the open context layer that gives AI agents grounded, governed memory, context, SQL across 20+ data sources, that helps you build GenBI, agentic BI, text-to-sql, dashboards, and agentic analytics.
+
 *   [Arindam200/awesome-ai-apps](https://github.com/Arindam200/awesome-ai-apps) - A collection of projects showcasing RAG, agents, workflows, and other AI use cases
 
 *   [NEKOparapa/AiNiee](https://github.com/NEKOparapa/AiNiee) - 一款专注于Ai翻译的工具，一键自动翻译RPG SLG游戏，Epub TXT小说，PDF Word MD文档，Srt Vtt Lrc字幕等等复杂长文本。
@@ -396,7 +400,7 @@
 
 *   [Jason-uxui/gray-ui-csm](https://github.com/Jason-uxui/gray-ui-csm) -
 
-*   [nexu-io/open-design](https://github.com/nexu-io/open-design) - 🎨 Local-first, open-source alternative to Anthropic's Claude Design. ⚡ 19 Skills · ✨ 71 brand-grade Design Systems 🖼 Generate web · desktop · mobile prototypes · slides · images · videos · HyperFrames 📦 Sandboxed preview · HTML/PDF/PPTX/MP4 export 🤖 Runs on Claude Code / Codex / Cursor / Gemini / OpenCode / Qwen / Copilot / Hermes / Kimi CLI.
+*   [nexu-io/open-design](https://github.com/nexu-io/open-design) - 🎨 Local-first, open-source  Claude Design alternative. ⚡ 19 Skills · ✨ 71 brand-grade Design Systems 🖼 Generate web · desktop · mobile prototypes · slides · images · videos · HyperFrames 📦 Sandboxed preview · HTML/PDF/PPTX/MP4 export 🤖 Runs on Claude Code / Codex / Cursor / Gemini / OpenCode / Qwen / Copilot / Hermes / Kimi CLI.
 
 *   [refactoringhq/tolaria](https://github.com/refactoringhq/tolaria) - Desktop app to manage markdown knowledge bases
 
@@ -926,7 +930,7 @@
 
 *   [awesomedata/awesome-public-datasets](https://github.com/awesomedata/awesome-public-datasets) - A topic-centric list of HQ open datasets.
 
-*   [asgeirtj/system\_prompts\_leaks](https://github.com/asgeirtj/system_prompts_leaks) - Extracted system prompts from ChatGPT (GPT-5.5 Thinking), Claude (Opus 4.7, Opus 4.6, Sonnet 4.6, Claude Code), Gemini (3.1 Pro, 3 Flash, Gemini CLI), Grok (4.3 beta), Perplexity, and more. Updated regularly.
+*   [asgeirtj/system\_prompts\_leaks](https://github.com/asgeirtj/system_prompts_leaks) - Extracted system prompts from Anthropic - Opus 4.7, Opus 4.6, Sonnet 4.6. OpenAI - ChatGPT 5.5 Thinking, GPT 5.5 Instant, Codex. Google Gemini - 3.5 Flash, 3.1 Pro, 3 Flash, Antigravity. xAI - Grok. Github Copilot. Perplexity, and more. Updated regularly.
 
 *   [XiaomingX/indie-hacker-tools-plus](https://github.com/XiaomingX/indie-hacker-tools-plus) - 为独立开发者准备的精选技术栈和工具仓库来了！这里有你最需要的工具，帮你提升开发效率、节约成本，最重要的是——这些工具都是市场上热门的，经过验证的。🚀A curated collection of tech stacks and tools tailored for independent developers is here! these are proven, popular tools widely used in the industry. 🚀
 
@@ -978,8 +982,6 @@
 
 *   [lukasmasuch/best-of-ml-python](https://github.com/lukasmasuch/best-of-ml-python) - 🏆 A ranked list of awesome machine learning Python libraries. Updated weekly.
 
-*   [DreamerWinston/Learn-Map-Full-Stack](https://github.com/DreamerWinston/Learn-Map-Full-Stack) - 全栈学习路线图
-
 ## MATLAB
 
 *   [matlab/matlab-agentic-toolkit](https://github.com/matlab/matlab-agentic-toolkit) - The MATLAB Agentic Toolkit brings trusted MATLAB capabilities to AI agents, making engineering and scientific workflows agent-ready.
@@ -999,8 +1001,6 @@
 *   [lbjlaq/Antigravity-Manager](https://github.com/lbjlaq/Antigravity-Manager) - Professional Antigravity Account Manager & Switcher. One-click seamless account switching for Antigravity Tools. Built with Tauri v2 + React (Rust).专业的 Antigravity 账号管理与切换工具。为 Antigravity 提供一键无缝账号切换功能。
 
 *   [canmi21/vane](https://github.com/canmi21/vane) - A compact programmable proxy engine.
-
-*   [Canner/WrenAI](https://github.com/Canner/WrenAI) - Turn any AI Agents into world-class data analysts. The open context layer that gives AI agents grounded, governed SQL across 20+ data sources, that helps you build GenBI, agentic BI, text-to-sql, dashboards, and agentic analytics.
 
 *   [openai/codex](https://github.com/openai/codex) - Lightweight coding agent that runs in your terminal
 
