@@ -34,6 +34,8 @@
 
 ## TypeScript
 
+*   [heygen-com/hyperframes](https://github.com/heygen-com/hyperframes) - Write HTML. Render video. Built for agents.
+
 *   [corvo007/MioSub](https://github.com/corvo007/MioSub) - 一站式全自动字幕生成软件，下载、转录、翻译、压制全流程覆盖，无需人工介入 / One-stop automated subtitle generator. Handles downloading, transcription, translation, and hardcoding—zero human intervention required.
 
 *   [colbymchenry/codegraph](https://github.com/colbymchenry/codegraph) - Pre-indexed code knowledge graph for Claude Code, Codex, Gemini, Cursor, OpenCode, AntiGravity, Kiro, and Hermes Agent — fewer tokens, fewer tool calls, 100% local
@@ -388,7 +390,7 @@
 
 *   [Imbad0202/academic-research-skills](https://github.com/Imbad0202/academic-research-skills) - Academic Research Skills for Claude Code: research → write → review → revise → finalize
 
-*   [toby-bridges/api-relay-audit](https://github.com/toby-bridges/api-relay-audit) - Security audit tool for third-party AI API relay/proxy services. Detects hidden prompt injection, prompt leakage, instruction override, and context truncation.
+*   [toby-bridges/api-relay-audit](https://github.com/toby-bridges/api-relay-audit) - Local security audit for AI API relays and LLM proxies: detects prompt injection, model substitution, tool-call rewriting, SSE anomalies, error leakage, and Web3 wallet risks.
 
 *   [SWE-agent/mini-swe-agent](https://github.com/SWE-agent/mini-swe-agent) - The 100 line AI agent that solves GitHub issues or helps you in your command line. Radically simple, no huge configs, no giant monorepo—but scores >74% on SWE-bench verified!
 
@@ -729,8 +731,6 @@
 *   [AIFengheshu/Plug-play-modules](https://github.com/AIFengheshu/Plug-play-modules) - 2025年全网最全即插即用模块，免费分享！CVPR2025，AAAI2025，ICLR2025，TNNLS2025，arXiv2025......包含人工智能全领域（机器学习、深度学习等），适用于图像分类、目标检测、实例分割、语义分割、全景分割、姿态识别、医学图像分割、视频目标分割、图像抠图、图像编辑、单目标跟踪、多目标跟踪、行人重识别、RGBT、图像去噪、去雨、去雾、去阴影、去模糊、超分辨率、去反光、去摩尔纹、图像恢复、图像修复、高光谱图像恢复、图像融合、图像上色、高动态范围成像、视频与图像压缩、3D点云、3D目标检测、3D语义分割、3D姿态识别等各类计算机视觉和图像处理任务，以及自然语言处理、大语言模型、多模态等其他各类人工智能相关任务。持续更新中......
 
 *   [VikParuchuri/tabled](https://github.com/VikParuchuri/tabled) - Detect and extract tables to markdown and csv
-
-*   [docling-project/docling](https://github.com/docling-project/docling) - Get your documents ready for gen AI
 
 ## JavaScript
 
