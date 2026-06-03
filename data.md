@@ -482,7 +482,7 @@
 
 *   [tripleyak/SkillForge](https://github.com/tripleyak/SkillForge) - Intelligent skill router and creator for Claude Code and Codex. Analyzes any input to recommend existing skills, improve them, or create new ones from scratch.
 
-*   [allmonday/pydantic-resolve](https://github.com/allmonday/pydantic-resolve) - pydantic-resolve is a Pythonic clean architecture implementation framework.
+*   [KLR-Pattern/pydantic-resolve](https://github.com/KLR-Pattern/pydantic-resolve) - pydantic-resolve is a Pythonic clean architecture implementation framework.
 
 *   [shareAI-lab/learn-claude-code](https://github.com/shareAI-lab/learn-claude-code) - Bash is all you need -  A nano claude code–like 「agent harness」, built from 0 to 1
 
@@ -760,6 +760,8 @@
 
 *   [jarrodwatts/claude-hud](https://github.com/jarrodwatts/claude-hud) - A Claude Code plugin that shows what's happening - context usage, active tools, running agents, and todo progress
 
+*   [dontbesilent2025/dbskill](https://github.com/dontbesilent2025/dbskill) - dontbesilent 的商业诊断 Skills
+
 *   [zarazhangrui/frontend-slides](https://github.com/zarazhangrui/frontend-slides) - Create beautiful slides on the web using a coding agent's frontend skills
 
 *   [VonChange/utao](https://github.com/VonChange/utao) - 油桃TV 电视浏览器 可看各大卫视CCTV直播 无需电视VIP 适配爱奇艺等主流视频平台
@@ -840,7 +842,7 @@
 
 *   [schlagmichdoch/PairDrop](https://github.com/schlagmichdoch/PairDrop) - PairDrop: Transfer Files Cross-Platform. No Setup, No Signup.
 
-*   [Mintplex-Labs/anything-llm](https://github.com/Mintplex-Labs/anything-llm) - The all-in-one AI productivity accelerator. On device and privacy first with no annoying setup or configuration.
+*   [Mintplex-Labs/anything-llm](https://github.com/Mintplex-Labs/anything-llm) - Stop renting your intelligence. Own it with AnythingLLM. Everything you need for a powerful local-first agent experience
 
 ## miscellaneous
 
@@ -1047,8 +1049,6 @@
 *   [mattpocock/skills](https://github.com/mattpocock/skills) - Skills for Real Engineers. Straight from my .claude directory.
 
 *   [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) - Production-grade engineering skills for AI coding agents.
-
-*   [dontbesilent2025/dbskill](https://github.com/dontbesilent2025/dbskill) - dontbesilent 的商业诊断 Skills
 
 *   [PeonPing/peon-ping](https://github.com/PeonPing/peon-ping) - Warcraft III Peon voice notifications (+ more!) for Claude Code, Codex, IDEs, and any AI agent. Stop babysitting your terminal. Employ a Peon today.
 
