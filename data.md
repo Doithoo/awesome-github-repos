@@ -530,7 +530,7 @@
 
 *   [presenton/presenton](https://github.com/presenton/presenton) - Open-Source AI Presentation Generator and API (Gamma, Beautiful AI, Decktopus Alternative)
 
-*   [chaitin/MonkeyCode](https://github.com/chaitin/MonkeyCode) - AI 开发平台，内置云端开发环境，并支持业内最全的顶尖大模型。无论是开发项目、做调研、写文档，还是分析数据、处理任务，打开浏览器就能随时开始，让 AI 持续帮你推进工作
+*   [chaitin/MonkeyCode](https://github.com/chaitin/MonkeyCode) - 企业级 AI 开发平台，内置了开发环境管理、AI 模型管理、AI 任务管理、项目需求管理等能力，是真正面向专业开发团队的 AI 助手
 
 *   [chaitin/PandaWiki](https://github.com/chaitin/PandaWiki) - PandaWiki 是一款 AI 大模型驱动的开源知识库搭建系统，帮助你快速构建智能化的 产品文档、技术文档、FAQ、博客系统，借助大模型的力量为你提供 AI 创作、AI 问答、AI 搜索等能力。
 
@@ -588,7 +588,7 @@
 
 *   [xiaoxiunique/1k-github-stars](https://github.com/xiaoxiunique/1k-github-stars) -  Interactive treemap of 60k+ GitHub repositories with daily momentum,   curated discovery, and language-level exploration
 
-*   [benshandebiao/familytree](https://github.com/benshandebiao/familytree) - A minimalist open-source family tree website project.
+*   [qiaoshouqing/familytree](https://github.com/qiaoshouqing/familytree) - A minimalist open-source family tree website project.
 
 *   [modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers) - Model Context Protocol Servers
 
