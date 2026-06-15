@@ -106,7 +106,7 @@
 
 *   [openai/codex-plugin-cc](https://github.com/openai/codex-plugin-cc) - Use Codex from Claude Code to review code or delegate tasks.
 
-*   [himself65/finance-skills](https://github.com/himself65/finance-skills) - A collection of skills for AI financial analysis and trading.
+*   [himself65/finance-skills](https://github.com/himself65/finance-skills) - A collection of skills for AI financial analysis.
 
 *   [jarrodwatts/claude-hud](https://github.com/jarrodwatts/claude-hud) - A Claude Code plugin that shows what's happening - context usage, active tools, running agents, and todo progress
 
@@ -680,7 +680,7 @@
 
 *   [X1a0He/Adobe-Downloader](https://github.com/X1a0He/Adobe-Downloader) - macOS Adobe apps download & installer
 
-*   [ggkevinnnn/LaunchNow](https://github.com/ggkevinnnn/LaunchNow) - Alternative Launchpad for MacOS Tahoe.
+*   [ggkevinnnn/LaunchNow](https://github.com/ggkevinnnn/LaunchNow) - Alternative Launchpad for MacOS Tahoe & Golden Gate.
 
 *   [permissionlesstech/bitchat](https://github.com/permissionlesstech/bitchat) - bluetooth mesh chat, IRC vibes
 
