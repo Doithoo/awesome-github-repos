@@ -895,7 +895,7 @@
 
 *   [agentscope-ai/agentscope](https://github.com/agentscope-ai/agentscope) - Build and run agents you can see, understand and trust.
 
-*   [Canner/WrenAI](https://github.com/Canner/WrenAI) - Give AI agents the context to query business data correctly through the open context layer that gives AI agents grounded, governed memory, context, SQL across 20+ data sources, that helps you build agentic GenBI, text-to-sql, dashboards, and agentic analytics.
+*   [Canner/WrenAI](https://github.com/Canner/WrenAI) - GenBI (Generative BI) for AI agents, an open-source, governed text-to-SQL through an open context layer that turns natural-language questions into trusted dashboards, charts, and SQL across 20+ data sources, such as BigQuery, Snowflake, PostgreSQL, ClickHouse, Amazon Redshift, Databricks and more.
 
 *   [Arindam200/awesome-ai-apps](https://github.com/Arindam200/awesome-ai-apps) - A collection of projects showcasing RAG, agents, workflows, and other AI use cases
 
