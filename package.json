@@ -10,6 +10,8 @@
     "build": "echo 'Static site - no build needed'",
     "preview": "npx serve . --listen 4173",
     "test": "node --test",
+    "test:e2e": "playwright test",
+    "test:all": "npm test && npm run test:e2e",
     "update-awesome-list": "node scripts/update-awesome-list.mjs"
   },
   "repository": {
@@ -35,6 +37,7 @@
   },
   "homepage": "https://github.com/tonngw/awesome-github-repos#readme",
   "devDependencies": {
+    "@playwright/test": "^1.61.1",
     "serve": "^14.2.1"
   }
 }
