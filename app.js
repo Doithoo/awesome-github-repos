@@ -87,6 +87,18 @@ export class CatalogApp {
       }
       this.elements[id] = node;
     }
+
+    const loadMoreWrapper = this.elements.loadMoreButton.closest('.load-more');
+    if (!loadMoreWrapper || loadMoreWrapper !== this.elements.loadMoreButton.parentElement) {
+      throw new Error('Required .load-more wrapper was not found.');
+    }
+    this.elements.loadMoreWrapper = loadMoreWrapper;
+  }
+
+  setLoadMoreVisibility(visible) {
+    const hidden = !visible;
+    this.elements.loadMoreButton.hidden = hidden;
+    this.elements.loadMoreWrapper.hidden = hidden;
   }
 
   bindEvents() {
@@ -151,7 +163,7 @@ export class CatalogApp {
     this.elements.catalog.setAttribute('aria-busy', 'true');
     this.elements.repositoryGrid.replaceChildren();
     this.elements.resultSummary.textContent = '';
-    this.elements.loadMoreButton.hidden = true;
+    this.setLoadMoreVisibility(false);
     this.view.renderLoading(this.elements.statusPanel);
 
     const timeoutId = this.setTimeout(() => controller.abort(), LOAD_TIMEOUT_MS);
@@ -217,7 +229,7 @@ export class CatalogApp {
     this.elements.catalog.removeAttribute('aria-busy');
     this.elements.repositoryGrid.replaceChildren();
     this.elements.resultSummary.textContent = '';
-    this.elements.loadMoreButton.hidden = true;
+    this.setLoadMoreVisibility(false);
     this.view.renderError(this.elements.statusPanel, message);
   }
 
@@ -279,7 +291,7 @@ export class CatalogApp {
       filteredCount: filtered.length,
       totalCount: this.state.repositories.length,
     });
-    this.elements.loadMoreButton.hidden = !hasMore;
+    this.setLoadMoreVisibility(hasMore);
     this.elements.catalog.removeAttribute('aria-busy');
     this.elements.statusPanel.removeAttribute('aria-busy');
 

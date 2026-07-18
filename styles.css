@@ -553,7 +553,117 @@ svg {
   text-align: center;
 }
 
-.status-loading,
+.status-loading {
+  min-height: 0;
+  padding: 0;
+  text-align: left;
+}
+
+.status-loading-text {
+  margin: 18px 0 14px;
+  color: var(--color-muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.loading-skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 18px;
+}
+
+.repository-card-skeleton {
+  min-height: 272px;
+  pointer-events: none;
+}
+
+.repository-card-skeleton:hover {
+  border-color: var(--color-line);
+  box-shadow: var(--shadow-card);
+  transform: none;
+}
+
+.repository-skeleton-header {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 9px;
+}
+
+.repository-skeleton-heading {
+  display: grid;
+  min-width: 0;
+  flex: 1 1 auto;
+  gap: 9px;
+}
+
+.repository-skeleton-description {
+  display: grid;
+  gap: 9px;
+  margin: 27px 0 14px;
+}
+
+.repository-skeleton-meta {
+  display: flex;
+  min-height: 32px;
+  align-items: center;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 13px;
+  border-top: 1px solid var(--color-line);
+}
+
+.repository-skeleton-avatar,
+.repository-skeleton-owner,
+.repository-skeleton-title,
+.repository-skeleton-line,
+.repository-skeleton-meta-item {
+  display: block;
+  background: var(--color-line);
+  border-radius: 3px;
+  animation: skeleton-pulse 900ms ease-in-out infinite alternate;
+}
+
+.repository-skeleton-avatar {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+}
+
+.repository-skeleton-owner {
+  width: 88px;
+  height: 9px;
+}
+
+.repository-skeleton-title {
+  width: min(260px, 75%);
+  height: 16px;
+}
+
+.repository-skeleton-line {
+  width: 100%;
+  height: 11px;
+}
+
+.repository-skeleton-line:nth-child(2) {
+  width: 92%;
+}
+
+.repository-skeleton-line:nth-child(3) {
+  width: 68%;
+}
+
+.repository-skeleton-meta-item {
+  width: 72px;
+  height: 9px;
+}
+
+.repository-skeleton-meta-item:last-child {
+  width: 104px;
+  margin-left: auto;
+}
+
 .status-error,
 .status-empty {
   display: grid;
@@ -564,20 +674,16 @@ svg {
   padding: 32px 20px;
 }
 
-.status-loading p,
-.status-error p,
-.status-empty p {
+.status-error p {
   margin: 0;
   font-size: 15px;
   font-weight: 700;
 }
 
-.status-skeleton {
-  width: min(360px, 100%);
-  height: 10px;
-  background: var(--color-line);
-  border-radius: 3px;
-  animation: status-pulse 900ms ease-in-out infinite alternate;
+.status-empty p {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
 }
 
 .status-error {
@@ -588,7 +694,7 @@ svg {
   color: var(--color-muted);
 }
 
-@keyframes status-pulse {
+@keyframes skeleton-pulse {
   from {
     opacity: 0.45;
   }
@@ -696,6 +802,11 @@ svg {
     gap: 14px;
   }
 
+  .loading-skeleton-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+
   .repository-card {
     min-height: 258px;
     padding: 18px;
@@ -748,5 +859,9 @@ svg {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .repository-card-skeleton * {
+    animation: none !important;
   }
 }
