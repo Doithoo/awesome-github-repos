@@ -6,6 +6,7 @@ import test from 'node:test';
 const root = new URL('../', import.meta.url);
 const indexPath = new URL('index.html', root);
 const ignorePath = new URL('.gitignore', root);
+const readmePath = new URL('README.md', root);
 
 const readIndex = () => readFile(indexPath, 'utf8');
 
@@ -38,7 +39,7 @@ function elementById(html, id) {
   const name = openingTag.match(/^<([\w-]+)/i)[1];
   const start = html.indexOf(openingTag);
   const remainder = html.slice(start + openingTag.length);
-  const closingTag = new RegExp(`<\/${name}\s*>`, 'i');
+  const closingTag = new RegExp(`</${name}\\s*>`, 'i');
   const end = remainder.search(closingTag);
 
   assert.notEqual(end, -1, `missing closing tag for #${id}`);
@@ -117,7 +118,20 @@ test('header navigation carries the exact brand and secure icon-only source link
   assert.ok(sourceAttrs.rel?.split(/\s+/).includes('noopener'));
   assert.ok(sourceAttrs.rel?.split(/\s+/).includes('noreferrer'));
   assert.ok(sourceAttrs['aria-label']?.trim(), 'source link needs an accessible name');
-  assert.match(source.body, /<svg\b[^>]*>[\s\S]*?<\/svg>/i);
+  const icon = source.body.match(/<svg\b([^>]*)>([\s\S]*?)<\/svg>/i);
+  const iconAttrs = attributes(`<svg${icon?.[1] ?? ''}>`);
+  const iconPaths = [...(icon?.[2] ?? '').matchAll(/<path\b([^>]*)\/?\s*>/gi)]
+    .map((match) => attributes(`<path${match[1]}>`).d);
+
+  assert.ok(icon, 'source link must contain an inline SVG');
+  assert.equal(iconAttrs.fill, 'none');
+  assert.equal(iconAttrs.stroke, 'currentColor');
+  assert.equal(iconAttrs['stroke-linecap'], 'round');
+  assert.equal(iconAttrs['stroke-linejoin'], 'round');
+  assert.equal(iconAttrs['aria-hidden'], 'true');
+  assert.equal(iconPaths.length, 2);
+  assert.match(iconPaths[0], /^M15 22v-4/);
+  assert.equal(iconPaths[1], 'M9 18c-4.51 2-5-2-7-2');
   assert.equal(
     textContent(source.body.replace(/<svg\b[^>]*>[\s\S]*?<\/svg>/gi, '')),
     '',
@@ -170,6 +184,13 @@ test('catalog exposes exact filter controls and options', async () => {
     { value: 'name', label: 'Name' },
   ]);
   assert.equal(quickFilters['aria-label'], 'Popular languages');
+  assert.equal(quickFilters.role, 'group');
+});
+
+test('element lookup accepts whitespace before a dynamic closing bracket', () => {
+  const element = elementById('<div id="fixture">content</div   >', 'fixture');
+
+  assert.equal(element.body, 'content');
 });
 
 test('catalog result regions preserve their semantic and live-region contracts', async () => {
@@ -224,6 +245,35 @@ test('active page contains no legacy ownership or unsafe rendering hook', async 
   assert.doesNotMatch(html, /tonngw/i);
   assert.doesNotMatch(html, /innerHTML/);
   assert.equal(existsSync(new URL('index-simple.html', root)), false);
+});
+
+test('stable integration IDs are unique', async () => {
+  const html = await readIndex();
+  const stableIds = [
+    'collectionStats',
+    'searchInput',
+    'catalog',
+    'languageFilter',
+    'sortSelect',
+    'quickFilters',
+    'resultSummary',
+    'repositoryGrid',
+    'loadMoreButton',
+    'statusPanel',
+    'footer',
+  ];
+
+  for (const id of stableIds) {
+    const occurrences = openingTags(html, '[a-z][\\w-]*')
+      .filter((tag) => attributes(tag).id === id);
+    assert.equal(occurrences.length, 1, `expected exactly one #${id}`);
+  }
+});
+
+test('README does not reference the deleted alternate shell', async () => {
+  const readme = await readFile(readmePath, 'utf8');
+
+  assert.doesNotMatch(readme, /index-simple\.html/i);
 });
 
 test('generated local artifacts are ignored with exact root entries', async () => {

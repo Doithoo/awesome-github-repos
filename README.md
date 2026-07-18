@@ -27,11 +27,6 @@
 
 ![project](https://cdn.nlark.com/yuque/0/2025/png/1863084/1753015075615-429490c5-ec3d-46fd-b8fd-15413768e2fd.png?x-oss-process=image%2Fformat%2Cwebp)
 
-<details>
-  <summary>如果你喜欢简洁的页面风格可以使用 <code>index-simple.html</code></summary>
-  <img src="https://ik.imagekit.io/tonngw/ZFvz7Wk-RUk56ZSCg14xCt6ZZtYvnHnGNo5HaRnA7YM.png" alt="截图" style="max-width:600px">
-</details>
-
 ### ✨ 功能特性
 
 - 🔍 **智能搜索**: 实时搜索仓库名称、描述、主题标签和作者，支持多关键词
