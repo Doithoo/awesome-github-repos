@@ -10,12 +10,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Reworked the interface around the responsive Graphic Signal design system.
 - Split the modular frontend into catalog, controller, and DOM view responsibilities.
-- Replaced HTML string injection with safe rendering and explicit URL validation.
 - Reduced payload by removing legacy effects and duplicate implementations.
 
-### Quality
+### Added
 - Expanded browser coverage for search, filters, sorting, pagination, responsive layout, and error recovery.
 - Added CI and GitHub Pages test gates before data updates and deployment.
+
+### Security
+- Replaced HTML string injection with safe rendering and explicit URL validation.
+- Excluded private repositories from generated public catalog output as defense in depth.
 
 ## [1.0.0] - 2025-07-20
 
