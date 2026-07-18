@@ -218,6 +218,26 @@ function linkByHref(html, href) {
   return { openingTag: match[0].slice(0, match[0].indexOf('>') + 1), body: match[1] };
 }
 
+function cssAtRuleBody(css, pattern, label) {
+  const match = pattern.exec(css);
+  assert.ok(match, `missing ${label}`);
+  const openingBrace = css.indexOf('{', match.index);
+  let depth = 0;
+
+  for (let index = openingBrace; index < css.length; index += 1) {
+    if (css[index] === '{') {
+      depth += 1;
+    } else if (css[index] === '}') {
+      depth -= 1;
+      if (depth === 0) {
+        return css.slice(openingBrace + 1, index);
+      }
+    }
+  }
+
+  assert.fail(`unclosed ${label}`);
+}
+
 test('stylesheet defines the exact Graphic Signal design tokens', async () => {
   const css = await readStyles();
   const tokens = {
@@ -356,6 +376,56 @@ test('stylesheet fixes catalog geometry across desktop and mobile', async () => 
     /@media\s*\(max-width:\s*760px\)[\s\S]*?\.repository-grid\s*\{[^}]*grid-template-columns\s*:\s*minmax\(0,\s*1fr\)/,
     'mobile repository grid must collapse to one column at 760px',
   );
+});
+
+test('production filter toolbar is sticky only on desktop', async () => {
+  const [css, html] = await Promise.all([readStyles(), readIndex()]);
+  const toolbarTag = openingTags(html, 'section').find((tag) => (
+    attributes(tag)['aria-label'] === 'Repository filters'
+  ));
+  assert.ok(toolbarTag, 'missing production Repository filters section');
+  const toolbarClasses = attributes(toolbarTag).class?.split(/\s+/).filter(Boolean) ?? [];
+  assert.equal(toolbarClasses.length, 1, 'filter toolbar needs one stable production class');
+  const toolbarSelector = `.${toolbarClasses[0]}`;
+  const escapedSelector = toolbarSelector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const desktop = cssAtRuleBody(
+    css,
+    /@media\s*\(min-width:\s*761px\)/i,
+    'desktop toolbar media query',
+  );
+  const mobile = cssAtRuleBody(
+    css,
+    /@media\s*\(max-width:\s*760px\)/i,
+    'mobile toolbar media query',
+  );
+
+  assert.match(
+    desktop,
+    new RegExp(
+      `${escapedSelector}\\s*\\{`
+      + `(?=[^}]*position\\s*:\\s*sticky\\s*;)`
+      + `(?=[^}]*top\\s*:\\s*0\\s*;)`
+      + `(?=[^}]*z-index\\s*:\\s*[1-9]\\d*\\s*;)`
+      + `(?=[^}]*background(?:-color)?\\s*:\\s*var\\(--color-(?:canvas|surface)\\)\\s*;)`
+      + `(?=[^}]*padding(?:-[a-z]+)?\\s*:)`
+      + '[^}]*}',
+      's',
+    ),
+    `${toolbarSelector} must be opaque and sticky at the desktop viewport edge`,
+  );
+  assert.match(
+    mobile,
+    new RegExp(
+      `${escapedSelector}\\s*\\{`
+      + `(?=[^}]*position\\s*:\\s*static\\s*;)`
+      + `(?=[^}]*top\\s*:\\s*auto\\s*;)`
+      + `(?=[^}]*z-index\\s*:\\s*auto\\s*;)`
+      + '[^}]*}',
+      's',
+    ),
+    `${toolbarSelector} must return to normal flow on mobile`,
+  );
+  assert.doesNotMatch(css, /position\s*:\s*fixed\s*;/i, 'fixed positioning risks content overlap');
 });
 
 test('document declares useful metadata and static assets', async () => {

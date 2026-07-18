@@ -644,6 +644,16 @@ svg {
   border: 0;
 }
 
+@media (min-width: 761px) {
+  .toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    padding-top: 12px;
+    background: var(--color-canvas);
+  }
+}
+
 @media (max-width: 760px) {
   .container {
     padding-inline: 18px;
@@ -664,6 +674,9 @@ svg {
   }
 
   .toolbar {
+    position: static;
+    top: auto;
+    z-index: auto;
     align-items: stretch;
     flex-direction: column;
   }
