@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+- Reworked the interface around the responsive Graphic Signal design system.
+- Split the modular frontend into catalog, controller, and DOM view responsibilities.
+- Replaced HTML string injection with safe rendering and explicit URL validation.
+- Reduced payload by removing legacy effects and duplicate implementations.
+
+### Quality
+- Expanded browser coverage for search, filters, sorting, pagination, responsive layout, and error recovery.
+- Added CI and GitHub Pages test gates before data updates and deployment.
+
 ## [1.0.0] - 2025-07-20
 
 ### Added

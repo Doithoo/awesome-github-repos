@@ -1,12 +1,12 @@
 {
   "name": "awesome-github-repos",
   "version": "1.0.0",
-  "description": "A modern, elegant platform for showcasing your starred GitHub repositories",
+  "description": "A searchable, responsive catalog of GitHub repositories starred by Doithoo",
   "main": "index.html",
   "scripts": {
-    "start": "npx serve .",
-    "dev": "npx serve . --listen 3000",
-    "serve": "npx serve . --listen 8000",
+    "start": "serve . --listen 3000",
+    "dev": "serve . --listen 3000",
+    "serve": "serve . --listen 8000",
     "build": "echo 'Static site - no build needed'",
     "preview": "serve . --listen tcp://127.0.0.1:4173 --no-clipboard --no-port-switching",
     "test": "node --test",
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tonngw/awesome-github-repos.git"
+    "url": "git+https://github.com/Doithoo/awesome-github-repos.git"
   },
   "keywords": [
     "github",
@@ -30,12 +30,12 @@
     "css-grid",
     "accessibility"
   ],
-  "author": "tonngw",
+  "author": "Doithoo",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/tonngw/awesome-github-repos/issues"
+    "url": "https://github.com/Doithoo/awesome-github-repos/issues"
   },
-  "homepage": "https://github.com/tonngw/awesome-github-repos#readme",
+  "homepage": "https://doithoo.github.io/awesome-github-repos/",
   "devDependencies": {
     "@playwright/test": "^1.61.1",
     "serve": "^14.2.1",
