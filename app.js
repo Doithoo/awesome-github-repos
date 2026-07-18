@@ -64,6 +64,8 @@ export class CatalogApp {
     this.elements = {};
     this.searchTimer = null;
     this.initialized = false;
+    this.activeController = null;
+    this.requestGeneration = 0;
   }
 
   init() {
@@ -120,6 +122,8 @@ export class CatalogApp {
       this.state.visibleCount = PAGE_SIZE;
       this.elements.languageFilter.value = this.state.language;
       this.render();
+      // Task 7 browser test: verify quick-filter focus survives replacement.
+      this.restoreQuickFilterFocus(this.state.language);
     });
 
     this.elements.loadMoreButton.addEventListener('click', () => {
@@ -137,6 +141,11 @@ export class CatalogApp {
   }
 
   async loadData() {
+    const generation = ++this.requestGeneration;
+    this.activeController?.abort();
+    const controller = new AbortController();
+    this.activeController = controller;
+
     this.state.status = 'loading';
     this.state.error = null;
     this.elements.catalog.setAttribute('aria-busy', 'true');
@@ -145,7 +154,6 @@ export class CatalogApp {
     this.elements.loadMoreButton.hidden = true;
     this.view.renderLoading(this.elements.statusPanel);
 
-    const controller = new AbortController();
     const timeoutId = this.setTimeout(() => controller.abort(), LOAD_TIMEOUT_MS);
 
     try {
@@ -153,6 +161,9 @@ export class CatalogApp {
         signal: controller.signal,
         cache: 'default',
       });
+      if (!this.isCurrentRequest(generation, controller)) {
+        return;
+      }
       if (!response.ok) {
         throw new Error(DOWNLOAD_ERROR);
       }
@@ -168,6 +179,9 @@ export class CatalogApp {
         throw new Error(INVALID_DATA_ERROR);
       }
 
+      if (!this.isCurrentRequest(generation, controller)) {
+        return;
+      }
       this.state.repositories = repositories;
       this.state.status = 'ready';
       this.state.error = null;
@@ -175,6 +189,9 @@ export class CatalogApp {
       this.renderCollectionControls();
       this.render();
     } catch (error) {
+      if (!this.isCurrentRequest(generation, controller)) {
+        return;
+      }
       if (error.name === 'AbortError') {
         this.showError(TIMEOUT_ERROR);
       } else if (error.message === INVALID_DATA_ERROR) {
@@ -184,7 +201,14 @@ export class CatalogApp {
       }
     } finally {
       this.clearTimeout(timeoutId);
+      if (this.activeController === controller) {
+        this.activeController = null;
+      }
     }
+  }
+
+  isCurrentRequest(generation, controller) {
+    return generation === this.requestGeneration && controller === this.activeController;
   }
 
   showError(message) {
@@ -206,6 +230,18 @@ export class CatalogApp {
     const repositoryLabel = this.state.repositories.length === 1 ? 'repository' : 'repositories';
     const languageLabel = languageCount === 1 ? 'language' : 'languages';
     this.elements.collectionStats.textContent = `${this.state.repositories.length} ${repositoryLabel} across ${languageCount} ${languageLabel}`;
+  }
+
+  restoreQuickFilterFocus(language) {
+    const buttons = this.elements.quickFilters.querySelectorAll(
+      'button[data-action="filter-language"]',
+    );
+    for (const button of buttons) {
+      if (button.dataset.language === language) {
+        button.focus();
+        return;
+      }
+    }
   }
 
   getDerivedRepositories() {
