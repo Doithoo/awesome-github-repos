@@ -9,8 +9,10 @@ const ignorePath = new URL('.gitignore', root);
 const readmePath = new URL('README.md', root);
 const viewPath = new URL('lib/view.mjs', root);
 const appPath = new URL('app.js', root);
+const stylesPath = new URL('styles.css', root);
 
 const readIndex = () => readFile(indexPath, 'utf8');
+const readStyles = () => readFile(stylesPath, 'utf8');
 
 let controllerModulePromise;
 
@@ -215,6 +217,146 @@ function linkByHref(html, href) {
   assert.ok(match, `missing link to ${href}`);
   return { openingTag: match[0].slice(0, match[0].indexOf('>') + 1), body: match[1] };
 }
+
+test('stylesheet defines the exact Graphic Signal design tokens', async () => {
+  const css = await readStyles();
+  const tokens = {
+    '--color-canvas': '#f8f9fb',
+    '--color-surface': '#ffffff',
+    '--color-ink': '#17191d',
+    '--color-muted': '#626875',
+    '--color-line': '#cbd0da',
+    '--color-primary': '#214bc8',
+    '--color-signal': '#c3322b',
+    '--color-focus': '#214bc8',
+    '--shadow-card': '2px 2px 0 #dfe3ec',
+    '--radius-card': '6px',
+    '--content-width': '1180px',
+  };
+
+  for (const [name, value] of Object.entries(tokens)) {
+    assert.match(
+      css,
+      new RegExp(`${name}\\s*:\\s*${value.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&')}\\s*;`, 'i'),
+      `missing exact token ${name}: ${value}`,
+    );
+  }
+});
+
+test('stylesheet excludes legacy effects and disallowed visual treatments', async () => {
+  const css = await readStyles();
+  const legacyFeatures = [
+    'parallax',
+    'toast',
+    'gpu',
+    'scroll-to-top',
+    'virtual',
+    'touch-action',
+    'categorization',
+    'skeleton-grid',
+    'repo-card.skeleton',
+  ];
+
+  assert.doesNotMatch(css, /(?:linear|radial|conic)-gradient\s*\(/i, 'gradients are not allowed');
+  assert.doesNotMatch(css, /\b(?:blob|orb|bokeh)s?\b/i, 'decorative blobs and orbs are not allowed');
+  assert.doesNotMatch(css, /font-size\s*:[^;]*(?:vw|vh|vmin|vmax)/i, 'viewport-scaled type is not allowed');
+  assert.doesNotMatch(css, /letter-spacing\s*:\s*-/i, 'negative letter spacing is not allowed');
+  assert.match(css, /letter-spacing\s*:\s*0\s*;/i, 'letter spacing must be explicitly neutral');
+
+  for (const match of css.matchAll(/border-radius\s*:\s*([0-9.]+)px/gi)) {
+    assert.ok(Number(match[1]) <= 8, `card/control radius exceeds 8px: ${match[0]}`);
+  }
+  for (const feature of legacyFeatures) {
+    assert.equal(css.toLowerCase().includes(feature), false, `legacy feature remains: ${feature}`);
+  }
+
+  const lineCount = css.split(/\r?\n/).length;
+  assert.ok(lineCount <= 1200, `stylesheet must be at most 1200 lines, received ${lineCount}`);
+});
+
+test('stylesheet covers the production catalog class and state surface', async () => {
+  const css = await readStyles();
+  const selectors = [
+    '.site-header',
+    '.site-nav',
+    '.brand-link',
+    '.source-link',
+    '.catalog',
+    '.search-panel',
+    '.eyebrow',
+    '.search-field',
+    '.search-input-wrap',
+    '.search-input',
+    '.catalog-content',
+    '.toolbar',
+    '.filter-field',
+    '.filter-select',
+    '.quick-filters',
+    '.quick-filter',
+    '.quick-filter-name',
+    '.quick-filter-count',
+    '.result-summary',
+    '.repository-grid',
+    '.repository-card',
+    '.repository-card-header',
+    '.repository-identity',
+    '.repository-title',
+    '.repository-name',
+    '.repository-owner',
+    '.repository-owner-avatar',
+    '.repository-owner-fallback',
+    '.repository-owner-name',
+    '.repository-description',
+    '.repository-topics',
+    '.repository-topic',
+    '.repository-metadata',
+    '.repository-language',
+    '.repository-stars',
+    '.repository-updated',
+    '.repository-homepage',
+    '.load-more',
+    '.status-panel',
+    '.status-loading',
+    '.status-skeleton',
+    '.status-error',
+    '.status-empty',
+    '.site-footer',
+    '.footer-links',
+    '.sr-only',
+  ];
+
+  for (const selector of selectors) {
+    assert.ok(css.includes(selector), `missing production selector ${selector}`);
+  }
+  assert.match(css, /\[hidden\]\s*\{[^}]*display\s*:\s*none\s*!important/s);
+  assert.match(css, /:focus-visible\s*\{/);
+  assert.match(css, /@media\s*\(prefers-reduced-motion:\s*reduce\)/i);
+});
+
+test('stylesheet fixes catalog geometry across desktop and mobile', async () => {
+  const css = await readStyles();
+
+  assert.match(
+    css,
+    /\.repository-grid\s*\{[^}]*grid-template-columns\s*:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)/s,
+    'desktop repository grid must use two stable columns',
+  );
+  assert.match(
+    css,
+    /\.repository-owner-avatar\s*,\s*\.repository-owner-fallback\s*\{[^}]*width\s*:\s*40px\s*;[^}]*height\s*:\s*40px\s*;/s,
+    'owner avatar and fallback must remain 40px square',
+  );
+  assert.match(css, /\.repository-homepage\s*\{[^}]*width\s*:\s*36px\s*;[^}]*height\s*:\s*36px\s*;/s);
+  assert.match(css, /\.search-input\s*\{[^}]*height\s*:\s*52px\s*;/s);
+  assert.match(css, /\.filter-select\s*\{[^}]*height\s*:\s*40px\s*;/s);
+  assert.match(css, /\.quick-filter\s*\{[^}]*min-height\s*:\s*40px\s*;/s);
+  assert.match(css, /\.repository-card\s*\{[^}]*min-height\s*:\s*[^;]+;/s);
+  assert.match(
+    css,
+    /@media\s*\(max-width:\s*760px\)[\s\S]*?\.repository-grid\s*\{[^}]*grid-template-columns\s*:\s*minmax\(0,\s*1fr\)/,
+    'mobile repository grid must collapse to one column at 760px',
+  );
+});
 
 test('document declares useful metadata and static assets', async () => {
   const html = await readIndex();
