@@ -107,16 +107,32 @@ test('normalizes array input and safely defaults optional fields', () => {
     name: 'minimal',
     fullName: 'minimal',
     description: '',
-    language: '',
+    language: 'Other',
     topics: [],
     stars: 0,
-    createdAt: '',
-    updatedAt: '',
-    homepage: '',
-    repositoryUrl: '',
-    owner: { login: '', avatarUrl: '', profileUrl: '' },
+    createdAt: null,
+    updatedAt: null,
+    homepage: null,
+    repositoryUrl: null,
+    owner: { login: 'unknown', avatarUrl: null, profileUrl: null },
     sourceIndex: 0,
   });
+});
+
+test('preserves string full names and non-null timestamp values', () => {
+  const [normalized] = normalizeRepositories([repository({
+    full_name: '',
+    language: '',
+    created_at: 0,
+    updated_at: false,
+    owner: { login: '' },
+  })]);
+
+  assert.equal(normalized.fullName, '');
+  assert.equal(normalized.language, 'Other');
+  assert.equal(normalized.createdAt, 0);
+  assert.equal(normalized.updatedAt, false);
+  assert.equal(normalized.owner.login, 'unknown');
 });
 
 test('rejects invalid containers and non-array groups', () => {
@@ -161,6 +177,22 @@ test('uses token-based AND search across repository fields', () => {
   assert.deepEqual(
     filterRepositories(repositories, { query: '  REACT   vercel ' }).map(({ id }) => id),
     [2],
+  );
+});
+
+test('matches uppercase I with lowercase i deterministically', () => {
+  const repositories = normalizeRepositories([
+    repository({ id: 1, name: 'ITEM', full_name: 'owner/ITEM' }),
+    repository({ id: 2, name: 'other', full_name: 'owner/other' }),
+  ]);
+
+  assert.deepEqual(
+    filterRepositories(repositories, { query: 'item' }).map(({ id }) => id),
+    [1],
+  );
+  assert.deepEqual(
+    sortRepositories(repositories.reverse(), 'name').map(({ id }) => id),
+    [1, 2],
   );
 });
 
@@ -284,6 +316,7 @@ test('counts non-empty languages in first-seen order', () => {
   assert.deepEqual(Object.entries(getLanguageCounts(repositories)), [
     ['Rust', 2],
     ['JavaScript', 1],
+    ['Other', 1],
   ]);
 });
 
@@ -328,6 +361,7 @@ test('formats relative dates deterministically and handles edge cases', () => {
   assert.equal(formatRelativeDate('2026-05-18T12:00:00Z', now), '2 months ago');
   assert.equal(formatRelativeDate('2024-07-18T12:00:00Z', now), '2 years ago');
   assert.equal(formatRelativeDate('2026-07-19T12:00:00Z', now), 'just now');
+  assert.equal(formatRelativeDate(0, new Date('1970-01-02T00:00:00Z')), '1 day ago');
   assert.equal(formatRelativeDate('not-a-date', now), 'Unknown');
   assert.equal(formatRelativeDate('', now), 'Unknown');
   assert.equal(formatRelativeDate('2026-07-18T12:00:00Z', 'not-a-date'), 'Unknown');
@@ -339,10 +373,10 @@ test('accepts safe HTTPS URLs and applies GitHub-only restrictions', () => {
     'https://github.com/openai/codex',
   );
   assert.equal(getSafeUrl('https://example.com/path'), 'https://example.com/path');
-  assert.equal(getSafeUrl(' javascript:alert(1) '), '');
-  assert.equal(getSafeUrl('http://github.com/openai/codex', { githubOnly: true }), '');
-  assert.equal(getSafeUrl('https://example.com', { githubOnly: true }), '');
-  assert.equal(getSafeUrl('https://github.com.evil.example/openai/codex', { githubOnly: true }), '');
-  assert.equal(getSafeUrl('/relative/path'), '');
-  assert.equal(getSafeUrl(null), '');
+  assert.equal(getSafeUrl(' javascript:alert(1) '), null);
+  assert.equal(getSafeUrl('http://github.com/openai/codex', { githubOnly: true }), null);
+  assert.equal(getSafeUrl('https://example.com', { githubOnly: true }), null);
+  assert.equal(getSafeUrl('https://github.com.evil.example/openai/codex', { githubOnly: true }), null);
+  assert.equal(getSafeUrl('/relative/path'), null);
+  assert.equal(getSafeUrl(null), null);
 });
