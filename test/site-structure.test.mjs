@@ -322,6 +322,58 @@ test('safe DOM view exposes the complete rendering contract', async () => {
   }
 });
 
+test('safe DOM view validates every API URL through the catalog policy', async () => {
+  const source = await readFile(viewPath, 'utf8');
+
+  assert.match(
+    source,
+    /import\s*\{[^}]*\bgetSafeUrl\b[^}]*\}\s*from\s*['"]\.\/catalog\.mjs['"]/s,
+  );
+  assert.match(
+    source,
+    /const\s+repositoryUrl\s*=\s*getSafeUrl\(\s*repository\.repositoryUrl\s*,\s*\{\s*githubOnly\s*:\s*true\s*\}\s*\)/,
+  );
+  assert.match(
+    source,
+    /const\s+profileUrl\s*=\s*getSafeUrl\(\s*owner\.profileUrl\s*,\s*\{\s*githubOnly\s*:\s*true\s*\}\s*\)/,
+  );
+  assert.match(source, /const\s+homepage\s*=\s*getSafeUrl\(\s*repository\.homepage\s*\)/);
+  assert.match(source, /const\s+avatarUrl\s*=\s*getSafeUrl\(\s*owner\.avatarUrl\s*\)/);
+  assert.doesNotMatch(source, /\bsafeHttpsUrl\b/);
+});
+
+test('topic links use their visible topic text as the accessible name', async () => {
+  const source = await readFile(viewPath, 'utf8');
+
+  assert.match(
+    source,
+    /secureExternalLink\(\s*['"]repository-topic['"]\s*,\s*`https:\/\/github\.com\/topics\/\$\{encodeURIComponent\(topic\)\}`\s*,?\s*\)/,
+  );
+  assert.match(source, /link\.textContent\s*=\s*topic/);
+  assert.doesNotMatch(source, /Browse this topic on GitHub/);
+});
+
+test('repository cards expose each repository name as an article heading', async () => {
+  const source = await readFile(viewPath, 'utf8');
+
+  assert.match(
+    source,
+    /const\s+titleHeading\s*=\s*element\(\s*['"]h2['"]\s*,\s*\{\s*className\s*:\s*['"]repository-title['"]\s*\}\s*\)/,
+  );
+  assert.match(source, /titleHeading\.append\(\s*title\s*\)/);
+  assert.match(source, /identity\.append\(\s*titleHeading\s*\)/);
+});
+
+test('status renderers rely on the shell live region without nested roles', async () => {
+  const source = await readFile(viewPath, 'utf8');
+
+  assert.doesNotMatch(
+    source,
+    /\brole\s*:\s*['"](?:status|alert)['"]|setAttribute\(\s*['"]role['"]\s*,\s*['"](?:status|alert)['"]/,
+  );
+  assert.doesNotMatch(source, /['"]aria-live['"]/);
+});
+
 test('safe DOM view builds trusted structure without HTML string sinks', async () => {
   const source = await readFile(viewPath, 'utf8');
 
