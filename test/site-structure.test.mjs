@@ -28,12 +28,15 @@ function importControllerModule() {
 }
 
 class FakeElement {
-  constructor() {
+  constructor(tagName = 'div') {
     this.attributes = new Map();
     this.children = [];
+    this.className = '';
     this.dataset = {};
     this.hidden = false;
     this.listeners = new Map();
+    this.parentElement = null;
+    this.tagName = tagName.toUpperCase();
     this.textContent = '';
     this.value = '';
   }
@@ -68,12 +71,30 @@ class FakeElement {
 
   replaceChildren(...children) {
     this.children = [...children];
+    for (const child of this.children) {
+      if (child instanceof FakeElement) {
+        child.parentElement = this;
+      }
+    }
   }
 
   append(...children) {
     for (const child of children) {
-      this.children.push(...(child?.fragmentChildren ?? [child]));
+      const appended = child?.fragmentChildren ?? [child];
+      for (const appendedChild of appended) {
+        if (appendedChild instanceof FakeElement) {
+          appendedChild.parentElement = this;
+        }
+        this.children.push(appendedChild);
+      }
     }
+  }
+
+  closest(selector) {
+    if (selector.startsWith('.') && this.className.split(/\s+/).includes(selector.slice(1))) {
+      return this;
+    }
+    return this.parentElement?.closest(selector) ?? null;
   }
 
   contains(candidate) {
@@ -82,6 +103,10 @@ class FakeElement {
 
   querySelectorAll() {
     return this.queryResults ?? [];
+  }
+
+  get childElementCount() {
+    return this.children.length;
   }
 }
 
@@ -99,6 +124,10 @@ function createControllerDocument() {
     'statusPanel',
   ];
   const elements = Object.fromEntries(ids.map((id) => [id, new FakeElement()]));
+  const loadMoreWrapper = new FakeElement();
+  loadMoreWrapper.className = 'load-more';
+  loadMoreWrapper.append(elements.loadMoreButton);
+  elements.loadMoreWrapper = loadMoreWrapper;
   return {
     elements,
     document: {
@@ -238,6 +267,16 @@ function cssAtRuleBody(css, pattern, label) {
   assert.fail(`unclosed ${label}`);
 }
 
+function cssRuleBody(css, selector, label = selector) {
+  const escapedSelector = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const match = new RegExp(`(?:^|})\\s*${escapedSelector}\\s*\\{`).exec(css);
+  assert.ok(match, `missing bounded rule for ${label}`);
+  const openingBrace = css.indexOf('{', match.index);
+  const closingBrace = css.indexOf('}', openingBrace + 1);
+  assert.notEqual(closingBrace, -1, `unclosed rule for ${label}`);
+  return css.slice(openingBrace + 1, closingBrace);
+}
+
 test('stylesheet defines the exact Graphic Signal design tokens', async () => {
   const css = await readStyles();
   const tokens = {
@@ -265,20 +304,24 @@ test('stylesheet defines the exact Graphic Signal design tokens', async () => {
 
 test('stylesheet excludes legacy effects and disallowed visual treatments', async () => {
   const css = await readStyles();
-  const legacyFeatures = [
-    'parallax',
-    'toast',
-    'gpu',
-    'scroll-to-top',
-    'virtual',
-    'touch-action',
-    'categorization',
-    'skeleton-grid',
-    'repo-card.skeleton',
+  const legacyPatterns = [
+    [/\.header-parallax\b/i, 'parallax selector'],
+    [/\.toast(?:\b|[-_])/i, 'toast selector'],
+    [/\.gpu(?:\b|[-_])/i, 'GPU selector'],
+    [/\.scroll-to-top\b/i, 'scroll-to-top selector'],
+    [/\.virtual-scroll(?:\b|[-_])/i, 'virtual scroll selector'],
+    [/\btouch-action\s*:/i, 'touch-action property'],
+    [/\.categorization(?:\b|[-_])/i, 'categorization selector'],
+    [/\.skeleton-grid\s*\{/i, 'legacy generic skeleton grid'],
+    [/\.repo-card\.skeleton\b/i, 'legacy duplicated skeleton card'],
   ];
 
-  assert.doesNotMatch(css, /(?:linear|radial|conic)-gradient\s*\(/i, 'gradients are not allowed');
-  assert.doesNotMatch(css, /\b(?:blob|orb|bokeh)s?\b/i, 'decorative blobs and orbs are not allowed');
+  assert.doesNotMatch(
+    css,
+    /(?:background|background-image)\s*:[^;]*(?:linear|radial|conic)-gradient\s*\(/i,
+    'gradient backgrounds are not allowed',
+  );
+  assert.doesNotMatch(css, /\.(?:blob|orb|bokeh)(?:\b|[-_])/i, 'decorative selectors are not allowed');
   assert.doesNotMatch(css, /font-size\s*:[^;]*(?:vw|vh|vmin|vmax)/i, 'viewport-scaled type is not allowed');
   assert.doesNotMatch(css, /letter-spacing\s*:\s*-/i, 'negative letter spacing is not allowed');
   assert.match(css, /letter-spacing\s*:\s*0\s*;/i, 'letter spacing must be explicitly neutral');
@@ -286,8 +329,8 @@ test('stylesheet excludes legacy effects and disallowed visual treatments', asyn
   for (const match of css.matchAll(/border-radius\s*:\s*([0-9.]+)px/gi)) {
     assert.ok(Number(match[1]) <= 8, `card/control radius exceeds 8px: ${match[0]}`);
   }
-  for (const feature of legacyFeatures) {
-    assert.equal(css.toLowerCase().includes(feature), false, `legacy feature remains: ${feature}`);
+  for (const [pattern, label] of legacyPatterns) {
+    assert.doesNotMatch(css, pattern, `legacy feature remains: ${label}`);
   }
 
   const lineCount = css.split(/\r?\n/).length;
@@ -317,12 +360,10 @@ test('stylesheet covers the production catalog class and state surface', async (
     '.quick-filter-count',
     '.result-summary',
     '.repository-grid',
-    '.repository-card',
     '.repository-card-header',
     '.repository-identity',
     '.repository-title',
     '.repository-name',
-    '.repository-owner',
     '.repository-owner-avatar',
     '.repository-owner-fallback',
     '.repository-owner-name',
@@ -336,10 +377,6 @@ test('stylesheet covers the production catalog class and state surface', async (
     '.repository-homepage',
     '.load-more',
     '.status-panel',
-    '.status-loading',
-    '.status-skeleton',
-    '.status-error',
-    '.status-empty',
     '.site-footer',
     '.footer-links',
     '.sr-only',
@@ -348,9 +385,56 @@ test('stylesheet covers the production catalog class and state surface', async (
   for (const selector of selectors) {
     assert.ok(css.includes(selector), `missing production selector ${selector}`);
   }
-  assert.match(css, /\[hidden\]\s*\{[^}]*display\s*:\s*none\s*!important/s);
   assert.match(css, /:focus-visible\s*\{/);
   assert.match(css, /@media\s*\(prefers-reduced-motion:\s*reduce\)/i);
+});
+
+test('key production CSS rules carry meaningful Graphic Signal declarations', async () => {
+  const css = await readStyles();
+  const owner = cssRuleBody(css, '.repository-owner');
+  const card = cssRuleBody(css, '.repository-card');
+  const focus = cssRuleBody(css, ':focus-visible');
+  const hidden = cssRuleBody(css, '[hidden]');
+  const skeletonGrid = cssRuleBody(css, '.loading-skeleton-grid');
+  const loading = cssRuleBody(css, '.status-loading');
+  const error = cssRuleBody(css, '.status-error');
+  const empty = cssRuleBody(css, '.status-empty');
+  const errorText = cssRuleBody(css, '.status-error p');
+  const emptyText = cssRuleBody(css, '.status-empty p');
+  const mobile = cssAtRuleBody(
+    css,
+    /@media\s*\(max-width:\s*760px\)/i,
+    'mobile catalog media query',
+  );
+  const mobileSkeletonGrid = cssRuleBody(mobile, '.loading-skeleton-grid');
+  const reducedMotion = cssAtRuleBody(
+    css,
+    /@media\s*\(prefers-reduced-motion:\s*reduce\)/i,
+    'reduced motion media query',
+  );
+
+  assert.match(owner, /display\s*:\s*inline-flex\s*;/);
+  assert.match(owner, /max-width\s*:\s*100%\s*;/);
+  assert.match(card, /min-height\s*:\s*272px\s*;/);
+  assert.match(card, /border\s*:\s*1px solid var\(--color-line\)\s*;/);
+  assert.match(card, /box-shadow\s*:\s*var\(--shadow-card\)\s*;/);
+  assert.match(focus, /outline\s*:\s*3px solid var\(--color-focus\)\s*;/);
+  assert.match(focus, /outline-offset\s*:\s*3px\s*;/);
+  assert.match(hidden, /display\s*:\s*none\s*!important\s*;/);
+  assert.match(skeletonGrid, /display\s*:\s*grid\s*;/);
+  assert.match(skeletonGrid, /grid-template-columns\s*:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)\s*;/);
+  assert.match(skeletonGrid, /gap\s*:\s*18px\s*;/);
+  assert.match(mobileSkeletonGrid, /grid-template-columns\s*:\s*minmax\(0,\s*1fr\)\s*;/);
+  assert.match(mobileSkeletonGrid, /gap\s*:\s*14px\s*;/);
+  assert.match(loading, /text-align\s*:\s*left\s*;/);
+  assert.match(error, /color\s*:\s*var\(--color-signal\)\s*;/);
+  assert.match(empty, /color\s*:\s*var\(--color-muted\)\s*;/);
+  assert.match(errorText, /font-size\s*:\s*15px\s*;/);
+  assert.match(emptyText, /font-size\s*:\s*15px\s*;/);
+  assert.match(
+    reducedMotion,
+    /\.repository-card-skeleton\s+\*\s*\{[^}]*animation\s*:\s*none\s*!important\s*;/s,
+  );
 });
 
 test('stylesheet fixes catalog geometry across desktop and mobile', async () => {
@@ -378,7 +462,7 @@ test('stylesheet fixes catalog geometry across desktop and mobile', async () => 
   );
 });
 
-test('production filter toolbar is sticky only on desktop', async () => {
+test('Task 7 contract: filter toolbar stays compact and sticky from 761px', async () => {
   const [css, html] = await Promise.all([readStyles(), readIndex()]);
   const toolbarTag = openingTags(html, 'section').find((tag) => (
     attributes(tag)['aria-label'] === 'Repository filters'
@@ -407,7 +491,7 @@ test('production filter toolbar is sticky only on desktop', async () => {
       + `(?=[^}]*top\\s*:\\s*0\\s*;)`
       + `(?=[^}]*z-index\\s*:\\s*[1-9]\\d*\\s*;)`
       + `(?=[^}]*background(?:-color)?\\s*:\\s*var\\(--color-(?:canvas|surface)\\)\\s*;)`
-      + `(?=[^}]*padding(?:-[a-z]+)?\\s*:)`
+      + `(?=[^}]*padding-top\\s*:\\s*12px\\s*;)`
       + '[^}]*}',
       's',
     ),
@@ -673,6 +757,13 @@ test('application controller has stable state, loading policy, and action routes
     assert.match(source, new RegExp(`['"]${action}['"]`), `missing ${action} action route`);
   }
 
+  assert.match(source, /setLoadMoreVisibility\s*\(\s*visible\s*\)\s*\{/);
+  assert.equal(
+    (source.match(/elements\.loadMoreButton\.hidden\s*=/g) ?? []).length,
+    1,
+    'only the synchronized visibility helper may assign button.hidden',
+  );
+
   for (const [element, eventName] of [
     ['searchInput', 'input'],
     ['languageFilter', 'change'],
@@ -706,6 +797,29 @@ test('CatalogApp starts with the exact public state contract', async () => {
     status: 'loading',
     error: null,
   });
+});
+
+test('CatalogApp fails clearly when the required load-more wrapper is missing', async () => {
+  const { CatalogApp } = await importControllerModule();
+  const { document, elements } = createControllerDocument();
+  elements.loadMoreButton.parentElement = null;
+  const app = new CatalogApp(document);
+
+  assert.throws(
+    () => app.cacheElements(),
+    /Required \.load-more wrapper was not found\./,
+  );
+
+  const nested = createControllerDocument();
+  const intermediate = new FakeElement();
+  nested.elements.loadMoreWrapper.replaceChildren(intermediate);
+  intermediate.append(nested.elements.loadMoreButton);
+  const nestedApp = new CatalogApp(nested.document);
+  assert.throws(
+    () => nestedApp.cacheElements(),
+    /Required \.load-more wrapper was not found\./,
+    'the load-more wrapper must be the button direct parent',
+  );
 });
 
 test('CatalogApp init and retry never bind static listeners more than once', async () => {
@@ -939,6 +1053,38 @@ test('CatalogApp loadMore advances by PAGE_SIZE and appends only newly visible c
   assert.equal(elements.repositoryGrid.children.length, 30);
 });
 
+test('Task 7 contract: load-more wrapper is visible only while another page exists', async () => {
+  const { CatalogApp } = await importControllerModule();
+  const { document, elements } = createControllerDocument();
+  const { view } = createViewSpies();
+  const app = new CatalogApp(document, { view });
+  app.cacheElements();
+  app.state.status = 'ready';
+  app.state.repositories = Array.from({ length: 25 }, (_, index) => repository(index + 1));
+  elements.loadMoreButton.hidden = true;
+  elements.loadMoreWrapper.hidden = true;
+
+  app.render();
+  assert.equal(elements.loadMoreButton.hidden, false);
+  assert.equal(elements.loadMoreWrapper.hidden, false);
+
+  app.state.repositories = app.state.repositories.slice(0, 24);
+  app.render();
+  assert.equal(elements.loadMoreButton.hidden, true);
+  assert.equal(elements.loadMoreWrapper.hidden, true, 'final page must not leave a layout band');
+
+  app.state.repositories = [];
+  app.render();
+  assert.equal(elements.loadMoreButton.hidden, true);
+  assert.equal(elements.loadMoreWrapper.hidden, true, 'empty results must not leave a layout band');
+
+  elements.loadMoreButton.hidden = false;
+  elements.loadMoreWrapper.hidden = false;
+  app.showError('Unable to load.');
+  assert.equal(elements.loadMoreButton.hidden, true);
+  assert.equal(elements.loadMoreWrapper.hidden, true, 'errors must not leave a layout band');
+});
+
 test('CatalogApp ignores an older aborted request after a newer request succeeds', async () => {
   const { CatalogApp } = await importControllerModule();
   const { document, elements } = createControllerDocument();
@@ -1042,6 +1188,7 @@ test('CatalogApp executes loading, ready, and error controller transitions', asy
   assert.deepEqual(elements.repositoryGrid.children, []);
   assert.equal(elements.resultSummary.textContent, '');
   assert.equal(elements.loadMoreButton.hidden, true);
+  assert.equal(elements.loadMoreWrapper.hidden, true, 'loading must hide the entire command band');
   assert.ok(calls.some(({ name }) => name === 'renderLoading'));
   assert.deepEqual(calls.find(({ name }) => name === 'fetch').args.slice(0, 1), ['data.json']);
   assert.equal(calls.find(({ name }) => name === 'fetch').args[1].cache, 'default');
@@ -1053,6 +1200,7 @@ test('CatalogApp executes loading, ready, and error controller transitions', asy
   assert.equal(app.state.repositories.length, 1);
   assert.equal(elements.catalog.getAttribute('aria-busy'), null);
   assert.equal(elements.statusPanel.hidden, true);
+  assert.equal(elements.loadMoreWrapper.hidden, true);
   assert.deepEqual(clearedTimers, ['load-timeout']);
   assert.ok(calls.some(({ name }) => name === 'renderRepositoryGrid'));
 
@@ -1067,6 +1215,7 @@ test('CatalogApp executes loading, ready, and error controller transitions', asy
   assert.deepEqual(elements.repositoryGrid.children, []);
   assert.equal(elements.resultSummary.textContent, '');
   assert.equal(elements.loadMoreButton.hidden, true);
+  assert.equal(elements.loadMoreWrapper.hidden, true, 'errors must hide the entire command band');
   assert.deepEqual(
     calls.findLast(({ name }) => name === 'renderError').args.slice(1),
     ['The repository list could not be downloaded.'],
@@ -1400,6 +1549,65 @@ test('status renderers rely on the shell live region without nested roles', asyn
     /\brole\s*:\s*['"](?:status|alert)['"]|setAttribute\(\s*['"]role['"]\s*,\s*['"](?:status|alert)['"]/,
   );
   assert.doesNotMatch(source, /['"]aria-live['"]/);
+});
+
+test('Task 7 contract: loading view renders six safe skeleton cards without fake text', async () => {
+  const originalDocument = globalThis.document;
+  globalThis.document = {
+    createElement: (tagName) => new FakeElement(tagName),
+  };
+
+  try {
+    const { renderLoading } = await import(viewPath);
+    const panel = new FakeElement('div');
+
+    renderLoading(panel);
+
+    assert.equal(panel.getAttribute('aria-busy'), 'true');
+    assert.equal(panel.hidden, false);
+    assert.equal(panel.children.length, 1);
+    const status = panel.children[0];
+    assert.equal(status.className, 'status-loading');
+    assert.equal(status.children[0].className, 'status-loading-text');
+    assert.equal(status.children[0].textContent, 'Loading repositories...');
+    const grid = status.children[1];
+    assert.equal(grid.className, 'loading-skeleton-grid');
+    assert.equal(grid.getAttribute('aria-hidden'), 'true');
+    assert.equal(grid.children.length, 6);
+
+    for (const card of grid.children) {
+      assert.equal(card.tagName, 'ARTICLE');
+      assert.deepEqual(card.className.split(/\s+/), [
+        'repository-card',
+        'repository-card-skeleton',
+      ]);
+      assert.deepEqual(card.children.map(({ className }) => className), [
+        'repository-skeleton-header',
+        'repository-skeleton-description',
+        'repository-skeleton-meta',
+      ]);
+      const descendants = [card];
+      for (let index = 0; index < descendants.length; index += 1) {
+        descendants.push(...descendants[index].children);
+      }
+      assert.equal(
+        descendants.every(({ textContent: value }) => value === ''),
+        true,
+        'aria-hidden skeletons must not contain fake readable text',
+      );
+      for (const hook of [
+        'repository-skeleton-avatar',
+        'repository-skeleton-owner',
+        'repository-skeleton-title',
+        'repository-skeleton-line',
+        'repository-skeleton-meta-item',
+      ]) {
+        assert.ok(descendants.some(({ className }) => className === hook), `missing .${hook}`);
+      }
+    }
+  } finally {
+    globalThis.document = originalDocument;
+  }
 });
 
 test('safe DOM view builds trusted structure without HTML string sinks', async () => {
