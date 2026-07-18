@@ -58,9 +58,13 @@ export async function fetchStarredRepositories(token, fetchImpl = fetch) {
   return repositories;
 }
 
+function isExplicitlyPublic(repository) {
+  return repository?.private === false && repository.visibility === 'public';
+}
+
 export function projectRepository(repository) {
-  if (repository.private === true) {
-    throw new Error('Private repositories cannot be published');
+  if (!isExplicitlyPublic(repository)) {
+    throw new Error('Repository cannot be published');
   }
 
   return {
@@ -87,7 +91,7 @@ export function groupRepositories(repositories) {
   const groups = {};
 
   for (const repository of repositories) {
-    if (repository.private === true) continue;
+    if (!isExplicitlyPublic(repository)) continue;
 
     const language = repository.language || 'miscellaneous';
     groups[language] ??= [];
@@ -238,13 +242,12 @@ export async function updateAwesomeList(
 
   const publishedCount = Object.values(groups)
     .reduce((total, group) => total + group.length, 0);
-  const privateCount = repositories
-    .reduce((total, repository) => total + Number(repository.private === true), 0);
+  const skippedCount = repositories.length - publishedCount;
   const publishedLabel = publishedCount === 1 ? 'repository' : 'repositories';
-  const privateLabel = privateCount === 1 ? 'repository' : 'repositories';
+  const skippedLabel = skippedCount === 1 ? 'repository' : 'repositories';
   log(
     `Updated ${publishedCount} public starred ${publishedLabel}. `
-    + `Skipped ${privateCount} private ${privateLabel}.`,
+    + `Skipped ${skippedCount} non-public or unknown ${skippedLabel}.`,
   );
 }
 
