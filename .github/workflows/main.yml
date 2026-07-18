@@ -1,6 +1,6 @@
 name: Update awesome list
 
-on: 
+on:
   workflow_dispatch:
   schedule:
     - cron: '00 00 */1 * *'
@@ -8,17 +8,41 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: update-awesome-list
+  cancel-in-progress: false
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v3
-      - name: Awesome generator
-        uses: simonecorsi/mawesome@v2
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          template-path: "template/README.ejs"
-          output-filename: "data.md"
-          api-token: ${{ secrets.API_TOKEN }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          github-email: ${{ secrets.USER_EMAIL }}
-          github-name: ${{ github.repository_owner }}
+          node-version: '22'
+
+      - name: Test generator
+        run: npm test
+
+      - name: Generate awesome list
+        run: npm run update-awesome-list
+        env:
+          API_TOKEN: ${{ secrets.API_TOKEN }}
+
+      - name: Commit generated files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data.json data.md
+
+          if git diff --cached --quiet; then
+            echo "No starred repository changes to commit."
+            exit 0
+          fi
+
+          git commit -m "chore(updates): update starred repositories"
+          git push
