@@ -62,9 +62,12 @@ function isExplicitlyPublic(repository) {
   return repository?.private === false && repository.visibility === 'public';
 }
 
-export function projectRepository(repository) {
+export function projectRepository(repository, starredOrder) {
   if (!isExplicitlyPublic(repository)) {
     throw new Error('Repository cannot be published');
+  }
+  if (!Number.isSafeInteger(starredOrder) || starredOrder < 0) {
+    throw new TypeError('Repository starred order must be a safe non-negative integer');
   }
 
   return {
@@ -84,18 +87,19 @@ export function projectRepository(repository) {
     topics: repository.topics,
     created_at: repository.created_at,
     updated_at: repository.updated_at,
+    starred_order: starredOrder,
   };
 }
 
 export function groupRepositories(repositories) {
   const groups = {};
 
-  for (const repository of repositories) {
+  for (const [starredOrder, repository] of repositories.entries()) {
     if (!isExplicitlyPublic(repository)) continue;
 
     const language = repository.language || 'miscellaneous';
     groups[language] ??= [];
-    groups[language].push(projectRepository(repository));
+    groups[language].push(projectRepository(repository, starredOrder));
   }
 
   return groups;

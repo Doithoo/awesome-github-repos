@@ -8,6 +8,11 @@ import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 
 import {
+  normalizeRepositories,
+  sortRepositories,
+} from '../lib/catalog.mjs';
+
+import {
   fetchStarredRepositories,
   groupRepositories,
   projectRepository,
@@ -125,11 +130,12 @@ test('projects repositories to the reduced browser data contract', () => {
     homepage: null,
     language: null,
     topics: [],
-  }));
+  }), 17);
 
   assert.deepEqual(Object.keys(projected), [
     'id', 'name', 'full_name', 'owner', 'html_url', 'description', 'homepage',
     'stargazers_count', 'language', 'topics', 'created_at', 'updated_at',
+    'starred_order',
   ]);
   assert.deepEqual(Object.keys(projected.owner), [
     'login', 'avatar_url', 'html_url',
@@ -147,6 +153,16 @@ test('projects repositories to the reduced browser data contract', () => {
   assert.equal(projected.homepage, null);
   assert.equal(projected.language, null);
   assert.deepEqual(projected.topics, []);
+  assert.equal(projected.starred_order, 17);
+});
+
+test('requires a safe source ordinal for direct repository projection', () => {
+  for (const ordinal of [undefined, null, -1, 1.5, Number.MAX_SAFE_INTEGER + 1]) {
+    assert.throws(
+      () => projectRepository(repository(), ordinal),
+      /Repository starred order must be a safe non-negative integer/,
+    );
+  }
 });
 
 test('projects only repositories explicitly marked public and rejects all other metadata generically', () => {
@@ -165,10 +181,10 @@ test('projects only repositories explicitly marked public and rejects all other 
     repository({ id: 9, visibility: true, name: 'non-string-visibility' }),
   ];
 
-  assert.equal(projectRepository(repository()).id, 1);
+  assert.equal(projectRepository(repository(), 0).id, 1);
   for (const candidate of ineligible) {
     assert.throws(
-      () => projectRepository(candidate),
+      () => projectRepository(candidate, 0),
       (error) => {
         assert.equal(error.message, 'Repository cannot be published');
         assert.doesNotMatch(error.message, /secret|missing|malformed|internal|private|PUBLIC|true/);
@@ -188,6 +204,22 @@ test('groups repositories by first-seen language and uses miscellaneous', () => 
   assert.deepEqual(Object.keys(grouped), ['JavaScript', 'miscellaneous']);
   assert.deepEqual(grouped.JavaScript.map(({ id }) => id), [1, 3]);
   assert.deepEqual(grouped.miscellaneous.map(({ id }) => id), [2]);
+  assert.deepEqual(grouped.JavaScript.map(({ starred_order }) => starred_order), [0, 2]);
+  assert.deepEqual(grouped.miscellaneous.map(({ starred_order }) => starred_order), [1]);
+});
+
+test('preserves raw API order across language groups and skipped non-public gaps', () => {
+  const grouped = groupRepositories([
+    repository({ id: 1, language: 'Rust' }),
+    repository({ id: 2, private: true, language: 'JavaScript' }),
+    repository({ id: 3, language: 'JavaScript' }),
+    repository({ id: 4, language: 'Rust' }),
+  ]);
+
+  assert.deepEqual(grouped.Rust.map(({ starred_order }) => starred_order), [0, 3]);
+  assert.deepEqual(grouped.JavaScript.map(({ starred_order }) => starred_order), [2]);
+  const sorted = sortRepositories(normalizeRepositories(grouped), 'recently-starred');
+  assert.deepEqual(sorted.map(({ id }) => id), [1, 3, 4]);
 });
 
 test('excludes every non-public or unknown repository before projection and rendering', () => {
@@ -266,12 +298,44 @@ test('update publishes and logs aggregate counts without repository details', as
 
 test('renders deterministic two-space JSON with a trailing newline', () => {
   const grouped = {
-    JavaScript: [projectRepository(repository())],
+    JavaScript: [projectRepository(repository(), 0)],
   };
 
   const json = renderJson(grouped);
 
   assert.equal(json, `${JSON.stringify(grouped, null, 2)}\n`);
+});
+
+test('checked-in generated data matches the exact public projection contract', async () => {
+  const json = await readFile(path.join(projectRoot, 'data.json'), 'utf8');
+  const markdown = await readFile(path.join(projectRoot, 'data.md'), 'utf8');
+  const groups = JSON.parse(json);
+  const repositories = Object.values(groups).flat();
+  const expectedKeys = [
+    'id', 'name', 'full_name', 'owner', 'html_url', 'description', 'homepage',
+    'stargazers_count', 'language', 'topics', 'created_at', 'updated_at',
+    'starred_order',
+  ];
+
+  assert.equal(json, renderJson(groups));
+  assert.equal(markdown, renderMarkdown(groups));
+  assert.match(markdown.split('\n')[0], /github\.com\/Doithoo/);
+  assert.equal(repositories.length > 0, true);
+  for (const repositoryData of repositories) {
+    assert.deepEqual(Object.keys(repositoryData), expectedKeys);
+    assert.equal(Number.isSafeInteger(repositoryData.starred_order), true);
+    assert.equal(repositoryData.starred_order >= 0, true);
+    for (const privateField of ['private', 'visibility', 'permissions', 'security_and_analysis']) {
+      assert.equal(privateField in repositoryData, false);
+    }
+  }
+  const ordinals = repositories.map(({ starred_order }) => starred_order);
+  assert.equal(new Set(ordinals).size, ordinals.length);
+  assert.deepEqual(
+    sortRepositories(normalizeRepositories(groups), 'recently-starred')
+      .map(({ sourceIndex }) => sourceIndex),
+    [...ordinals].sort((left, right) => left - right),
+  );
 });
 
 test('renders compatible Markdown headings and duplicate GitHub slugs', () => {
@@ -319,7 +383,7 @@ test('renders compatible Markdown headings and duplicate GitHub slugs', () => {
 test('writes complete outputs and removes temporary files', async () => {
   const directory = await mkdtemp(path.join(tmpdir(), 'awesome-list-'));
   const grouped = {
-    JavaScript: [projectRepository(repository())],
+    JavaScript: [projectRepository(repository(), 0)],
   };
 
   try {
@@ -365,7 +429,7 @@ test('restores both previous outputs when replacement fails', async () => {
 
     await assert.rejects(
       writeOutputs(
-        { JavaScript: [projectRepository(repository())] },
+        { JavaScript: [projectRepository(repository(), 0)] },
         directory,
         operations,
       ),

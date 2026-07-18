@@ -104,10 +104,10 @@ export class CatalogApp {
   bindEvents() {
     this.elements.searchInput.addEventListener('input', (event) => {
       const query = event.currentTarget.value.trim();
+      this.state.query = query;
+      this.state.visibleCount = PAGE_SIZE;
       this.clearTimeout(this.searchTimer);
       this.searchTimer = this.setTimeout(() => {
-        this.state.query = query;
-        this.state.visibleCount = PAGE_SIZE;
         this.render();
       }, SEARCH_DEBOUNCE_MS);
     });
@@ -295,7 +295,9 @@ export class CatalogApp {
     this.elements.statusPanel.removeAttribute('aria-busy');
 
     if (filtered.length === 0) {
-      this.view.renderEmpty(this.elements.statusPanel);
+      this.view.renderEmpty(this.elements.statusPanel, {
+        collectionEmpty: this.state.repositories.length === 0,
+      });
     } else {
       this.elements.statusPanel.replaceChildren();
       this.elements.statusPanel.hidden = true;
