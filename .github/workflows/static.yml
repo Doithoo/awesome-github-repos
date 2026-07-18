@@ -5,6 +5,7 @@ on:
   workflow_run:
     # Listen workflow name
     workflows: ["Update awesome list"]
+    branches: ["main"]
     # Only completed trigger
     types:
       - completed
