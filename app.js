@@ -49,9 +49,9 @@ export class CatalogApp {
   constructor(documentNode = globalThis.document, dependencies = {}) {
     this.document = documentNode;
     this.view = { ...DEFAULT_VIEW, ...dependencies.view };
-    this.fetch = dependencies.fetch ?? globalThis.fetch;
-    this.setTimeout = dependencies.setTimeout ?? globalThis.setTimeout;
-    this.clearTimeout = dependencies.clearTimeout ?? globalThis.clearTimeout;
+    this.fetch = dependencies.fetch ?? globalThis.fetch.bind(globalThis);
+    this.setTimeout = dependencies.setTimeout ?? globalThis.setTimeout.bind(globalThis);
+    this.clearTimeout = dependencies.clearTimeout ?? globalThis.clearTimeout.bind(globalThis);
     this.state = {
       repositories: [],
       query: '',
@@ -134,7 +134,6 @@ export class CatalogApp {
       this.state.visibleCount = PAGE_SIZE;
       this.elements.languageFilter.value = this.state.language;
       this.render();
-      // Task 7 browser test: verify quick-filter focus survives replacement.
       this.restoreQuickFilterFocus(this.state.language);
     });
 

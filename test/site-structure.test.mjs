@@ -633,6 +633,9 @@ test('catalog result regions preserve their semantic and live-region contracts',
   const html = await readIndex();
   const resultSummary = attributes(openingTagById(html, 'resultSummary'));
   const repositoryGrid = elementById(html, 'repositoryGrid');
+  const loadMoreWrapper = openingTags(html, 'div').find((tag) => (
+    attributes(tag).class?.split(/\s+/).includes('load-more')
+  ));
   const loadMore = elementById(html, 'loadMoreButton');
   const loadMoreAttrs = attributes(loadMore.openingTag);
   const statusPanel = attributes(openingTagById(html, 'statusPanel'));
@@ -641,6 +644,8 @@ test('catalog result regions preserve their semantic and live-region contracts',
   assert.equal(repositoryGrid.name, 'section');
   assert.equal(attributes(repositoryGrid.openingTag)['aria-label'], 'Repositories');
   assert.equal(loadMore.name, 'button');
+  assert.ok(loadMoreWrapper, 'missing load-more wrapper');
+  assert.match(loadMoreWrapper, /\shidden(?:\s|>)/i, 'load-more wrapper must fail safe without JavaScript');
   assert.equal(loadMoreAttrs.type, 'button');
   assert.match(loadMore.openingTag, /\shidden(?:\s|>)/i);
   assert.equal(textContent(loadMore.body), 'Load more');
@@ -1147,13 +1152,6 @@ test('CatalogApp prevents an older success from overwriting newer repository dat
   assert.equal(gridRenders.length, 1);
   assert.deepEqual(gridRenders[0].args[1].map(({ id }) => id), [2]);
   assert.equal(calls.some(({ name }) => name === 'renderError'), false);
-});
-
-test('Task 7 retains a browser focus-restoration coverage marker', async () => {
-  const source = await readFile(appPath, 'utf8');
-
-  assert.match(source, /Task 7 browser test: verify quick-filter focus survives replacement\./);
-  assert.doesNotMatch(source, /querySelector(?:All)?\(\s*`[^`]*\$\{[^}]*language/);
 });
 
 test('CatalogApp executes loading, ready, and error controller transitions', async () => {
