@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { existsSync } from 'node:fs';
-import { readFile } from 'node:fs/promises';
+import { readdir, readFile } from 'node:fs/promises';
 import test from 'node:test';
 
 const root = new URL('../', import.meta.url);
@@ -10,6 +10,10 @@ const readmePath = new URL('README.md', root);
 const viewPath = new URL('lib/view.mjs', root);
 const appPath = new URL('app.js', root);
 const stylesPath = new URL('styles.css', root);
+const packagePath = new URL('package.json', root);
+const packageLockPath = new URL('package-lock.json', root);
+const changelogPath = new URL('CHANGELOG.md', root);
+const licensePath = new URL('LICENSE', root);
 
 const readIndex = () => readFile(indexPath, 'utf8');
 const readStyles = () => readFile(stylesPath, 'utf8');
@@ -1389,6 +1393,129 @@ test('active page contains no legacy ownership or unsafe rendering hook', async 
   assert.doesNotMatch(html, /tonngw/i);
   assert.doesNotMatch(html, /innerHTML/);
   assert.equal(existsSync(new URL('index-simple.html', root)), false);
+});
+
+test('active project files contain no legacy owner or domain references', async () => {
+  const legacyOwner = ['ton', 'ngw'].join('');
+  const legacyDomain = `awesome.${legacyOwner}.com`;
+  const excludedDirectories = new Set(['.git', '.worktrees', 'node_modules', 'playwright-report', 'test-results']);
+  const excludedPaths = new Set([
+    'LICENSE',
+    'data.json',
+    'data.md',
+    'test/site-structure.test.mjs',
+    'test/update-awesome-list.test.mjs',
+  ]);
+  const violations = [];
+
+  async function scan(directory) {
+    for (const entry of await readdir(directory, { withFileTypes: true })) {
+      if (entry.isDirectory() && excludedDirectories.has(entry.name)) continue;
+      const path = new URL(entry.name + (entry.isDirectory() ? '/' : ''), directory);
+      const relativePath = path.href.slice(root.href.length);
+      if (relativePath === 'docs/superpowers/') {
+        continue;
+      } else if (entry.isDirectory()) {
+        await scan(path);
+      } else if (!excludedPaths.has(relativePath)) {
+        const source = await readFile(path, 'utf8');
+        if (source.toLowerCase().includes(legacyOwner) || source.toLowerCase().includes(legacyDomain)) {
+          violations.push(relativePath);
+        }
+      }
+    }
+  }
+
+  await scan(root);
+  assert.deepEqual(violations, []);
+});
+
+test('package metadata and locked local scripts belong to Doithoo', async () => {
+  const packageJson = JSON.parse(await readFile(packagePath, 'utf8'));
+  const packageLock = JSON.parse(await readFile(packageLockPath, 'utf8'));
+  const lockRoot = packageLock.packages[''];
+
+  assert.equal(packageJson.description, 'A searchable, responsive catalog of GitHub repositories starred by Doithoo');
+  assert.equal(packageJson.repository.url, 'git+https://github.com/Doithoo/awesome-github-repos.git');
+  assert.equal(packageJson.bugs.url, 'https://github.com/Doithoo/awesome-github-repos/issues');
+  assert.equal(packageJson.homepage, 'https://doithoo.github.io/awesome-github-repos/');
+  assert.equal(packageJson.author, 'Doithoo');
+  for (const name of ['start', 'dev', 'serve', 'preview']) {
+    assert.match(packageJson.scripts[name], /^serve\b/);
+    assert.doesNotMatch(packageJson.scripts[name], /\bnpx\b/);
+  }
+  assert.equal(lockRoot.name, packageJson.name);
+  assert.equal(lockRoot.version, packageJson.version);
+  assert.equal(lockRoot.license, packageJson.license);
+  assert.deepEqual(lockRoot.devDependencies, packageJson.devDependencies);
+});
+
+test('README documents the bilingual project, operation, security, and testing contract', async () => {
+  const readme = await readFile(readmePath, 'utf8');
+  const requiredText = [
+    'https://doithoo.github.io/awesome-github-repos/',
+    'https://github.com/Doithoo/awesome-github-repos',
+    'API_TOKEN',
+    'GITHUB_TOKEN',
+    'npm ci',
+    'npm run preview',
+    'npm test',
+    'npm run test:e2e',
+    'npm run test:all',
+    'npx playwright install chromium',
+    'Update awesome list',
+    'Deploy static content to Pages',
+    'data.json',
+    'MIT License',
+  ];
+
+  for (const text of requiredText) assert.ok(readme.includes(text), `README missing ${text}`);
+  assert.ok(readme.indexOf('## 中文') < readme.indexOf('## English'), 'Chinese section must precede English');
+  assert.match(readme, /daily|每天/i);
+  assert.match(readme, /GitHub Actions/);
+  assert.match(readme, /GitHub Pages/);
+  assert.match(readme, /fine-grained PAT/i);
+  assert.match(readme, /read-only|只读/i);
+  assert.match(readme, /private repositor|私有仓库/i);
+  assert.match(readme, /English UI|界面.*英文/i);
+  assert.doesNotMatch(readme, /\]\((?:CONTRIBUTING\.md|docs\/[^)]+)\)/i);
+  assert.doesNotMatch(readme, /mawesome/i);
+  assert.doesNotMatch(readme, /(?:ik\.imagekit\.io|githubusercontent\.com)\/[^\s)]*(?:ton|ngw)/i);
+  assert.doesNotMatch(
+    readme,
+    /API_TOKEN[^\n]*(?:\brequires?\b|\bneeds?\b|至少需要)[^\n]*(?:write|workflow|读写|写入)/i,
+  );
+});
+
+test('changelog covers the unreleased redesign and delivery gates', async () => {
+  const changelog = await readFile(changelogPath, 'utf8');
+  const unreleased = changelog.split(/## \[?1\.0\.0\]?/i)[0];
+
+  assert.match(unreleased, /## \[Unreleased\]/);
+  for (const phrase of ['Graphic Signal', 'modular frontend', 'safe rendering', 'reduced payload', 'browser coverage', 'CI', 'Pages']) {
+    assert.match(unreleased, new RegExp(phrase, 'i'), `Unreleased changelog missing ${phrase}`);
+  }
+});
+
+test('license preserves upstream MIT terms and credits Doithoo modifications', async () => {
+  const license = await readFile(licensePath, 'utf8');
+  const upstreamOwner = ['ton', 'ngw'].join('');
+
+  assert.match(license, /MIT License/);
+  assert.ok(license.includes(`Copyright (c) 2025 ${upstreamOwner}`));
+  assert.match(license, /Copyright \(c\) 2026 Doithoo.*modifications/i);
+  assert.match(license, /Permission is hereby granted, free of charge/);
+  assert.match(license, /THE SOFTWARE IS PROVIDED "AS IS"/);
+});
+
+test('document metadata identifies the current Doithoo catalog', async () => {
+  const html = await readIndex();
+
+  assert.match(html, /<title>Doithoo's Starred Repositories<\/title>/);
+  assert.match(html, /<meta name="author" content="Doithoo">/);
+  assert.match(html, /<meta name="description" content="A searchable catalog of repositories starred by Doithoo\.">/);
+  assert.match(html, /https:\/\/github\.com\/Doithoo\/awesome-github-repos/);
+  assert.match(html, /https:\/\/doithoo\.github\.io\/awesome-github-repos\//);
 });
 
 test('stable integration IDs are unique', async () => {

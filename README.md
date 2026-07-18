@@ -1,141 +1,116 @@
-<div align="center">
-  <img src="./assets/logo-banner.svg" alt="Awesome GitHub Repository Showcase" width="400"/>
-  
-  # 🚀 Awesome GitHub Repository Showcase
-  
-  *A modern, elegant platform for showcasing your starred GitHub repositories*
-  
-  [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-  [![Made with Love](https://img.shields.io/badge/Made%20with-❤️-red.svg)](https://github.com/tonngw)
-  [![Vanilla JS](https://img.shields.io/badge/Vanilla-JavaScript-yellow.svg)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
-  [![CSS3](https://img.shields.io/badge/CSS3-Responsive-blue.svg)](https://developer.mozilla.org/en-US/docs/Web/CSS)
-  
-  [🌟 Live Demo](https://awesome.tonngw.com) | [📖 Documentation](#) | [🤝 Contributing](CONTRIBUTING.md)
-  
-  [English](#) | [中文](#)
-</div>
+# Awesome GitHub Repositories
 
----
+A searchable, responsive catalog of repositories starred by Doithoo. The public UI is in English and the catalog updates daily.
 
-### 📖 项目简介
+[Live site](https://doithoo.github.io/awesome-github-repos/) | [Source](https://github.com/Doithoo/awesome-github-repos) | [MIT License](LICENSE)
 
-**Awesome GitHub Repository Showcase** 是一个现代化的GitHub仓库展示平台，专为开发者设计，用于优雅地展示和管理收藏的开源项目。
+## 中文
 
-🎯 **核心理念**: 让优秀的开源项目以最美观、最直观的方式呈现，帮助开发者更好地发现、整理和分享有价值的代码仓库。
+### 项目简介
 
-💡 **设计灵感**: 参考了现代化的设计语言和用户体验最佳实践，打造出既美观又实用的展示平台。
+本项目以 Graphic Signal 视觉风格展示 Doithoo 收藏的 GitHub 仓库。界面使用英文，支持搜索、语言筛选、快捷筛选、稳定排序、分页加载以及桌面和移动端布局。
 
-![project](https://cdn.nlark.com/yuque/0/2025/png/1863084/1753015075615-429490c5-ec3d-46fd-b8fd-15413768e2fd.png?x-oss-process=image%2Fformat%2Cwebp)
+### 架构与文件
 
-### ✨ 功能特性
+- `index.html` 提供语义化页面结构，`styles.css` 定义响应式视觉系统。
+- `app.js` 管理加载、筛选、排序与分页状态。
+- `lib/catalog.mjs` 负责数据标准化和查询，`lib/view.mjs` 使用安全 DOM API 渲染内容。
+- `data.json` 是浏览器读取的分组数据，`data.md` 是自动生成的 Markdown 目录。
+- `scripts/update-awesome-list.mjs` 从 GitHub API 读取星标并原子更新两个数据文件。
+- `.github/workflows/main.yml` 更新数据，`.github/workflows/static.yml` 测试并部署 GitHub Pages。
 
-- 🔍 **智能搜索**: 实时搜索仓库名称、描述、主题标签和作者，支持多关键词
-- 🏷️ **语言过滤**: 按编程语言筛选仓库，提供快速过滤按钮和分类视图
-- 📊 **多种排序**: 支持按星标数、名称、更新时间等多种方式排序
-- 📱 **响应式设计**: 完美适配桌面、平板和移动设备
-- ⚡ **性能优化**: 使用防抖搜索、虚拟滚动和懒加载优化性能
-- ♿ **快捷支持**: 完整的键盘导航和快捷键支持
-- 🎨 **精美动画**: 流畅的过渡动画和微交互效果
+这种模块化结构将数据、状态和 DOM 渲染分离；页面只加载运行所需的静态资源和 JSON，减少有效载荷，并避免把外部数据作为 HTML 注入。
 
-### 🛠️ 技术栈
+### 本地开发
 
-| 类别 | 说明 |
-| :--- | :--- |
-| 前端 | 原生 HTML5 + CSS3 + JavaScript (ES6+) |
-| 样式 | CSS Grid + Flexbox，CSS 自定义属性 |
-| 字体 | Inter 字体家族 |
-| 图标 | SVG 图标 |
-| 部署 | GitHub Action + GitHub Pages |
+需要 Node.js 22：
 
-### 🚀 快速开始
+```bash
+npm ci
+npm run preview
+```
 
-> 只需要简单几步配置，你就可以拥有一个属于自己的 Awesome GitHub Repository Showcase 平台，不需要写一行代码。
+预览地址为 `http://127.0.0.1:4173`。`npm run dev` 可在端口 3000 启动本地服务。所有服务命令使用 lockfile 中固定的本地 `serve` 依赖。
 
-#### 1. **fork 项目**
-项目地址：https://github.com/tonngw/awesome-github-repos
-![Fork](https://ik.imagekit.io/tonngw/bdNMYe1Y_xYMD6RxAeQNQFycuvUa6lEZHamC-ZVaVfo.png)
+### 自动更新与部署
 
-#### 2. 环境配置
+在仓库的 `Settings > Pages` 中将 Source 设为 GitHub Actions，并启用 Actions。`Update awesome list` 每天自动运行一次，也支持手动触发；更新通过测试后提交 `data.json` 和 `data.md`。`Deploy static content to Pages` 在主分支更新后再次执行测试并发布到 GitHub Pages。工作流内置的 `GITHUB_TOKEN` 仅由更新任务用于提交生成文件。
 
-- 首先需要申请一个 GitHub API 秘钥，至少需要仓库读写权限（如果你不知道选择什么权限，建议多选择一些），申请地址：https://github.com/settings/tokens
-![github api token](https://ik.imagekit.io/tonngw/CxY86LZAxwk5bVGRfcXazNfJ8b6a2Z8S4y02aK1bfgk.png)
-至少需要仓库权限和 Workflow 工作流权限，把生成的秘钥保存好下面要用。
-![permisson](https://ik.imagekit.io/tonngw/iW4gp7_h4bSKE4RrIJNz8PlPdScIGLGMAFgkYWflisE.png)
+### API Token 安全
 
-- 开启 GitHub Actions 工作流
-![github actions](https://ik.imagekit.io/tonngw/KHrtz6OKqJR163jFX7WSWzhyPH5HOlBNtsQ0cGYQQsY.png)
-可以看到两个工作流，一个是获取仓库数据，一个是部署到 GitHub Pages。update awesome list 工作流需要手动开启。
-![workflow](https://ik.imagekit.io/tonngw/JRl7Iss4haO4b7MBBJR2x952j-Hhhn7UeHiwpt_CvgY.png)
+在 `Settings > Secrets and variables > Actions` 创建名为 `API_TOKEN` 的 Repository secret。建议使用 fine-grained PAT，并仅授予读取用户星标所需的最小只读权限；不需要仓库写入权限或 Workflow 权限。只有明确需要读取私有仓库星标时才增加相应私有仓库访问范围。不要在代码、日志、截图或 issue 中暴露 token。
 
-- 配置仓库环境变量，操作路径 `Settins -> Secrets and varabiles -> Repository secrets`， 添加变量 `API_TOKEN` 把刚才我们申请的 GitHub API 秘钥填入。
-![secrets](https://ik.imagekit.io/tonngw/__yp-4UTtYIWxQGM2fUNekzpmS9A_aW8_sVCQV1MojA.png)
+### 测试
 
-#### 3. 开启 GitHub Pages 功能
+```bash
+npm test
+npx playwright install chromium
+npm run test:e2e
+npm run test:all
+```
 
-- 开启 GitHub Pages 功能，操作路径 `Settings -> Pages -> Source -> GitHub Actions`，使用 GitHub Actions 部署。
-![github pages](https://ik.imagekit.io/tonngw/tUpMc0CyiX5ZxDeiKhjciqjdMJUvZMrSRW3S3LI5Lio.png)
-如果你有域名的话可以设置自己域名访问更加方便。
+`npm test` 覆盖数据生成、目录逻辑、DOM 安全和工作流契约；Playwright 在 Chromium 中覆盖搜索、筛选、排序、分页以及响应式交互。
 
-#### 4. 最后一步
+### 许可证与上游致谢
 
-点击 `Actions` 标签，找到 `update awesome list` 工作流，点击 `Run workflow` 按钮。假想敌等待自动执行完成。
+项目采用 [MIT License](LICENSE)。许可证保留 2025 年原作者归属，并记录 2026 年 Doithoo 的修改归属。
 
-![run](https://ik.imagekit.io/tonngw/okNu4mVvEDKRzqf2wFzr1iCqixfPFgD4jP5e_KHL2tc.png)
+## English
 
-如果 `Deploy static content to Pages` 工作流执行顺利的话，会生成一个项目地址，点击就可以看到我们部署的页面了。
-![page](https://ik.imagekit.io/tonngw/yflGqnAxtg79H2bzybyHokte4ZzctA7qAlIC7MVGFqo.png)
+### Overview
 
-> 按照以上步骤操作完成之后，那么恭喜你已经成功部署完成了！
+This project presents Doithoo's starred GitHub repositories in a Graphic Signal interface. The English UI supports search, language and quick filters, stable sorting, paginated loading, and responsive desktop and mobile layouts. Catalog data updates daily.
 
-### 🔧 功能配置
+### Features
 
-#### 搜索功能
-- 支持模糊搜索和多关键词搜索
-- 搜索范围：仓库名称、描述、主题标签、作者
-- 防抖延迟：200ms
+- Search names, descriptions, topics, owners, and languages.
+- Filter and sort without mutating source data.
+- Accessible loading, empty, error, and retry states.
+- Safe rendering through DOM APIs and an explicit URL policy.
+- Automated catalog generation, CI checks, and GitHub Pages delivery.
 
-#### 排序选项
-- 🕒 最近收藏 (默认)
-- ⭐ 星标数量 (高到低)
-- ⭐ 星标数量 (低到高)
-- 📝 名称 (A到Z)
-- 📝 名称 (Z到A)
-- 🕒 最近更新
-- 🆕 最近创建
+### Architecture
 
-#### 语言分类
-- 📊 热门语言 (按仓库数量排序)
-- 🕒 最近语言 (按在data.json中的出现顺序)
+- `index.html` and `styles.css`: semantic shell and responsive visual system.
+- `app.js`: loading, filtering, sorting, and pagination controller.
+- `lib/catalog.mjs`: data normalization and catalog queries.
+- `lib/view.mjs`: safe DOM construction for repository content.
+- `data.json` and `data.md`: generated browser data and Markdown catalog.
+- `scripts/update-awesome-list.mjs`: authenticated star reader and atomic generator.
+- `.github/workflows/main.yml` and `.github/workflows/static.yml`: update, test, and Pages automation.
 
-#### 快捷键
+The modular frontend keeps data, state, and rendering separate. The browser receives only the static application and catalog JSON, which reduces payload and keeps untrusted repository fields out of HTML string sinks.
 
+### Local development
 
-  - `Ctrl/Cmd + K` - 快速聚焦搜索框
-  - `Ctrl/Cmd + L` - 切换语言分类模式
-  - `Ctrl/Cmd + R` - 清除所有过滤条件
-  - `Escape` - 清空搜索内容
-  - `Tab` / `Shift + Tab` - 在元素间切换焦点
-  - `Arrow Keys` - 在仓库卡片间导航
-  - `Enter` / `Space` - 激活当前焦点元素
+Use Node.js 22:
 
-### 📱 响应式设计
+```bash
+npm ci
+npm run preview
+```
 
-- **桌面**: ≥ 1200px (3列网格)
-- **平板**: 769px - 1024px (2列网格)
-- **手机**: ≤ 768px (1列网格)
+Open `http://127.0.0.1:4173`. `npm run dev` serves port 3000. The npm scripts resolve the lockfile-pinned local `serve` dependency.
 
-### 🤝 贡献指南
+### Update and deployment
 
-1. Fork 本仓库
-2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交更改 (`git commit -m 'feat: Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 开启 Pull Request
+Set `Settings > Pages > Source` to GitHub Actions and enable Actions. `Update awesome list` runs automatically every day and can also be dispatched manually. After its test gate, it commits refreshed `data.json` and `data.md`. `Deploy static content to Pages` repeats the test gate and publishes the default branch to GitHub Pages. The workflow-provided `GITHUB_TOKEN` handles the generated-file commit.
 
-### 📄 许可证
+### API token security
 
-本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情
+Create an Actions repository secret named `API_TOKEN`. Use a fine-grained PAT with the minimum read-only access needed to read the user's stars; repository write and Workflow permissions are not required. Add private repository access only when private-repository stars are explicitly needed. Never expose the secret in source, logs, screenshots, issues, or build artifacts.
 
-### 🙏 致谢
+### Testing
 
-- [mawesome](https://github.com/simonecorsi/mawesome) - 获取仓库数据的工作流
+```bash
+npm test
+npx playwright install chromium
+npm run test:e2e
+npm run test:all
+```
+
+The Node suite covers generation, catalog logic, safe rendering, structure, and workflow contracts. Playwright provides Chromium browser coverage for search, filters, sorting, pagination, and responsive interactions.
+
+### License and upstream credit
+
+Licensed under the [MIT License](LICENSE). The license retains the original 2025 attribution and adds the 2026 Doithoo modification copyright.
