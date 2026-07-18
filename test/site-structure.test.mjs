@@ -322,23 +322,55 @@ test('safe DOM view exposes the complete rendering contract', async () => {
   }
 });
 
-test('safe DOM view validates every API URL through the catalog policy', async () => {
+test('safe DOM view enforces URL policy inside link and image sinks', async () => {
   const source = await readFile(viewPath, 'utf8');
+  const linkHelper = source.match(/function secureExternalLink\b[\s\S]*?\n}/)?.[0] ?? '';
+  const avatarHelper = source.match(/function createAvatar\b[\s\S]*?\n}/)?.[0] ?? '';
 
   assert.match(
     source,
     /import\s*\{[^}]*\bgetSafeUrl\b[^}]*\}\s*from\s*['"]\.\/catalog\.mjs['"]/s,
   );
+  assert.notEqual(linkHelper, '', 'missing secureExternalLink helper');
+  assert.match(
+    linkHelper,
+    /function secureExternalLink\(\s*className\s*,\s*candidateUrl\s*,\s*\{\s*label\s*,\s*githubOnly\s*\}\s*\)/,
+  );
+  assert.match(
+    linkHelper,
+    /const\s+url\s*=\s*getSafeUrl\(\s*candidateUrl\s*,\s*\{\s*githubOnly\s*\}\s*\)/,
+  );
+  assert.match(linkHelper, /if\s*\(\s*!url\s*\)\s*\{[\s\S]*?return null;/);
+  assert.match(linkHelper, /attributes\s*:\s*\{\s*href\s*:\s*url\s*\}/);
+
+  assert.notEqual(avatarHelper, '', 'missing createAvatar helper');
+  assert.match(
+    avatarHelper,
+    /const\s+avatarUrl\s*=\s*getSafeUrl\(\s*avatarCandidate\s*\)/,
+  );
+  assert.match(avatarHelper, /attributes\s*:\s*\{\s*src\s*:\s*avatarUrl\s*,/);
+  assert.match(source, /createAvatar\(\s*owner\.avatarUrl\s*,\s*login\s*\)/);
+
   assert.match(
     source,
-    /const\s+repositoryUrl\s*=\s*getSafeUrl\(\s*repository\.repositoryUrl\s*,\s*\{\s*githubOnly\s*:\s*true\s*\}\s*\)/,
+    /secureExternalLink\(\s*['"]repository-name['"]\s*,\s*repository\.repositoryUrl\s*,\s*\{\s*label\s*:\s*`View \$\{fullName\} on GitHub`\s*,\s*githubOnly\s*:\s*true\s*,?\s*\}\s*,?\s*\)/,
   );
   assert.match(
     source,
-    /const\s+profileUrl\s*=\s*getSafeUrl\(\s*owner\.profileUrl\s*,\s*\{\s*githubOnly\s*:\s*true\s*\}\s*\)/,
+    /secureExternalLink\(\s*['"]repository-owner['"]\s*,\s*owner\.profileUrl\s*,\s*\{\s*label\s*:\s*`View \$\{login\} on GitHub`\s*,\s*githubOnly\s*:\s*true\s*,?\s*\}\s*,?\s*\)/,
   );
-  assert.match(source, /const\s+homepage\s*=\s*getSafeUrl\(\s*repository\.homepage\s*\)/);
-  assert.match(source, /const\s+avatarUrl\s*=\s*getSafeUrl\(\s*owner\.avatarUrl\s*\)/);
+  assert.match(
+    source,
+    /secureExternalLink\(\s*['"]repository-homepage['"]\s*,\s*repository\.homepage\s*,\s*\{\s*label\s*:\s*`Visit the \$\{fullName\} homepage`\s*,\s*githubOnly\s*:\s*false\s*,?\s*\}\s*,?\s*\)/,
+  );
+  assert.doesNotMatch(
+    source,
+    /(?:href|src)\s*:\s*(?:repository|owner)\.(?:repositoryUrl|profileUrl|homepage|avatarUrl)/,
+  );
+  assert.doesNotMatch(
+    source,
+    /setAttribute\(\s*['"](?:href|src)['"]\s*,\s*(?:repository|owner)\./,
+  );
   assert.doesNotMatch(source, /\bsafeHttpsUrl\b/);
 });
 
@@ -347,7 +379,7 @@ test('topic links use their visible topic text as the accessible name', async ()
 
   assert.match(
     source,
-    /secureExternalLink\(\s*['"]repository-topic['"]\s*,\s*`https:\/\/github\.com\/topics\/\$\{encodeURIComponent\(topic\)\}`\s*,?\s*\)/,
+    /secureExternalLink\(\s*['"]repository-topic['"]\s*,\s*`https:\/\/github\.com\/topics\/\$\{encodeURIComponent\(topic\)\}`\s*,\s*\{\s*githubOnly\s*:\s*true\s*,?\s*\}\s*,?\s*\)/,
   );
   assert.match(source, /link\.textContent\s*=\s*topic/);
   assert.doesNotMatch(source, /Browse this topic on GitHub/);
