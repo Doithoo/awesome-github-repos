@@ -8,6 +8,7 @@ const indexPath = new URL('index.html', root);
 const ignorePath = new URL('.gitignore', root);
 const readmePath = new URL('README.md', root);
 const viewPath = new URL('lib/view.mjs', root);
+const appPath = new URL('app.js', root);
 
 const readIndex = () => readFile(indexPath, 'utf8');
 
@@ -236,6 +237,133 @@ test('page loads the application with the exact module contract', async () => {
   assert.equal(appScripts.length, 1);
   assert.equal(attributes(`<script${appScripts[0][1]}>`).type, 'module');
   assert.equal(textContent(appScripts[0][2]), '');
+});
+
+test('application controller imports the catalog and view contracts', async () => {
+  const source = await readFile(appPath, 'utf8');
+
+  for (const name of [
+    'PAGE_SIZE',
+    'filterRepositories',
+    'getLanguageCounts',
+    'normalizeRepositories',
+    'paginateRepositories',
+    'sortRepositories',
+  ]) {
+    assert.match(
+      source,
+      new RegExp(`import\\s*\\{[^}]*\\b${name}\\b[^}]*\\}\\s*from\\s*['"]\\.\\/lib\\/catalog\\.mjs['"]`, 's'),
+      `missing catalog import: ${name}`,
+    );
+  }
+
+  for (const name of [
+    'createRepositoryCard',
+    'renderLanguageOptions',
+    'renderQuickFilters',
+    'renderRepositoryGrid',
+    'renderSummary',
+    'renderLoading',
+    'renderError',
+    'renderEmpty',
+  ]) {
+    assert.match(
+      source,
+      new RegExp(`import\\s*\\{[^}]*\\b${name}\\b[^}]*\\}\\s*from\\s*['"]\\.\\/lib\\/view\\.mjs['"]`, 's'),
+      `missing view import: ${name}`,
+    );
+  }
+
+  assert.equal((source.match(/\bclass\s+CatalogApp\b/g) ?? []).length, 1);
+  assert.match(source, /export\s+class\s+CatalogApp\b/);
+});
+
+test('application controller has stable state, loading policy, and action routes', async () => {
+  const source = await readFile(appPath, 'utf8');
+
+  assert.match(
+    source,
+    /this\.state\s*=\s*\{\s*repositories:\s*\[\],\s*query:\s*['"`]{2},\s*language:\s*['"`]{2},\s*sort:\s*['"]recently-starred['"],\s*visibleCount:\s*PAGE_SIZE,\s*status:\s*['"]loading['"],\s*error:\s*null\s*,?\s*\}/s,
+  );
+  assert.match(source, /new\s+AbortController\s*\(/);
+  assert.match(source, /const\s+LOAD_TIMEOUT_MS\s*=\s*10_?000\s*;/);
+  assert.match(source, /setTimeout\s*\([\s\S]*?,\s*LOAD_TIMEOUT_MS\s*\)/);
+  assert.match(source, /clearTimeout\s*\(/);
+  assert.match(
+    source,
+    /response\.json\s*\(\s*\)[\s\S]*?catch\s*\(\s*error\s*\)\s*\{[\s\S]*?error\.name\s*===\s*['"]AbortError['"][\s\S]*?throw\s+error\s*;/,
+    'JSON parsing must preserve AbortError for timeout handling',
+  );
+  assert.match(source, /fetch\s*\(\s*['"]data\.json['"]\s*,\s*\{\s*signal\s*:\s*[^,}]+,\s*cache\s*:\s*['"]default['"]\s*,?\s*\}\s*\)/s);
+  assert.match(source, /(?:const\s+SEARCH_DEBOUNCE_MS\s*=\s*|setTimeout\s*\([\s\S]*?,\s*)(?:1[5-9]\d|200)\b/);
+
+  for (const message of [
+    'The repository list took too long to load.',
+    'The repository list could not be downloaded.',
+    'The repository data is not valid.',
+  ]) {
+    assert.ok(source.includes(message), `missing exact error message: ${message}`);
+  }
+
+  for (const id of [
+    'collectionStats',
+    'searchInput',
+    'languageFilter',
+    'sortSelect',
+    'quickFilters',
+    'resultSummary',
+    'repositoryGrid',
+    'loadMoreButton',
+    'statusPanel',
+  ]) {
+    assert.match(source, new RegExp(`['"]${id}['"]`), `controller must cache #${id}`);
+  }
+
+  for (const action of ['filter-language', 'retry', 'clear-filters']) {
+    assert.match(source, new RegExp(`['"]${action}['"]`), `missing ${action} action route`);
+  }
+
+  for (const [element, eventName] of [
+    ['searchInput', 'input'],
+    ['languageFilter', 'change'],
+    ['sortSelect', 'change'],
+    ['quickFilters', 'click'],
+    ['loadMoreButton', 'click'],
+    ['statusPanel', 'click'],
+  ]) {
+    const listener = new RegExp(`this\\.elements\\.${element}\\.addEventListener\\(\\s*['"]${eventName}['"]`, 'g');
+    assert.equal((source.match(listener) ?? []).length, 1, `${element} listener must be bound once`);
+  }
+
+  assert.match(
+    source,
+    /searchInput\.addEventListener\(\s*['"]input['"]\s*,\s*\(event\)\s*=>\s*\{\s*const\s+query\s*=\s*event\.currentTarget\.value\.trim\(\);[\s\S]*?setTimeout\s*\([\s\S]*?this\.state\.query\s*=\s*query;/,
+    'search input must be read before currentTarget is cleared',
+  );
+});
+
+test('application controller excludes legacy and unsafe behavior', async () => {
+  const source = await readFile(appPath, 'utf8');
+  const forbidden = [
+    /\.innerHTML\b/,
+    /\binsertAdjacentHTML\b/,
+    /\bsetInterval\s*\(/,
+    /\bPerformanceObserver\b|\bperformance\s*\./i,
+    /\bmemory\b|\bgpu\b|\bparallax\b|virtual\s*scroll/i,
+    /\.tabIndex\s*=\s*[1-9]\d*|setAttribute\(\s*['"]tabindex['"]\s*,\s*['"]?[1-9]/i,
+    /document\.addEventListener\(\s*['"]keydown['"]|window\.addEventListener\(\s*['"]keydown['"]/,
+    /typeof\s+process|window\.process|module\.exports|\brequire\s*\(/,
+    /\bIntersectionObserver\b|\bMutationObserver\b/,
+    /\banalytics\b|console\.log\s*\(|\btoast\b|\btouch(?:start|move|end)\b/i,
+  ];
+
+  for (const pattern of forbidden) {
+    assert.doesNotMatch(source, pattern);
+  }
+
+  const methodNames = [...source.matchAll(/^\s{2}(?:async\s+)?([A-Za-z_$][\w$]*)\s*\([^)]*\)\s*\{/gm)]
+    .map((match) => match[1]);
+  assert.equal(methodNames.length, new Set(methodNames).size, 'duplicate controller method definition');
 });
 
 test('active page contains no legacy ownership or unsafe rendering hook', async () => {
