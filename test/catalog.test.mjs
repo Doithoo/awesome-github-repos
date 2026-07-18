@@ -126,6 +126,20 @@ test('rejects invalid containers and non-array groups', () => {
   assert.throws(() => normalizeRepositories({ Rust: {} }), TypeError);
 });
 
+test('rejects non-plain object containers', () => {
+  for (const input of [new Date(), /repositories/, new Map()]) {
+    assert.throws(() => normalizeRepositories(input), TypeError);
+  }
+});
+
+test('accepts grouped objects with a null prototype', () => {
+  const grouped = Object.assign(Object.create(null), {
+    Rust: [repository()],
+  });
+
+  assert.deepEqual(normalizeRepositories(grouped).map(({ id }) => id), [1]);
+});
+
 test('filters entries without a safe integer id or string name', () => {
   const normalized = normalizeRepositories([
     repository({ id: Number.MAX_SAFE_INTEGER + 1 }),
@@ -230,6 +244,35 @@ test('paginates visible repositories and reports whether more remain', () => {
   });
 });
 
+test('paginates at PAGE_SIZE boundaries', () => {
+  const twentyFour = normalizeRepositories(Array.from(
+    { length: PAGE_SIZE },
+    (_, index) => repository({ id: index + 1, name: `repository-${index + 1}` }),
+  ));
+  const twentyFive = normalizeRepositories([
+    ...twentyFour.map(({ id, name }) => repository({ id, name })),
+    repository({ id: PAGE_SIZE + 1, name: `repository-${PAGE_SIZE + 1}` }),
+  ]);
+
+  assert.deepEqual(paginateRepositories(twentyFour, PAGE_SIZE), {
+    visible: twentyFour,
+    hasMore: false,
+  });
+
+  const defaultPage = paginateRepositories(twentyFive);
+  assert.equal(defaultPage.visible.length, PAGE_SIZE);
+  assert.deepEqual(defaultPage.visible, twentyFive.slice(0, PAGE_SIZE));
+  assert.equal(defaultPage.hasMore, true);
+
+  const explicitPage = paginateRepositories(twentyFive, PAGE_SIZE);
+  assert.equal(explicitPage.visible.length, PAGE_SIZE);
+  assert.equal(explicitPage.hasMore, true);
+  assert.deepEqual(paginateRepositories(twentyFive, 48), {
+    visible: twentyFive,
+    hasMore: false,
+  });
+});
+
 test('counts non-empty languages in first-seen order', () => {
   const repositories = normalizeRepositories([
     repository({ id: 1, language: 'Rust' }),
@@ -238,7 +281,29 @@ test('counts non-empty languages in first-seen order', () => {
     repository({ id: 4, language: null }),
   ]);
 
-  assert.deepEqual(getLanguageCounts(repositories), { Rust: 2, JavaScript: 1 });
+  assert.deepEqual(Object.entries(getLanguageCounts(repositories)), [
+    ['Rust', 2],
+    ['JavaScript', 1],
+  ]);
+});
+
+test('counts language names that overlap Object prototype keys', () => {
+  const repositories = normalizeRepositories([
+    repository({ id: 1, language: '__proto__' }),
+    repository({ id: 2, language: 'constructor' }),
+    repository({ id: 3, language: 'toString' }),
+    repository({ id: 4, language: '__proto__' }),
+  ]);
+
+  const counts = getLanguageCounts(repositories);
+  assert.equal(counts.__proto__, 2);
+  assert.equal(counts.constructor, 1);
+  assert.equal(counts.toString, 1);
+  assert.deepEqual(Object.entries(counts), [
+    ['__proto__', 2],
+    ['constructor', 1],
+    ['toString', 1],
+  ]);
 });
 
 test('formats finite numbers compactly and defaults invalid values', () => {
