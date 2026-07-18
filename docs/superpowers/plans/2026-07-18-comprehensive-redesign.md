@@ -145,6 +145,8 @@ git commit -m "feat(catalog): add tested repository model"
 
 ### Task 2: Reduced Generator Contract
 
+> **Final implementation amendment:** The public projection has 13 top-level fields, with `starred_order` last. `groupRepositories` iterates the original GitHub API array with its raw index and calls `projectRepository(repository, starredOrder)` for each explicitly public repository; skipped entries may leave ordinal gaps. `projectRepository` requires a safe non-negative integer, and the catalog restores cross-language recently-starred order from that value. Consequently, checked-in data must be regenerated from the authenticated API with the final explicit-public filter. Flatten order remains only a compatibility fallback for legacy or array fixtures.
+
 **Files:**
 - Modify: `scripts/update-awesome-list.mjs:61-88,128-154`
 - Modify: `test/update-awesome-list.test.mjs:120-190`
@@ -160,6 +162,7 @@ Replace the expected projected keys with:
 [
   'id', 'name', 'full_name', 'owner', 'html_url', 'description', 'homepage',
   'stargazers_count', 'language', 'topics', 'created_at', 'updated_at',
+  'starred_order',
 ]
 ```
 
@@ -176,13 +179,15 @@ Run: `node --test test/update-awesome-list.test.mjs`
 
 Expected: FAIL because the old projection contains additional fields and Markdown points to `tonngw`.
 
-- [ ] **Step 3: Reduce `projectRepository` and update Markdown ownership**
+- [ ] **Step 3: Reduce `projectRepository`, preserve source ordinals, and update Markdown ownership**
 
-Return only the specified browser contract, including the three owner fields. Replace both badge targets with `https://github.com/Doithoo`. Make `template/README.ejs` contain the same header.
+Return only the specified browser contract, including the three owner fields and final `starred_order`. Require `projectRepository(repository, starredOrder)` to receive a safe non-negative integer. Have `groupRepositories` pass the original raw API array index while filtering for explicitly public repositories, so non-public gaps do not disturb relative public order. Replace both badge targets with `https://github.com/Doithoo`. Make `template/README.ejs` contain the same header.
 
-- [ ] **Step 4: Compact the checked-in generated data without network access**
+- [ ] **Step 4: Regenerate checked-in data from the authenticated source**
 
-Run this one-off Node command to compact the existing generated files without requiring `API_TOKEN`:
+The following original offline compaction instruction is **superseded and must not be used for final data provenance**. Grouped legacy data cannot reconstruct the original cross-language starred order, and its reduced records cannot prove the final explicit-public metadata checks.
+
+Historical command (invalid for the final contract):
 
 ```bash
 node --input-type=module -e "
@@ -204,6 +209,12 @@ node --input-type=module -e "
     writeFile('data.md', renderMarkdown(compacted), 'utf8'),
   ]);
 "
+```
+
+After confirming `gh api user --jq .login` returns `Doithoo`, regenerate with the final generator:
+
+```bash
+API_TOKEN="$(gh auth token)" npm run update-awesome-list
 ```
 
 Expected: repository count remains 688, language count remains 29, and `data.json` is materially smaller than 918,519 bytes.
@@ -668,7 +679,7 @@ Expected: every command exits 0.
 
 - [ ] **Step 2: Verify generated-data invariants**
 
-Run a Node check that asserts 688 current repositories, 29 current languages, every projected repository has only the approved keys, and serialized `data.json` is smaller than its pre-redesign 918,519-byte baseline.
+Run a Node check that asserts 688 current repositories, 29 current languages, every projected repository has exactly the 13 approved keys with final `starred_order`, ordinals are safe and unique, recently-starred sorting restores ascending source order, and serialized `data.json` is smaller than its pre-redesign 918,519-byte baseline.
 
 Expected: all assertions pass.
 
