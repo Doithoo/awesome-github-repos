@@ -40,7 +40,7 @@ npm run preview
 
 在 `Settings > Secrets and variables > Actions` 创建名为 `API_TOKEN` 的 Repository secret。根据 token 类型和 GitHub 界面，仅配置读取用户星标所需的最小用户级 `Starring: read` 只读权限；fine-grained PAT 不需要仓库内容、仓库写入、Workflow 或私有仓库访问权限。不要在代码、日志、截图或 issue 中暴露 token。
 
-生成器会自动排除 API 意外返回的私有仓库，作为纵深防护；但 token 仍然不应具有任何私有仓库访问权限。`data.json` 和 `data.md` 的所有生成内容都会公开提交并由站点发布，因此请将任何生成输出视为公开信息。
+作为纵深防护，生成器只发布 API 元数据中明确标记为公开的条目；私有、内部或公开状态未知的条目都会自动排除。但 token 仍然不应具有任何私有仓库访问权限。`data.json` 和 `data.md` 的所有生成内容都会公开提交并由站点发布，因此请将任何生成输出视为公开信息。
 
 ### 测试
 
@@ -101,7 +101,7 @@ Set `Settings > Pages > Source` to GitHub Actions and enable Actions. `Update aw
 
 Create an Actions repository secret named `API_TOKEN`. Token types and GitHub UI labels can vary; configure only the minimum user-level `Starring: read` access required to read the user's stars. A fine-grained PAT needs no repository contents, repository write, Workflow, or private-repository access. Never expose the secret in source, logs, screenshots, issues, or build artifacts.
 
-As defense in depth, the generator automatically excludes any private entry unexpectedly returned by the API. The token must still have no private-repository access. All generated output in `data.json` and `data.md` is publicly committed and published by the site, so treat every generated field as public information.
+As defense in depth, the generator publishes only API entries explicitly marked public; private, internal, or unknown metadata is omitted automatically. The token must still have no private-repository access. All generated output in `data.json` and `data.md` is publicly committed and published by the site, so treat every generated field as public information.
 
 ### Testing
 

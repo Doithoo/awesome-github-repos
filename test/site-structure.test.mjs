@@ -1482,6 +1482,8 @@ test('README documents the bilingual project, operation, security, and testing c
   assert.match(readme, /Starring: read/i);
   assert.match(readme, /read-only|只读/i);
   assert.match(readme, /private repositor|私有仓库/i);
+  assert.match(readme, /explicitly marked public|明确标记为公开/i);
+  assert.match(readme, /private[^\n]*internal[^\n]*unknown|私有[^\n]*内部[^\n]*未知/i);
   assert.match(readme, /publicly committed|公开提交/i);
   assert.match(readme, /OIDC/i);
   assert.match(readme, /Node\.js 22[^\n]*(?:CI|test)|(?:CI|test)[^\n]*Node\.js 22/i);

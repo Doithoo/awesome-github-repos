@@ -61,6 +61,7 @@ function repository(overrides = {}) {
     language: 'JavaScript',
     topics: ['example'],
     private: false,
+    visibility: 'public',
     forks_count: 20,
     ...overrides,
   };
@@ -135,7 +136,7 @@ test('projects repositories to the reduced browser data contract', () => {
   ]);
   for (const field of [
     'node_id', 'url', 'languages_url', 'git_url', 'ssh_url', 'clone_url',
-    'watchers_count', 'private', 'forks_count',
+    'watchers_count', 'private', 'visibility', 'forks_count',
   ]) {
     assert.equal(field in projected, false, `${field} should be omitted`);
   }
@@ -148,21 +149,33 @@ test('projects repositories to the reduced browser data contract', () => {
   assert.deepEqual(projected.topics, []);
 });
 
-test('refuses to project a private repository without disclosing its identity', () => {
-  const privateRepository = repository({
-    private: true,
-    name: 'confidential-project',
-    full_name: 'private-owner/confidential-project',
-  });
+test('projects only repositories explicitly marked public and rejects all other metadata generically', () => {
+  const missingVisibility = repository({ id: 4, name: 'missing-visibility' });
+  delete missingVisibility.visibility;
+  const missingPrivate = repository({ id: 5, name: 'missing-private' });
+  delete missingPrivate.private;
+  const ineligible = [
+    repository({ id: 2, private: true, name: 'secret-private' }),
+    repository({ id: 3, visibility: 'internal', name: 'secret-internal' }),
+    repository({ id: 6, visibility: 'private', name: 'secret-visibility' }),
+    missingVisibility,
+    missingPrivate,
+    repository({ id: 7, private: 'false', name: 'malformed-private' }),
+    repository({ id: 8, visibility: 'PUBLIC', name: 'malformed-visibility' }),
+    repository({ id: 9, visibility: true, name: 'non-string-visibility' }),
+  ];
 
-  assert.throws(
-    () => projectRepository(privateRepository),
-    (error) => {
-      assert.equal(error.message, 'Private repositories cannot be published');
-      assert.doesNotMatch(error.message, /confidential|private-owner/);
-      return true;
-    },
-  );
+  assert.equal(projectRepository(repository()).id, 1);
+  for (const candidate of ineligible) {
+    assert.throws(
+      () => projectRepository(candidate),
+      (error) => {
+        assert.equal(error.message, 'Repository cannot be published');
+        assert.doesNotMatch(error.message, /secret|missing|malformed|internal|private|PUBLIC|true/);
+        return true;
+      },
+    );
+  }
 });
 
 test('groups repositories by first-seen language and uses miscellaneous', () => {
@@ -177,7 +190,11 @@ test('groups repositories by first-seen language and uses miscellaneous', () => 
   assert.deepEqual(grouped.miscellaneous.map(({ id }) => id), [2]);
 });
 
-test('excludes private repositories from groups and every rendered output', () => {
+test('excludes every non-public or unknown repository before projection and rendering', () => {
+  const missingVisibility = repository({ id: 5, name: 'missing-visibility' });
+  delete missingVisibility.visibility;
+  const missingPrivate = repository({ id: 6, name: 'missing-private' });
+  delete missingPrivate.private;
   const grouped = groupRepositories([
     repository({ id: 1, name: 'first-public', full_name: 'owner/first-public' }),
     repository({
@@ -188,22 +205,34 @@ test('excludes private repositories from groups and every rendered output', () =
       owner: null,
       language: 'Rust',
     }),
-    repository({ id: 3, name: 'second-public', full_name: 'owner/second-public' }),
+    repository({ id: 3, visibility: 'internal', name: 'secret-internal', language: 'Go' }),
+    repository({ id: 4, visibility: 'private', name: 'secret-visibility', language: 'Ruby' }),
+    missingVisibility,
+    missingPrivate,
+    repository({ id: 7, private: 'false', name: 'malformed-private' }),
+    repository({ id: 8, visibility: 1, name: 'malformed-visibility' }),
+    repository({ id: 9, name: 'second-public', full_name: 'owner/second-public' }),
   ]);
   const json = renderJson(grouped);
   const markdown = renderMarkdown(grouped);
 
-  assert.deepEqual(grouped.JavaScript.map(({ id }) => id), [1, 3]);
+  assert.deepEqual(grouped.JavaScript.map(({ id }) => id), [1, 9]);
   assert.equal('Rust' in grouped, false);
+  assert.equal('Go' in grouped, false);
+  assert.equal('Ruby' in grouped, false);
   for (const output of [json, markdown]) {
-    assert.doesNotMatch(output, /confidential-project|private-owner/);
-    assert.doesNotMatch(output, /"id": 2/);
+    assert.doesNotMatch(output, /confidential|secret|missing-|malformed-|private-owner/);
+    for (const id of [2, 3, 4, 5, 6, 7, 8]) {
+      assert.doesNotMatch(output, new RegExp(`"id": ${id}(?:,|\\n)`));
+    }
   }
 });
 
-test('update publishes and logs only public counts without private names', async () => {
+test('update publishes and logs aggregate counts without repository details', async () => {
   const directory = await mkdtemp(path.join(tmpdir(), 'awesome-list-update-'));
   const messages = [];
+  const unknownRepository = repository({ id: 4, name: 'unknown-project' });
+  delete unknownRepository.visibility;
   const fetchImpl = async () => response([
     repository({ id: 1, full_name: 'owner/public-project' }),
     repository({
@@ -212,6 +241,8 @@ test('update publishes and logs only public counts without private names', async
       name: 'confidential-project',
       full_name: 'private-owner/confidential-project',
     }),
+    repository({ id: 3, visibility: 'internal', name: 'internal-project' }),
+    unknownRepository,
   ]);
 
   try {
@@ -225,9 +256,9 @@ test('update publishes and logs only public counts without private names', async
     const markdown = await readFile(path.join(directory, 'data.md'), 'utf8');
     assert.equal(messages.length, 1);
     assert.match(messages[0], /Updated 1 public starred repository/);
-    assert.match(messages[0], /Skipped 1 private repository/);
-    assert.doesNotMatch(messages[0], /confidential|private-owner/);
-    assert.doesNotMatch(`${json}\n${markdown}`, /confidential|private-owner/);
+    assert.match(messages[0], /Skipped 3 non-public or unknown repositories/);
+    assert.doesNotMatch(messages[0], /confidential|private-owner|internal-project|unknown-project/);
+    assert.doesNotMatch(`${json}\n${markdown}`, /confidential|private-owner|internal-project|unknown-project/);
   } finally {
     await rm(directory, { recursive: true, force: true });
   }
