@@ -71,7 +71,7 @@ Run: `node --test --test-name-pattern='tracked tree excludes obsolete|active pro
 
 Expected: 2 matching tests pass with no failures.
 
-### Task 3: Remove ignored local artifacts
+### Task 3: Verify ignore coverage for local artifacts
 
 **Files:**
 - Delete locally: `.superpowers/`
@@ -79,15 +79,18 @@ Expected: 2 matching tests pass with no failures.
 - Delete locally: `test-results/`
 - Preserve locally: `node_modules/`
 
-- [ ] **Step 1: Delete ignored transient directories**
-
-Remove `.superpowers/`, `.worktrees/`, and `test-results/`. Do not remove `node_modules/`.
-
-- [ ] **Step 2: Verify ignore coverage remains intact**
+- [ ] **Step 1: Verify ignore coverage remains intact**
 
 Run: `git check-ignore -v .superpowers .worktrees test-results node_modules`
 
 Expected: all four paths are matched by root entries in `.gitignore`.
+
+- [ ] **Step 2: Defer local deletion until worktree cleanup**
+
+Do not delete `.worktrees/` while the implementation worktree is active. After the
+verified branch is merged and its worktree is removed, delete `.superpowers/`, the
+now-empty `.worktrees/`, and `test-results/` from the main checkout. Preserve
+`node_modules/`.
 
 ### Task 4: Verify and publish the cleanup
 
