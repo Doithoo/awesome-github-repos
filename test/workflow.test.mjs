@@ -3,194 +3,254 @@ import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
+import { parse } from 'yaml';
 
 const projectRoot = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
   '..',
 );
 
-const officialActions = {
-  Checkout: 'actions/checkout@v4',
-  'Set up Node.js': 'actions/setup-node@v4',
-  'Setup Pages': 'actions/configure-pages@v5',
-  'Upload artifact': 'actions/upload-pages-artifact@v3',
-  'Deploy to GitHub Pages': 'actions/deploy-pages@v4',
-};
+const updateDispatchGate =
+  "github.event_name != 'workflow_dispatch' || github.ref_name == github.event.repository.default_branch";
+const pagesGate =
+  "(github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success') && (github.event_name != 'workflow_dispatch' || github.ref_name == github.event.repository.default_branch)";
 
-function escapeRegExp(value) {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+async function readYaml(relativePath) {
+  return parse(await readFile(path.join(projectRoot, relativePath), 'utf8'));
 }
 
-function indentedBlock(source, marker) {
-  const lines = source.split('\n');
-  const start = lines.findIndex((line) => marker.test(line));
-  assert.notEqual(start, -1, `missing YAML block matching ${marker}`);
+function step(job, name) {
+  assert.ok(job, `missing job containing step: ${name}`);
+  const match = job.steps.find((candidate) => candidate.name === name);
+  assert.ok(match, `missing step: ${name}`);
+  return match;
+}
 
-  const indentation = lines[start].match(/^\s*/)[0].length;
-  let end = start + 1;
-  while (end < lines.length) {
-    const line = lines[end];
-    if (line.trim() && line.match(/^\s*/)[0].length <= indentation) break;
-    end += 1;
+function collectUses(value, pathParts = [], found = []) {
+  if (Array.isArray(value)) {
+    value.forEach((item, index) => collectUses(item, [...pathParts, index], found));
+  } else if (value && typeof value === 'object') {
+    for (const [key, child] of Object.entries(value)) {
+      if (key === 'uses') {
+        found.push({ path: pathParts.join('.'), uses: child });
+      } else {
+        collectUses(child, [...pathParts, key], found);
+      }
+    }
   }
-  return lines.slice(start, end).join('\n');
+  return found;
 }
 
-function topLevelBlock(source, name) {
-  return indentedBlock(source, new RegExp(`^${escapeRegExp(name)}:(?: .*)?$`));
-}
+test('update workflow separates read-only validation from credentialed generation', async () => {
+  const workflow = await readYaml('.github/workflows/main.yml');
+  const { test: testJob, update } = workflow.jobs;
 
-function jobBlock(source, name) {
-  return indentedBlock(source, new RegExp(`^  ${escapeRegExp(name)}:$`));
-}
+  assert.equal(workflow.name, 'Update awesome list');
+  assert.ok(Object.hasOwn(workflow, 'on'), 'YAML 1.2 must preserve the on key');
+  assert.deepEqual(workflow.on, {
+    workflow_dispatch: null,
+    schedule: [{ cron: '00 00 */1 * *' }],
+  });
+  assert.deepEqual(workflow.permissions, {});
+  assert.deepEqual(workflow.concurrency, {
+    group: 'update-awesome-list',
+    'cancel-in-progress': false,
+  });
+  assert.deepEqual(Object.keys(workflow.jobs), ['test', 'update']);
 
-function namedStep(source, name) {
-  return indentedBlock(
-    source,
-    new RegExp(`^      - name: ${escapeRegExp(name)}$`),
-  );
-}
-
-function scalar(block, key) {
-  const match = block.match(new RegExp(`^\\s+${escapeRegExp(key)}: (.+)$`, 'm'));
-  assert.ok(match, `missing ${key} in:\n${block}`);
-  const value = match[1].trim();
-  const isQuoted =
-    (value.startsWith("'") && value.endsWith("'")) ||
-    (value.startsWith('"') && value.endsWith('"'));
-  return isQuoted ? value.slice(1, -1) : value;
-}
-
-function assertAction(step, name) {
-  assert.equal(scalar(step, 'uses'), officialActions[name]);
-}
-
-function assertCommandsInOrder(source, commands) {
-  let previous = -1;
-  for (const command of commands) {
-    const current = source.indexOf(`run: ${command}`);
-    assert.ok(current > previous, `${command} must appear in the required order`);
-    previous = current;
-  }
-}
-
-test('update workflow installs dependencies and validates the UI before generation', async () => {
-  const workflow = await readFile(
-    path.join(projectRoot, '.github/workflows/main.yml'),
-    'utf8',
-  );
-  const build = jobBlock(workflow, 'build');
-
-  assert.equal(topLevelBlock(workflow, 'permissions').trim(), 'permissions: {}');
-  assert.match(build, /^    permissions:\n      contents: write$/m);
-  assert.match(build, /^    timeout-minutes: 15$/m);
-  assertAction(namedStep(workflow, 'Checkout'), 'Checkout');
-  const setupNode = namedStep(workflow, 'Set up Node.js');
-  assertAction(setupNode, 'Set up Node.js');
-  assert.equal(scalar(setupNode, 'node-version'), '22');
-
-  assertCommandsInOrder(build, [
-    'npm ci',
-    'npx playwright install --with-deps chromium',
-    'npm run test:all',
-    'npm run update-awesome-list',
+  assert.equal(testJob.if, updateDispatchGate);
+  assert.equal(testJob['runs-on'], 'ubuntu-latest');
+  assert.equal(testJob['timeout-minutes'], 20);
+  assert.deepEqual(testJob.permissions, { contents: 'read' });
+  assert.deepEqual(testJob.steps.map(({ name }) => name), [
+    'Checkout',
+    'Set up Node.js',
+    'Install dependencies',
+    'Install Chromium',
+    'Test generator and UI',
   ]);
-
-  const generate = namedStep(workflow, 'Generate awesome list');
-  assert.match(generate, /^        env:\n          API_TOKEN: \$\{\{ secrets\.API_TOKEN \}\}$/m);
-  assert.equal((workflow.match(/API_TOKEN:/g) ?? []).length, 1);
-  assert.doesNotMatch(workflow, /simonecorsi\/mawesome/);
-});
-
-test('update workflow preserves scheduling, concurrency, and generated commit semantics', async () => {
-  const workflow = await readFile(
-    path.join(projectRoot, '.github/workflows/main.yml'),
-    'utf8',
-  );
-  const triggers = topLevelBlock(workflow, 'on');
-  const concurrency = topLevelBlock(workflow, 'concurrency');
-  const commit = namedStep(workflow, 'Commit generated files');
-
-  assert.match(triggers, /^  workflow_dispatch:$/m);
-  assert.match(triggers, /^  schedule:\n    - cron: '00 00 \*\/1 \* \*'$/m);
-  assert.match(concurrency, /^  group: update-awesome-list$/m);
-  assert.match(concurrency, /^  cancel-in-progress: false$/m);
-  assert.match(commit, /git config user\.name "github-actions\[bot\]"/);
-  assert.match(commit, /git config user\.email "41898282\+github-actions\[bot\]@users\.noreply\.github\.com"/);
-  assert.match(commit, /^          git add data\.json data\.md$/m);
-  assert.match(commit, /if git diff --cached --quiet; then/);
-  assert.match(commit, /git commit -m "chore\(updates\): update starred repositories"/);
-  assert.match(commit, /^          git push$/m);
-});
-
-test('Pages workflow gates every deployment on a successful UI test job', async () => {
-  const workflow = await readFile(
-    path.join(projectRoot, '.github/workflows/static.yml'),
-    'utf8',
-  );
-  const triggers = topLevelBlock(workflow, 'on');
-  const testJob = jobBlock(workflow, 'test');
-  const deploy = jobBlock(workflow, 'deploy');
-  const successCondition =
-    "github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'";
-
-  assert.match(triggers, /^  workflow_run:\n(?:.*\n)*?    workflows: \["Update awesome list"\]\n(?:.*\n)*?    types:\n      - completed$/m);
-  assert.match(triggers, /^  push:\n    branches: \["main"\]$/m);
-  assert.match(triggers, /^  workflow_dispatch:$/m);
-
-  assert.equal(scalar(testJob, 'if'), successCondition);
-  assert.match(testJob, /^    permissions:\n      contents: read$/m);
-  assertAction(namedStep(testJob, 'Checkout'), 'Checkout');
-  const setupNode = namedStep(testJob, 'Set up Node.js');
-  assertAction(setupNode, 'Set up Node.js');
-  assert.equal(scalar(setupNode, 'node-version'), '22');
-  assertCommandsInOrder(testJob, [
-    'npm ci',
+  assert.deepEqual(step(testJob, 'Checkout').with, {
+    'persist-credentials': false,
+  });
+  assert.deepEqual(step(testJob, 'Set up Node.js').with, {
+    'node-version': '22',
+    cache: 'npm',
+  });
+  assert.equal(step(testJob, 'Install dependencies').run, 'npm ci');
+  assert.equal(
+    step(testJob, 'Install Chromium').run,
     'npx playwright install --with-deps chromium',
-    'npm run test:all',
+  );
+  assert.equal(step(testJob, 'Test generator and UI').run, 'npm run test:all');
+
+  assert.equal(update.if, updateDispatchGate);
+  assert.equal(update.needs, 'test');
+  assert.equal(update['runs-on'], 'ubuntu-latest');
+  assert.equal(update['timeout-minutes'], 15);
+  assert.deepEqual(update.permissions, { contents: 'write' });
+  assert.deepEqual(update.steps.map(({ name }) => name), [
+    'Checkout',
+    'Set up Node.js',
+    'Generate awesome list',
+    'Commit generated files',
   ]);
+  assert.deepEqual(step(update, 'Checkout').with, undefined);
+  assert.deepEqual(step(update, 'Set up Node.js').with, {
+    'node-version': '22',
+  });
 
-  assert.equal(scalar(deploy, 'if'), successCondition);
-  assert.equal(scalar(deploy, 'needs'), 'test');
-  assert.match(
-    deploy,
-    /^    permissions:\n      contents: read\n      pages: write\n      id-token: write$/m,
-  );
-});
-
-test('Pages workflow deploys the checked-out current revision with least privilege', async () => {
-  const workflow = await readFile(
-    path.join(projectRoot, '.github/workflows/static.yml'),
-    'utf8',
-  );
-  const deploy = jobBlock(workflow, 'deploy');
-  const concurrency = topLevelBlock(workflow, 'concurrency');
-
-  assert.equal(topLevelBlock(workflow, 'permissions').trim(), 'permissions: {}');
-  assertAction(namedStep(deploy, 'Checkout'), 'Checkout');
-  assertAction(namedStep(deploy, 'Setup Pages'), 'Setup Pages');
-  const upload = namedStep(deploy, 'Upload artifact');
-  assertAction(upload, 'Upload artifact');
-  assert.equal(scalar(upload, 'path'), '.');
-  assertAction(namedStep(deploy, 'Deploy to GitHub Pages'), 'Deploy to GitHub Pages');
-  assert.match(concurrency, /^  group: "pages"$/m);
-  assert.match(concurrency, /^  cancel-in-progress: false$/m);
-});
-
-test('Dependabot checks npm and GitHub Actions weekly with bounded pull requests', async () => {
-  const dependabot = await readFile(
-    path.join(projectRoot, '.github/dependabot.yml'),
-    'utf8',
-  );
-
-  assert.match(dependabot, /^version: 2$/m);
-  for (const ecosystem of ['npm', 'github-actions']) {
-    const entry = indentedBlock(
-      dependabot,
-      new RegExp(`^  - package-ecosystem: "${ecosystem}"$`),
-    );
-    assert.match(entry, /^    directory: "\/"$/m);
-    assert.match(entry, /^    schedule:\n      interval: "weekly"$/m);
-    assert.match(entry, /^    open-pull-requests-limit: 5$/m);
+  const generate = step(update, 'Generate awesome list');
+  assert.equal(generate.run, 'node scripts/update-awesome-list.mjs');
+  assert.deepEqual(generate.env, { API_TOKEN: '${{ secrets.API_TOKEN }}' });
+  assert.equal(workflow.env, undefined);
+  for (const job of Object.values(workflow.jobs)) {
+    assert.equal(job.env, undefined);
+    for (const candidate of job.steps) {
+      if (candidate !== generate) assert.equal(candidate.env, undefined);
+    }
   }
+
+  const updateCommands = update.steps.flatMap(({ run }) => (run ? [run] : []));
+  assert.doesNotMatch(
+    updateCommands.join('\n'),
+    /npm (?:ci|install)|playwright|npm (?:run )?test/,
+  );
+});
+
+test('update workflow preserves exact generated commit and push behavior', async () => {
+  const workflow = await readYaml('.github/workflows/main.yml');
+  const commit = step(workflow.jobs.update, 'Commit generated files');
+
+  assert.equal(
+    commit.run,
+    `git config user.name "github-actions[bot]"
+git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+git add data.json data.md
+
+if git diff --cached --quiet; then
+  echo "No starred repository changes to commit."
+  exit 0
+fi
+
+git commit -m "chore(updates): update starred repositories"
+git push
+`,
+  );
+});
+
+test('Pages workflow gates tests and deployment and applies least privilege', async () => {
+  const workflow = await readYaml('.github/workflows/static.yml');
+  const { test: testJob, deploy } = workflow.jobs;
+
+  assert.equal(workflow.name, 'Deploy static content to Pages');
+  assert.ok(Object.hasOwn(workflow, 'on'), 'YAML 1.2 must preserve the on key');
+  assert.deepEqual(workflow.on, {
+    workflow_run: {
+      workflows: ['Update awesome list'],
+      types: ['completed'],
+    },
+    push: { branches: ['main'] },
+    workflow_dispatch: null,
+  });
+  assert.deepEqual(workflow.permissions, {});
+  assert.deepEqual(workflow.concurrency, {
+    group: 'pages',
+    'cancel-in-progress': false,
+  });
+
+  assert.equal(testJob.if, pagesGate);
+  assert.equal(testJob['runs-on'], 'ubuntu-latest');
+  assert.equal(testJob['timeout-minutes'], 20);
+  assert.deepEqual(testJob.permissions, { contents: 'read' });
+  assert.deepEqual(testJob.steps.map(({ name }) => name), [
+    'Checkout',
+    'Set up Node.js',
+    'Install dependencies',
+    'Install Chromium',
+    'Test generator and UI',
+  ]);
+  assert.deepEqual(step(testJob, 'Checkout').with, {
+    'persist-credentials': false,
+  });
+  assert.deepEqual(step(testJob, 'Set up Node.js').with, {
+    'node-version': '22',
+    cache: 'npm',
+  });
+  assert.equal(step(testJob, 'Install dependencies').run, 'npm ci');
+  assert.equal(
+    step(testJob, 'Install Chromium').run,
+    'npx playwright install --with-deps chromium',
+  );
+  assert.equal(step(testJob, 'Test generator and UI').run, 'npm run test:all');
+
+  assert.equal(deploy.if, pagesGate);
+  assert.equal(deploy.needs, 'test');
+  assert.equal(deploy['runs-on'], 'ubuntu-latest');
+  assert.equal(deploy['timeout-minutes'], 15);
+  assert.deepEqual(deploy.permissions, {
+    contents: 'read',
+    pages: 'write',
+    'id-token': 'write',
+  });
+  assert.deepEqual(deploy.environment, {
+    name: 'github-pages',
+    url: '${{ steps.deployment.outputs.page_url }}',
+  });
+  assert.deepEqual(deploy.steps.map(({ name }) => name), [
+    'Checkout',
+    'Setup Pages',
+    'Upload artifact',
+    'Deploy to GitHub Pages',
+  ]);
+  assert.deepEqual(step(deploy, 'Checkout').with, {
+    'persist-credentials': false,
+  });
+  assert.deepEqual(step(deploy, 'Upload artifact').with, { path: '.' });
+  assert.equal(step(deploy, 'Deploy to GitHub Pages').id, 'deployment');
+});
+
+test('workflows use only the approved official action majors at exact locations', async () => {
+  const [update, pages] = await Promise.all([
+    readYaml('.github/workflows/main.yml'),
+    readYaml('.github/workflows/static.yml'),
+  ]);
+  const actual = [
+    ...collectUses(update).map((entry) => ({ workflow: 'main', ...entry })),
+    ...collectUses(pages).map((entry) => ({ workflow: 'static', ...entry })),
+  ];
+
+  assert.deepEqual(actual, [
+    { workflow: 'main', path: 'jobs.test.steps.0', uses: 'actions/checkout@v4' },
+    { workflow: 'main', path: 'jobs.test.steps.1', uses: 'actions/setup-node@v4' },
+    { workflow: 'main', path: 'jobs.update.steps.0', uses: 'actions/checkout@v4' },
+    { workflow: 'main', path: 'jobs.update.steps.1', uses: 'actions/setup-node@v4' },
+    { workflow: 'static', path: 'jobs.test.steps.0', uses: 'actions/checkout@v4' },
+    { workflow: 'static', path: 'jobs.test.steps.1', uses: 'actions/setup-node@v4' },
+    { workflow: 'static', path: 'jobs.deploy.steps.0', uses: 'actions/checkout@v4' },
+    { workflow: 'static', path: 'jobs.deploy.steps.1', uses: 'actions/configure-pages@v5' },
+    { workflow: 'static', path: 'jobs.deploy.steps.2', uses: 'actions/upload-pages-artifact@v3' },
+    { workflow: 'static', path: 'jobs.deploy.steps.3', uses: 'actions/deploy-pages@v4' },
+  ]);
+});
+
+test('Dependabot exactly schedules bounded weekly npm and action updates', async () => {
+  const dependabot = await readYaml('.github/dependabot.yml');
+
+  assert.deepEqual(dependabot, {
+    version: 2,
+    updates: [
+      {
+        'package-ecosystem': 'npm',
+        directory: '/',
+        schedule: { interval: 'weekly' },
+        'open-pull-requests-limit': 5,
+      },
+      {
+        'package-ecosystem': 'github-actions',
+        directory: '/',
+        schedule: { interval: 'weekly' },
+        'open-pull-requests-limit': 5,
+      },
+    ],
+  });
 });
