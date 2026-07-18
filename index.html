@@ -1,219 +1,91 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="Modern showcase of GitHub repositories with advanced filtering and search capabilities">
-    <meta name="author" content="GitHub Repository Showcase">
-    <title>GitHub Repository Showcase</title>
-
-    <!-- Preconnect to external domains for performance -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <!-- Google Fonts - Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- Styles -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A searchable catalog of repositories starred by Doithoo.">
+    <meta name="theme-color" content="#f4f1e8">
+    <title>Doithoo's Starred Repositories</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
     <link rel="stylesheet" href="styles.css">
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
-    <link rel="alternate icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
 </head>
-
 <body>
-    <!-- Header Section -->
-    <header class="header">
-        <div class="container">
-            <div class="header-content">
-                <div class="header-title">
-                    <div class="title-row">
-                        <h1 class="title">
-                            <span class="title-icon">🚀</span>
-                            Awesome GitHub Repository
-                        </h1>
-                        <a href="https://github.com/tonngw/awesome-github-repos" 
-                           target="_blank" 
-                           rel="noopener noreferrer" 
-                           class="github-link"
-                           aria-label="View source on GitHub">
-                            <svg class="github-icon" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                            </svg>
-                            <span class="github-text">View on GitHub</span>
-                        </a>
-                    </div>
-                    <p class="subtitle">Discover amazing open source projects organized by programming language from my
-                        starred project</p>
-                </div>
-
-                <!-- Search and Filter Controls -->
-                <div class="controls">
-                    <div class="search-container">
-                        <div class="search-wrapper">
-                            <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2">
-                                <circle cx="11" cy="11" r="8"></circle>
-                                <path d="m21 21-4.35-4.35"></path>
-                            </svg>
-                            <input type="text" id="searchInput" class="search-input"
-                                placeholder="Search repositories, topics, or descriptions..."
-                                autocomplete="off">
-                            <button class="search-clear" id="searchClear" aria-label="Clear search">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="filter-controls">
-                        <div class="filter-group">
-                            <label for="languageFilter" class="filter-label">Language</label>
-                            <select id="languageFilter" class="filter-select">
-                                <option value="">All Languages</option>
-                            </select>
-                        </div>
-
-                        <div class="filter-group">
-                            <label for="sortSelect" class="filter-label">Sort by</label>
-                            <select id="sortSelect" class="filter-select">
-                                <option value="recent-likes">❤️ Recent Likes</option>
-                                <option value="stars">⭐ Popular (Most Stars)</option>
-                                <option value="stars-asc">⭐ Stars (Low to High)</option>
-                                <option value="name">📝 Name (A to Z)</option>
-                                <option value="name-desc">📝 Name (Z to A)</option>
-                                <option value="updated">🕒 Recently Updated</option>
-                                <option value="created">🆕 Recently Created</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Language Categorization -->
-                    <div class="categorization-controls">
-                        <div class="categorization-group">
-                            <label class="categorization-label">Language Sections:</label>
-                            <div class="categorization-buttons">
-                                <button class="categorization-btn active" data-category="recently">
-                                    🕒 Recently
-                                </button>
-                                <button class="categorization-btn" data-category="popular">
-                                    📊 Popular
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Quick Language Filters -->
-                    <div class="quick-filters" id="quickFilters" style="display: none;">
-                        <span class="quick-filters-label">Popular:</span>
-                        <div class="quick-filter-buttons" id="quickFilterButtons">
-                            <!-- Quick filter buttons will be populated by JavaScript -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <header class="site-header">
+        <nav class="site-nav container" aria-label="Primary navigation">
+            <a class="brand-link" href="#catalog">DOITHOO / STARS</a>
+            <a
+                class="source-link"
+                href="https://github.com/Doithoo/awesome-github-repos"
+                aria-label="View source repository on GitHub"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                <svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                    <path d="M12 .7a11.5 11.5 0 0 0-3.64 22.4c.58.1.79-.25.79-.56v-2.22c-3.23.7-3.91-1.37-3.91-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.06-.72.08-.71.08-.71 1.17.08 1.78 1.2 1.78 1.2 1.04 1.77 2.72 1.26 3.39.96.1-.75.4-1.26.74-1.55-2.58-.3-5.3-1.3-5.3-5.75 0-1.27.45-2.31 1.2-3.12-.12-.3-.52-1.48.11-3.08 0 0 .98-.31 3.2 1.2A11.1 11.1 0 0 1 12 6.01c.99 0 1.98.13 2.91.39 2.22-1.51 3.2-1.2 3.2-1.2.63 1.6.23 2.78.11 3.08.75.81 1.2 1.85 1.2 3.12 0 4.47-2.72 5.45-5.31 5.74.42.36.79 1.07.79 2.15v3.25c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .7Z"/>
+                </svg>
+            </a>
+        </nav>
     </header>
 
-    <!-- Main Content -->
-    <main class="main">
-        <div class="container">
-            <!-- Statistics Bar -->
-            <div class="stats-bar" id="statsBar">
-                <div class="stats-content">
-                    <span class="stats-item">
-                        <span class="stats-icon">📚</span>
-                        <span class="stats-label">Total Repositories:</span>
-                        <span class="stats-value" id="totalCount">0</span>
-                    </span>
-                    <span class="stats-item">
-                        <span class="stats-icon">👁️</span>
-                        <span class="stats-label">Showing:</span>
-                        <span class="stats-value" id="filteredCount">0</span>
-                    </span>
-                    <span class="stats-item">
-                        <span class="stats-icon">🔤</span>
-                        <span class="stats-label">Languages:</span>
-                        <span class="stats-value" id="languageCount">0</span>
-                    </span>
+    <main id="catalog" class="catalog">
+        <section class="search-panel container" aria-labelledby="catalogTitle">
+            <p class="eyebrow" id="collectionStats">Curated GitHub stars</p>
+            <h1 id="catalogTitle">Doithoo's Starred Repositories</h1>
+            <div class="search-field">
+                <label for="searchInput">Search repositories</label>
+                <div class="search-input-wrap">
+                    <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="7"></circle>
+                        <path d="m20 20-4-4"></path>
+                    </svg>
+                    <input
+                        id="searchInput"
+                        class="search-input"
+                        type="search"
+                        autocomplete="off"
+                        placeholder="Search by name, topic, owner, or language"
+                    >
                 </div>
             </div>
+        </section>
 
-            <!-- Loading State -->
-            <div class="loading-state" id="loadingState">
-                <div class="loading-spinner"></div>
-                <p class="loading-text">Loading repositories...</p>
-            </div>
-
-            <!-- Repository Grid -->
-            <div class="repository-grid" id="repositoryGrid">
-                <!-- Repository cards will be dynamically inserted here -->
-            </div>
-
-            <!-- Empty State -->
-            <div class="empty-state" id="emptyState" style="display: none;">
-                <div class="empty-state-content">
-                    <div class="empty-state-icon">🔍</div>
-                    <h3 class="empty-state-title">No repositories found</h3>
-                    <p class="empty-state-description">
-                        Try adjusting your search terms or filters to find what you're looking for.
-                    </p>
-                    <div class="empty-state-suggestions">
-                        <h4>Search suggestions:</h4>
-                        <ul>
-                            <li>Try broader keywords (e.g., "web" instead of "website")</li>
-                            <li>Check for typos in your search terms</li>
-                            <li>Use programming language names (e.g., "javascript", "python")</li>
-                            <li>Search by popular topics (e.g., "ai", "react", "api")</li>
-                        </ul>
-                    </div>
-                    <button class="empty-state-button" id="resetFilters">Reset Filters</button>
+        <section class="catalog-content container" aria-label="Repository catalog">
+            <section class="toolbar" aria-label="Repository filters">
+                <div class="filter-field">
+                    <label for="languageFilter">Language</label>
+                    <select id="languageFilter" class="filter-select">
+                        <option value="">All languages</option>
+                    </select>
                 </div>
-            </div>
-
-            <!-- Error State -->
-            <div class="error-state" id="errorState" style="display: none;">
-                <div class="error-state-content">
-                    <div class="error-state-icon">⚠️</div>
-                    <h3 class="error-state-title">Failed to load repositories</h3>
-                    <p class="error-state-description">
-                        There was an error loading the repository data. Please try again.
-                    </p>
-                    <button class="error-state-button" id="retryButton">Retry</button>
+                <div class="filter-field">
+                    <label for="sortSelect">Sort</label>
+                    <select id="sortSelect" class="filter-select">
+                        <option value="recently-starred">Recently starred</option>
+                        <option value="stars">Most stars</option>
+                        <option value="updated">Recently updated</option>
+                        <option value="name">Name</option>
+                    </select>
                 </div>
+                <div id="quickFilters" class="quick-filters" aria-label="Popular languages"></div>
+            </section>
+
+            <p id="resultSummary" class="result-summary" aria-live="polite"></p>
+            <section id="repositoryGrid" class="repository-grid" aria-label="Repositories"></section>
+            <div class="load-more">
+                <button id="loadMoreButton" type="button" hidden>Load more</button>
             </div>
-        </div>
+            <div id="statusPanel" class="status-panel" aria-live="polite"></div>
+        </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <p class="footer-text">
-                    Built by ❤️ <a href="https://github.com/tonngw" target="_blank" rel="noopener noreferrer"
-                        class="footer-link">tonngw</a>
-                </p>
-                <div class="footer-links">
-                    <a href="https://github.com/tonngw/awesome-github-repos" target="_blank" rel="noopener noreferrer"
-                        class="footer-link">
-                        GitHub
-                    </a>
-                    <span class="footer-separator">•</span>
-                    <a href="https://github.com/tonngw/awesome-github-repos" target="_blank"
-                        class="footer-link">About</a>
-                </div>
-            </div>
-        </div>
+    <footer id="footer" class="site-footer">
+        <nav class="footer-links container" aria-label="Footer navigation">
+            <a href="https://github.com/Doithoo" target="_blank" rel="noopener noreferrer">Doithoo</a>
+            <a href="https://github.com/Doithoo/awesome-github-repos" target="_blank" rel="noopener noreferrer">Source</a>
+            <a href="https://doithoo.github.io/awesome-github-repos/" target="_blank" rel="noopener noreferrer">Pages</a>
+        </nav>
     </footer>
 
-    <!-- Scripts -->
-    <script src="app.js"></script>
+    <script type="module" src="app.js"></script>
 </body>
-
 </html>

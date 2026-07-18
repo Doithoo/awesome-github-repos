@@ -64,3 +64,5 @@ build/
 .cache
 .superpowers/
 .worktrees/
+playwright-report/
+test-results/
