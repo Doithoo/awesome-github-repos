@@ -759,6 +759,143 @@ test('CatalogApp executes loading, ready, and error controller transitions', asy
   );
 });
 
+for (const scenario of [
+  {
+    name: 'abort timeout',
+    message: 'The repository list took too long to load.',
+    fail({ signal }) {
+      return new Promise((resolve, reject) => {
+        signal.addEventListener('abort', () => {
+          const error = new Error('aborted');
+          error.name = 'AbortError';
+          reject(error);
+        }, { once: true });
+      });
+    },
+    trigger(timers) {
+      assert.equal(timers[0].delay, 10_000);
+      timers[0].callback();
+    },
+  },
+  {
+    name: 'network rejection',
+    message: 'The repository list could not be downloaded.',
+    fail() {
+      return Promise.reject(new Error('offline'));
+    },
+  },
+  {
+    name: 'non-ok HTTP response',
+    message: 'The repository list could not be downloaded.',
+    fail() {
+      return Promise.resolve({ ok: false });
+    },
+  },
+  {
+    name: 'JSON syntax rejection',
+    message: 'The repository data is not valid.',
+    fail() {
+      return Promise.resolve({
+        ok: true,
+        json: () => Promise.reject(new SyntaxError('Unexpected token')),
+      });
+    },
+  },
+  {
+    name: 'invalid grouped schema',
+    message: 'The repository data is not valid.',
+    fail() {
+      return Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({ JavaScript: 'not-an-array' }),
+      });
+    },
+  },
+]) {
+  test(`CatalogApp loadData maps ${scenario.name} and recovers on retry`, async () => {
+    const { CatalogApp } = await importControllerModule();
+    const { document, elements } = createControllerDocument();
+    const { calls, view } = createViewSpies();
+    const timers = [];
+    const clearedTimers = [];
+    let attempt = 0;
+    const app = new CatalogApp(document, {
+      view,
+      fetch: (url, options) => {
+        attempt += 1;
+        if (attempt === 1) {
+          return scenario.fail(options);
+        }
+        return Promise.resolve({ ok: true, json: () => Promise.resolve({}) });
+      },
+      setTimeout: (callback, delay) => {
+        const timer = { callback, delay };
+        timers.push(timer);
+        return timer;
+      },
+      clearTimeout: (timer) => clearedTimers.push(timer),
+    });
+    app.cacheElements();
+
+    const failedLoad = app.loadData();
+    scenario.trigger?.(timers);
+    await failedLoad;
+
+    assert.equal(app.state.status, 'error');
+    assert.equal(app.state.error, scenario.message);
+    assert.equal(elements.loadMoreButton.hidden, true);
+    assert.equal(elements.catalog.getAttribute('aria-busy'), null);
+    const renderedError = calls.find(({ name }) => name === 'renderError');
+    assert.equal(renderedError.args[1], scenario.message);
+    assert.deepEqual(clearedTimers, [timers[0]]);
+
+    await app.loadData();
+
+    assert.equal(attempt, 2);
+    assert.equal(app.state.status, 'ready');
+    assert.equal(app.state.error, null);
+    assert.deepEqual(app.state.repositories, []);
+    assert.equal(elements.loadMoreButton.hidden, true);
+    assert.equal(elements.catalog.getAttribute('aria-busy'), null);
+    assert.equal(calls.filter(({ name }) => name === 'renderError').length, 1);
+    assert.ok(calls.some(({ name }) => name === 'renderEmpty'));
+    assert.deepEqual(clearedTimers, [timers[0], timers[1]]);
+  });
+}
+
+for (const [name, data] of [['grouped object', {}], ['array', []]]) {
+  test(`CatalogApp loadData accepts an empty ${name}`, async () => {
+    const { CatalogApp } = await importControllerModule();
+    const { document, elements } = createControllerDocument();
+    const { calls, view } = createViewSpies();
+    const timers = [];
+    const clearedTimers = [];
+    const app = new CatalogApp(document, {
+      view,
+      fetch: () => Promise.resolve({ ok: true, json: () => Promise.resolve(data) }),
+      setTimeout: (callback, delay) => {
+        const timer = { callback, delay };
+        timers.push(timer);
+        return timer;
+      },
+      clearTimeout: (timer) => clearedTimers.push(timer),
+    });
+    app.cacheElements();
+
+    await app.loadData();
+
+    assert.equal(app.state.status, 'ready');
+    assert.deepEqual(app.state.repositories, []);
+    assert.equal(app.state.error, null);
+    assert.ok(calls.some(({ name: callName }) => callName === 'renderEmpty'));
+    assert.equal(calls.some(({ name: callName }) => callName === 'renderError'), false);
+    assert.equal(elements.statusPanel.getAttribute('aria-busy'), null);
+    assert.equal(elements.catalog.getAttribute('aria-busy'), null);
+    assert.equal(elements.loadMoreButton.hidden, true);
+    assert.deepEqual(clearedTimers, timers);
+  });
+}
+
 test('application controller excludes legacy and unsafe behavior', async () => {
   const source = await readFile(appPath, 'utf8');
   const forbidden = [
