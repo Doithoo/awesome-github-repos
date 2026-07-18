@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
+import { execFileSync } from 'node:child_process';
 import { existsSync } from 'node:fs';
-import { readdir, readFile } from 'node:fs/promises';
+import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
 const root = new URL('../', import.meta.url);
@@ -1396,9 +1397,9 @@ test('active page contains no legacy ownership or unsafe rendering hook', async 
 });
 
 test('active project files contain no legacy owner or domain references', async () => {
+  const testSource = await readFile(new URL(import.meta.url), 'utf8');
   const legacyOwner = ['ton', 'ngw'].join('');
   const legacyDomain = `awesome.${legacyOwner}.com`;
-  const excludedDirectories = new Set(['.git', '.worktrees', 'node_modules', 'playwright-report', 'test-results']);
   const excludedPaths = new Set([
     'LICENSE',
     'data.json',
@@ -1406,28 +1407,29 @@ test('active project files contain no legacy owner or domain references', async 
     'test/site-structure.test.mjs',
     'test/update-awesome-list.test.mjs',
   ]);
+  const textExtensions = new Set(['.css', '.ejs', '.html', '.js', '.json', '.md', '.mjs', '.svg', '.yml', '.yaml']);
   const violations = [];
+  const trackedFiles = execFileSync('git', ['ls-files', '-z'], {
+    cwd: root,
+    encoding: 'utf8',
+  }).split('\0').filter(Boolean);
 
-  async function scan(directory) {
-    for (const entry of await readdir(directory, { withFileTypes: true })) {
-      if (entry.isDirectory() && excludedDirectories.has(entry.name)) continue;
-      const path = new URL(entry.name + (entry.isDirectory() ? '/' : ''), directory);
-      const relativePath = path.href.slice(root.href.length);
-      if (relativePath === 'docs/superpowers/') {
-        continue;
-      } else if (entry.isDirectory()) {
-        await scan(path);
-      } else if (!excludedPaths.has(relativePath)) {
-        const source = await readFile(path, 'utf8');
-        if (source.toLowerCase().includes(legacyOwner) || source.toLowerCase().includes(legacyDomain)) {
-          violations.push(relativePath);
-        }
-      }
+  for (const relativePath of trackedFiles) {
+    if (relativePath.startsWith('docs/superpowers/')) continue;
+    if (excludedPaths.has(relativePath)) continue;
+    const extension = relativePath.slice(relativePath.lastIndexOf('.'));
+    if (!textExtensions.has(extension)) continue;
+
+    const source = await readFile(new URL(relativePath, root), 'utf8');
+    if (source.toLowerCase().includes(legacyOwner) || source.toLowerCase().includes(legacyDomain)) {
+      violations.push(relativePath);
     }
   }
 
-  await scan(root);
   assert.deepEqual(violations, []);
+  assert.match(testSource, /execFileSync\(\s*['"]git['"]\s*,\s*\[['"]ls-files['"],\s*['"]-z['"]\]/);
+  const fsPromisesImport = testSource.match(/import \{([^}]+)\} from 'node:fs\/promises';/)?.[1] ?? '';
+  assert.doesNotMatch(fsPromisesImport, /\breaddir\b/);
 });
 
 test('package metadata and locked local scripts belong to Doithoo', async () => {
@@ -1440,6 +1442,8 @@ test('package metadata and locked local scripts belong to Doithoo', async () => 
   assert.equal(packageJson.bugs.url, 'https://github.com/Doithoo/awesome-github-repos/issues');
   assert.equal(packageJson.homepage, 'https://doithoo.github.io/awesome-github-repos/');
   assert.equal(packageJson.author, 'Doithoo');
+  assert.equal(packageJson.keywords.includes('dark-theme'), false);
+  assert.equal(packageJson.keywords.includes('light-theme'), false);
   for (const name of ['start', 'dev', 'serve', 'preview']) {
     assert.match(packageJson.scripts[name], /^serve\b/);
     assert.doesNotMatch(packageJson.scripts[name], /\bnpx\b/);
@@ -1475,16 +1479,20 @@ test('README documents the bilingual project, operation, security, and testing c
   assert.match(readme, /GitHub Actions/);
   assert.match(readme, /GitHub Pages/);
   assert.match(readme, /fine-grained PAT/i);
+  assert.match(readme, /Starring: read/i);
   assert.match(readme, /read-only|只读/i);
   assert.match(readme, /private repositor|私有仓库/i);
+  assert.match(readme, /publicly committed|公开提交/i);
+  assert.match(readme, /OIDC/i);
+  assert.match(readme, /Node\.js 22[^\n]*(?:CI|test)|(?:CI|test)[^\n]*Node\.js 22/i);
+  assert.match(readme, /npm ci\s*\n+npx playwright install chromium\s*\n+npm run test:all/);
+  assert.match(readme, /repository contents[^\n]*(?:not required|no access)|不需要[^\n]*仓库内容/i);
+  assert.match(readme, /private repositor[^\n]*(?:no access|not required)|不需要[^\n]*私有仓库/i);
   assert.match(readme, /English UI|界面.*英文/i);
   assert.doesNotMatch(readme, /\]\((?:CONTRIBUTING\.md|docs\/[^)]+)\)/i);
   assert.doesNotMatch(readme, /mawesome/i);
   assert.doesNotMatch(readme, /(?:ik\.imagekit\.io|githubusercontent\.com)\/[^\s)]*(?:ton|ngw)/i);
-  assert.doesNotMatch(
-    readme,
-    /API_TOKEN[^\n]*(?:\brequires?\b|\bneeds?\b|至少需要)[^\n]*(?:write|workflow|读写|写入)/i,
-  );
+  assert.doesNotMatch(readme, /(?:add|grant|enable|increase|增加|授予|开启)[^\n]*(?:private repositor|私有仓库)/i);
 });
 
 test('changelog covers the unreleased redesign and delivery gates', async () => {
@@ -1492,6 +1500,9 @@ test('changelog covers the unreleased redesign and delivery gates', async () => 
   const unreleased = changelog.split(/## \[?1\.0\.0\]?/i)[0];
 
   assert.match(unreleased, /## \[Unreleased\]/);
+  assert.doesNotMatch(unreleased, /^### Quality$/m);
+  assert.match(unreleased, /^### Added$/m);
+  assert.match(unreleased, /^### Security$/m);
   for (const phrase of ['Graphic Signal', 'modular frontend', 'safe rendering', 'reduced payload', 'browser coverage', 'CI', 'Pages']) {
     assert.match(unreleased, new RegExp(phrase, 'i'), `Unreleased changelog missing ${phrase}`);
   }

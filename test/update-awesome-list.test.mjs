@@ -13,6 +13,7 @@ import {
   projectRepository,
   renderJson,
   renderMarkdown,
+  updateAwesomeList,
   writeOutputs,
 } from '../scripts/update-awesome-list.mjs';
 
@@ -147,6 +148,23 @@ test('projects repositories to the reduced browser data contract', () => {
   assert.deepEqual(projected.topics, []);
 });
 
+test('refuses to project a private repository without disclosing its identity', () => {
+  const privateRepository = repository({
+    private: true,
+    name: 'confidential-project',
+    full_name: 'private-owner/confidential-project',
+  });
+
+  assert.throws(
+    () => projectRepository(privateRepository),
+    (error) => {
+      assert.equal(error.message, 'Private repositories cannot be published');
+      assert.doesNotMatch(error.message, /confidential|private-owner/);
+      return true;
+    },
+  );
+});
+
 test('groups repositories by first-seen language and uses miscellaneous', () => {
   const grouped = groupRepositories([
     repository({ id: 1, language: 'JavaScript' }),
@@ -157,6 +175,62 @@ test('groups repositories by first-seen language and uses miscellaneous', () => 
   assert.deepEqual(Object.keys(grouped), ['JavaScript', 'miscellaneous']);
   assert.deepEqual(grouped.JavaScript.map(({ id }) => id), [1, 3]);
   assert.deepEqual(grouped.miscellaneous.map(({ id }) => id), [2]);
+});
+
+test('excludes private repositories from groups and every rendered output', () => {
+  const grouped = groupRepositories([
+    repository({ id: 1, name: 'first-public', full_name: 'owner/first-public' }),
+    repository({
+      id: 2,
+      private: true,
+      name: 'confidential-project',
+      full_name: 'private-owner/confidential-project',
+      owner: null,
+      language: 'Rust',
+    }),
+    repository({ id: 3, name: 'second-public', full_name: 'owner/second-public' }),
+  ]);
+  const json = renderJson(grouped);
+  const markdown = renderMarkdown(grouped);
+
+  assert.deepEqual(grouped.JavaScript.map(({ id }) => id), [1, 3]);
+  assert.equal('Rust' in grouped, false);
+  for (const output of [json, markdown]) {
+    assert.doesNotMatch(output, /confidential-project|private-owner/);
+    assert.doesNotMatch(output, /"id": 2/);
+  }
+});
+
+test('update publishes and logs only public counts without private names', async () => {
+  const directory = await mkdtemp(path.join(tmpdir(), 'awesome-list-update-'));
+  const messages = [];
+  const fetchImpl = async () => response([
+    repository({ id: 1, full_name: 'owner/public-project' }),
+    repository({
+      id: 2,
+      private: true,
+      name: 'confidential-project',
+      full_name: 'private-owner/confidential-project',
+    }),
+  ]);
+
+  try {
+    await updateAwesomeList('test-token', {
+      fetchImpl,
+      outputDirectory: directory,
+      log: (message) => messages.push(message),
+    });
+
+    const json = await readFile(path.join(directory, 'data.json'), 'utf8');
+    const markdown = await readFile(path.join(directory, 'data.md'), 'utf8');
+    assert.equal(messages.length, 1);
+    assert.match(messages[0], /Updated 1 public starred repository/);
+    assert.match(messages[0], /Skipped 1 private repository/);
+    assert.doesNotMatch(messages[0], /confidential|private-owner/);
+    assert.doesNotMatch(`${json}\n${markdown}`, /confidential|private-owner/);
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
 });
 
 test('renders deterministic two-space JSON with a trailing newline', () => {

@@ -23,7 +23,7 @@ A searchable, responsive catalog of repositories starred by Doithoo. The public 
 
 ### 本地开发
 
-需要 Node.js 22：
+CI 和自动化测试以 Node.js 22 为目标；本地开发请使用兼容的当前 Node.js 版本：
 
 ```bash
 npm ci
@@ -34,22 +34,23 @@ npm run preview
 
 ### 自动更新与部署
 
-在仓库的 `Settings > Pages` 中将 Source 设为 GitHub Actions，并启用 Actions。`Update awesome list` 每天自动运行一次，也支持手动触发；更新通过测试后提交 `data.json` 和 `data.md`。`Deploy static content to Pages` 在主分支更新后再次执行测试并发布到 GitHub Pages。工作流内置的 `GITHUB_TOKEN` 仅由更新任务用于提交生成文件。
+在仓库的 `Settings > Pages` 中将 Source 设为 GitHub Actions，并启用 Actions。`Update awesome list` 每天自动运行一次，也支持手动触发；更新通过测试后，其作用域受限的 `GITHUB_TOKEN` 提交 `data.json` 和 `data.md`。`Deploy static content to Pages` 在主分支更新后再次执行测试，使用最小权限的 Pages 写入权限和 OIDC 部署身份验证发布 GitHub Pages。
 
 ### API Token 安全
 
-在 `Settings > Secrets and variables > Actions` 创建名为 `API_TOKEN` 的 Repository secret。建议使用 fine-grained PAT，并仅授予读取用户星标所需的最小只读权限；不需要仓库写入权限或 Workflow 权限。只有明确需要读取私有仓库星标时才增加相应私有仓库访问范围。不要在代码、日志、截图或 issue 中暴露 token。
+在 `Settings > Secrets and variables > Actions` 创建名为 `API_TOKEN` 的 Repository secret。根据 token 类型和 GitHub 界面，仅配置读取用户星标所需的最小用户级 `Starring: read` 只读权限；fine-grained PAT 不需要仓库内容、仓库写入、Workflow 或私有仓库访问权限。不要在代码、日志、截图或 issue 中暴露 token。
+
+生成器会自动排除 API 意外返回的私有仓库，作为纵深防护；但 token 仍然不应具有任何私有仓库访问权限。`data.json` 和 `data.md` 的所有生成内容都会公开提交并由站点发布，因此请将任何生成输出视为公开信息。
 
 ### 测试
 
 ```bash
-npm test
+npm ci
 npx playwright install chromium
-npm run test:e2e
 npm run test:all
 ```
 
-`npm test` 覆盖数据生成、目录逻辑、DOM 安全和工作流契约；Playwright 在 Chromium 中覆盖搜索、筛选、排序、分页以及响应式交互。
+也可以分别运行 `npm test`（数据生成、目录逻辑、DOM 安全和工作流契约）与 `npm run test:e2e`（Chromium 中的搜索、筛选、排序、分页和响应式交互）。
 
 ### 许可证与上游致谢
 
@@ -83,7 +84,7 @@ The modular frontend keeps data, state, and rendering separate. The browser rece
 
 ### Local development
 
-Use Node.js 22:
+CI and automated tests target Node.js 22; use a compatible current Node.js release for local development:
 
 ```bash
 npm ci
@@ -94,22 +95,23 @@ Open `http://127.0.0.1:4173`. `npm run dev` serves port 3000. The npm scripts re
 
 ### Update and deployment
 
-Set `Settings > Pages > Source` to GitHub Actions and enable Actions. `Update awesome list` runs automatically every day and can also be dispatched manually. After its test gate, it commits refreshed `data.json` and `data.md`. `Deploy static content to Pages` repeats the test gate and publishes the default branch to GitHub Pages. The workflow-provided `GITHUB_TOKEN` handles the generated-file commit.
+Set `Settings > Pages > Source` to GitHub Actions and enable Actions. `Update awesome list` runs automatically every day and can also be dispatched manually. After its test gate, that workflow's scoped `GITHUB_TOKEN` commits refreshed `data.json` and `data.md`. Separately, `Deploy static content to Pages` repeats the test gate and uses least-privilege Pages write permission plus OIDC deployment authentication to publish the default branch.
 
 ### API token security
 
-Create an Actions repository secret named `API_TOKEN`. Use a fine-grained PAT with the minimum read-only access needed to read the user's stars; repository write and Workflow permissions are not required. Add private repository access only when private-repository stars are explicitly needed. Never expose the secret in source, logs, screenshots, issues, or build artifacts.
+Create an Actions repository secret named `API_TOKEN`. Token types and GitHub UI labels can vary; configure only the minimum user-level `Starring: read` access required to read the user's stars. A fine-grained PAT needs no repository contents, repository write, Workflow, or private-repository access. Never expose the secret in source, logs, screenshots, issues, or build artifacts.
+
+As defense in depth, the generator automatically excludes any private entry unexpectedly returned by the API. The token must still have no private-repository access. All generated output in `data.json` and `data.md` is publicly committed and published by the site, so treat every generated field as public information.
 
 ### Testing
 
 ```bash
-npm test
+npm ci
 npx playwright install chromium
-npm run test:e2e
 npm run test:all
 ```
 
-The Node suite covers generation, catalog logic, safe rendering, structure, and workflow contracts. Playwright provides Chromium browser coverage for search, filters, sorting, pagination, and responsive interactions.
+Alternatively, run `npm test` for generation, catalog logic, safe rendering, structure, and workflow contracts, or `npm run test:e2e` for Chromium browser coverage.
 
 ### License and upstream credit
 

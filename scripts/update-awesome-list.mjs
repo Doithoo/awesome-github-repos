@@ -59,6 +59,10 @@ export async function fetchStarredRepositories(token, fetchImpl = fetch) {
 }
 
 export function projectRepository(repository) {
+  if (repository.private === true) {
+    throw new Error('Private repositories cannot be published');
+  }
+
   return {
     id: repository.id,
     name: repository.name,
@@ -83,6 +87,8 @@ export function groupRepositories(repositories) {
   const groups = {};
 
   for (const repository of repositories) {
+    if (repository.private === true) continue;
+
     const language = repository.language || 'miscellaneous';
     groups[language] ??= [];
     groups[language].push(projectRepository(repository));
@@ -218,14 +224,35 @@ export async function writeOutputs(
   }
 }
 
+export async function updateAwesomeList(
+  token,
+  {
+    fetchImpl = fetch,
+    outputDirectory = process.cwd(),
+    log = console.log,
+  } = {},
+) {
+  const repositories = await fetchStarredRepositories(token, fetchImpl);
+  const groups = groupRepositories(repositories);
+  await writeOutputs(groups, outputDirectory);
+
+  const publishedCount = Object.values(groups)
+    .reduce((total, group) => total + group.length, 0);
+  const privateCount = repositories
+    .reduce((total, repository) => total + Number(repository.private === true), 0);
+  const publishedLabel = publishedCount === 1 ? 'repository' : 'repositories';
+  const privateLabel = privateCount === 1 ? 'repository' : 'repositories';
+  log(
+    `Updated ${publishedCount} public starred ${publishedLabel}. `
+    + `Skipped ${privateCount} private ${privateLabel}.`,
+  );
+}
+
 async function main() {
   const token = process.env.API_TOKEN?.trim();
   if (!token) throw new Error('API_TOKEN is required');
 
-  const repositories = await fetchStarredRepositories(token);
-  const groups = groupRepositories(repositories);
-  await writeOutputs(groups);
-  console.log(`Updated ${repositories.length} starred repositories.`);
+  await updateAwesomeList(token);
 }
 
 const isDirectExecution = process.argv[1]
