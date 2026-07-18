@@ -95,9 +95,10 @@ language
 topics
 created_at
 updated_at
+starred_order
 ```
 
-The generator continues grouping repositories by first-seen language for stable output compatibility. The frontend flattens those groups while preserving source order as the `recently-starred` order.
+The generator continues grouping repositories by first-seen language for stable output compatibility. Each public repository carries its original zero-based API position in `starred_order`; skipped non-public entries may leave gaps. The frontend flattens the groups and restores that ordinal as the `recently-starred` order, with flatten order retained only as compatibility fallback for older data and array fixtures.
 
 The generator removes unused API and clone fields: `node_id`, API URLs, Git/SSH/clone URLs, owner ID, and watcher count.
 

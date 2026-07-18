@@ -1,6 +1,13 @@
 import { expect, test as base } from '@playwright/test';
+import { readFile } from 'node:fs/promises';
+
+import {
+  normalizeRepositories,
+  sortRepositories,
+} from '../lib/catalog.mjs';
 
 const DOWNLOAD_ERROR = 'The repository list could not be downloaded.';
+const checkedInData = JSON.parse(await readFile(new URL('../data.json', import.meta.url), 'utf8'));
 const TINY_PNG = Buffer.from(
   'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=',
   'base64',
@@ -95,6 +102,18 @@ test('loads a meaningful catalog without an overlay or console errors', async ({
   await expect(page.locator('.load-more')).toBeVisible();
 });
 
+test('default page follows checked-in recently-starred order across languages', async ({ page }) => {
+  const expected = sortRepositories(normalizeRepositories(checkedInData), 'recently-starred')
+    .slice(0, 24);
+  await page.goto('/');
+
+  await expect(page.locator('.repository-card')).toHaveCount(expected.length);
+  expect(await repositoryNames(page)).toEqual(expected.map(({ fullName }) => fullName));
+  if (new Set(expected.map(({ language }) => language)).size > 1) {
+    expect(new Set(await page.locator('.repository-language').allTextContents()).size).toBeGreaterThan(1);
+  }
+});
+
 test('language selection filters exactly and updates the summary', async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('.repository-card')).toHaveCount(24);
@@ -123,6 +142,26 @@ test('search finds a current repository, handles no matches, and clears to 24', 
   await page.getByRole('button', { name: 'Clear filters' }).click();
   await expect(page.locator('#searchInput')).toHaveValue('');
   await expect(page.locator('.repository-card')).toHaveCount(24);
+});
+
+test('fast sort changes preserve a pending typed search query', async ({ page }) => {
+  await mockData(page, fixture(30));
+  await page.goto('/');
+  await page.locator('#searchInput').fill('project-01');
+  await page.locator('#sortSelect').selectOption('name');
+
+  await expect(page.locator('#searchInput')).toHaveValue('project-01');
+  await expect(page.locator('.repository-card')).toHaveCount(1);
+  await expect(page.locator('.repository-name')).toHaveText('fixture/project-01');
+});
+
+test('empty public collection has no clear-filters action', async ({ page }) => {
+  await mockData(page, {});
+  await page.goto('/');
+
+  await expect(page.getByText('No public repositories are available.', { exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Clear filters' })).toHaveCount(0);
+  await expect(page.getByText('No repositories match your filters.', { exact: true })).toHaveCount(0);
 });
 
 test('sort controls order by stars, name, and update time', async ({ page }) => {

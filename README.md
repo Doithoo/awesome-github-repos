@@ -15,7 +15,7 @@ A searchable, responsive catalog of repositories starred by Doithoo. The public 
 - `index.html` 提供语义化页面结构，`styles.css` 定义响应式视觉系统。
 - `app.js` 管理加载、筛选、排序与分页状态。
 - `lib/catalog.mjs` 负责数据标准化和查询，`lib/view.mjs` 使用安全 DOM API 渲染内容。
-- `data.json` 是浏览器读取的分组数据，`data.md` 是自动生成的 Markdown 目录。
+- `data.json` 是浏览器读取的分组数据，`data.md` 是自动生成的 Markdown 目录。每个公开仓库的 `starred_order` 保存其原始 GitHub API 顺序，使跨语言分组的“最近收藏”排序保持准确。
 - `scripts/update-awesome-list.mjs` 从 GitHub API 读取星标并原子更新两个数据文件。
 - `.github/workflows/main.yml` 更新数据，`.github/workflows/static.yml` 测试并部署 GitHub Pages。
 
@@ -76,7 +76,7 @@ This project presents Doithoo's starred GitHub repositories in a Graphic Signal 
 - `app.js`: loading, filtering, sorting, and pagination controller.
 - `lib/catalog.mjs`: data normalization and catalog queries.
 - `lib/view.mjs`: safe DOM construction for repository content.
-- `data.json` and `data.md`: generated browser data and Markdown catalog.
+- `data.json` and `data.md`: generated browser data and Markdown catalog. Each public repository's `starred_order` preserves its original GitHub API position so recently starred order remains accurate across language groups.
 - `scripts/update-awesome-list.mjs`: authenticated star reader and atomic generator.
 - `.github/workflows/main.yml` and `.github/workflows/static.yml`: update, test, and Pages automation.
 

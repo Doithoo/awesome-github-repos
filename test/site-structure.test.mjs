@@ -788,8 +788,8 @@ test('application controller has stable state, loading policy, and action routes
 
   assert.match(
     source,
-    /searchInput\.addEventListener\(\s*['"]input['"]\s*,\s*\(event\)\s*=>\s*\{\s*const\s+query\s*=\s*event\.currentTarget\.value\.trim\(\);[\s\S]*?setTimeout\s*\([\s\S]*?this\.state\.query\s*=\s*query;/,
-    'search input must be read before currentTarget is cleared',
+    /searchInput\.addEventListener\(\s*['"]input['"]\s*,\s*\(event\)\s*=>\s*\{\s*const\s+query\s*=\s*event\.currentTarget\.value\.trim\(\);\s*this\.state\.query\s*=\s*query;[\s\S]*?setTimeout\s*\(/,
+    'search state must update before scheduling the debounced render',
   );
 });
 
@@ -876,9 +876,11 @@ test('CatalogApp init and retry never bind static listeners more than once', asy
 test('CatalogApp search uses an exact controllable 175ms debounce', async () => {
   const { CatalogApp } = await importControllerModule();
   const { document, elements } = createControllerDocument();
+  const { view } = createViewSpies();
   const timers = [];
   const cleared = [];
   const app = new CatalogApp(document, {
+    view,
     setTimeout: (callback, delay) => {
       const timer = { callback, delay };
       timers.push(timer);
@@ -897,7 +899,7 @@ test('CatalogApp search uses an exact controllable 175ms debounce', async () => 
 
   elements.searchInput.dispatch('input');
 
-  assert.equal(app.state.query, '');
+  assert.equal(app.state.query, 'swift tools');
   assert.equal(timers.length, 1);
   assert.equal(timers[0].delay, 175);
   timers[0].callback();
@@ -905,6 +907,35 @@ test('CatalogApp search uses an exact controllable 175ms debounce', async () => 
   assert.equal(app.state.visibleCount, 24);
   assert.equal(renderCount, 1);
   assert.deepEqual(cleared, [null]);
+});
+
+test('CatalogApp preserves a typed query when another control renders before debounce', async () => {
+  const { CatalogApp } = await importControllerModule();
+  const { document, elements } = createControllerDocument();
+  const { view } = createViewSpies();
+  const timers = [];
+  const app = new CatalogApp(document, {
+    view,
+    setTimeout: (callback, delay) => {
+      const timer = { callback, delay };
+      timers.push(timer);
+      return timer;
+    },
+    clearTimeout: () => {},
+  });
+  app.loadData = () => {};
+  app.init();
+  app.state.status = 'ready';
+  app.state.repositories = [repository(1)];
+  elements.searchInput.value = 'repo';
+
+  elements.searchInput.dispatch('input');
+  elements.sortSelect.value = 'name';
+  elements.sortSelect.dispatch('change');
+
+  assert.equal(app.state.query, 'repo');
+  assert.equal(elements.searchInput.value, 'repo');
+  assert.equal(timers.length, 1);
 });
 
 test('CatalogApp filter controls synchronize state and reset pagination', async () => {
@@ -1324,7 +1355,8 @@ for (const scenario of [
     assert.equal(elements.loadMoreButton.hidden, true);
     assert.equal(elements.catalog.getAttribute('aria-busy'), null);
     assert.equal(calls.filter(({ name }) => name === 'renderError').length, 1);
-    assert.ok(calls.some(({ name }) => name === 'renderEmpty'));
+    const emptyCall = calls.find(({ name }) => name === 'renderEmpty');
+    assert.deepEqual(emptyCall.args[1], { collectionEmpty: true });
     assert.deepEqual(clearedTimers, [timers[0], timers[1]]);
   });
 }
@@ -1353,7 +1385,8 @@ for (const [name, data] of [['grouped object', {}], ['array', []]]) {
     assert.equal(app.state.status, 'ready');
     assert.deepEqual(app.state.repositories, []);
     assert.equal(app.state.error, null);
-    assert.ok(calls.some(({ name: callName }) => callName === 'renderEmpty'));
+    const emptyCall = calls.find(({ name: callName }) => callName === 'renderEmpty');
+    assert.deepEqual(emptyCall.args[1], { collectionEmpty: true });
     assert.equal(calls.some(({ name: callName }) => callName === 'renderError'), false);
     assert.equal(elements.statusPanel.getAttribute('aria-busy'), null);
     assert.equal(elements.catalog.getAttribute('aria-busy'), null);
@@ -1529,6 +1562,7 @@ test('document metadata identifies the current Doithoo catalog', async () => {
   assert.match(html, /<meta name="description" content="A searchable catalog of repositories starred by Doithoo\.">/);
   assert.match(html, /https:\/\/github\.com\/Doithoo\/awesome-github-repos/);
   assert.match(html, /https:\/\/doithoo\.github\.io\/awesome-github-repos\//);
+  assert.match(html, /<meta name="theme-color" content="#f8f9fb">/);
 });
 
 test('stable integration IDs are unique', async () => {
@@ -1743,6 +1777,29 @@ test('Task 7 contract: loading view renders six safe skeleton cards without fake
         assert.ok(descendants.some(({ className }) => className === hook), `missing .${hook}`);
       }
     }
+  } finally {
+    globalThis.document = originalDocument;
+  }
+});
+
+test('empty view distinguishes an empty public collection from filtered results', async () => {
+  const originalDocument = globalThis.document;
+  globalThis.document = {
+    createElement: (tagName) => new FakeElement(tagName),
+  };
+
+  try {
+    const { renderEmpty } = await import(viewPath);
+    const panel = new FakeElement('div');
+
+    renderEmpty(panel);
+    assert.equal(panel.children[0].children[0].textContent, 'No repositories match your filters.');
+    assert.equal(panel.children[0].children[1].textContent, 'Clear filters');
+    assert.equal(panel.children[0].children[1].getAttribute('data-action'), 'clear-filters');
+
+    renderEmpty(panel, { collectionEmpty: true });
+    assert.equal(panel.children[0].children[0].textContent, 'No public repositories are available.');
+    assert.equal(panel.children[0].children.length, 1);
   } finally {
     globalThis.document = originalDocument;
   }

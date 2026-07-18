@@ -86,6 +86,34 @@ test('normalizes grouped input in source order', () => {
   });
 });
 
+test('uses starred_order to restore recently starred order across grouped languages', () => {
+  const grouped = {
+    Rust: [
+      repository({ id: 1, language: 'Rust', starred_order: 0 }),
+      repository({ id: 3, language: 'Rust', starred_order: 3 }),
+    ],
+    JavaScript: [repository({ id: 2, language: 'JavaScript', starred_order: 2 })],
+  };
+
+  const normalized = normalizeRepositories(grouped);
+
+  assert.deepEqual(normalized.map(({ sourceIndex }) => sourceIndex), [0, 3, 2]);
+  assert.deepEqual(
+    sortRepositories(normalized, 'recently-starred').map(({ id }) => id),
+    [1, 2, 3],
+  );
+});
+
+test('falls back to flatten order for legacy and invalid starred_order fixtures', () => {
+  const normalized = normalizeRepositories([
+    repository({ id: 1, starred_order: -1 }),
+    repository({ id: 2, starred_order: 1.5 }),
+    repository({ id: 3 }),
+  ]);
+
+  assert.deepEqual(normalized.map(({ sourceIndex }) => sourceIndex), [0, 1, 2]);
+});
+
 test('normalizes array input and safely defaults optional fields', () => {
   const [normalized] = normalizeRepositories([repository({
     id: 3,
