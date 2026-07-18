@@ -7,6 +7,7 @@ const root = new URL('../', import.meta.url);
 const indexPath = new URL('index.html', root);
 const ignorePath = new URL('.gitignore', root);
 const readmePath = new URL('README.md', root);
+const viewPath = new URL('lib/view.mjs', root);
 
 const readIndex = () => readFile(indexPath, 'utf8');
 
@@ -298,4 +299,62 @@ test('external static links open securely in a new tab', async () => {
     assert.ok(rel.includes('noopener'), `missing noopener on ${link}`);
     assert.ok(rel.includes('noreferrer'), `missing noreferrer on ${link}`);
   }
+});
+
+test('safe DOM view exposes the complete rendering contract', async () => {
+  assert.equal(existsSync(viewPath), true, 'missing lib/view.mjs');
+
+  const view = await import(viewPath);
+  const expectedExports = [
+    'createRepositoryCard',
+    'renderLanguageOptions',
+    'renderQuickFilters',
+    'renderRepositoryGrid',
+    'renderSummary',
+    'renderLoading',
+    'renderError',
+    'renderEmpty',
+  ];
+
+  assert.deepEqual(Object.keys(view).sort(), expectedExports.sort());
+  for (const name of expectedExports) {
+    assert.equal(typeof view[name], 'function', `${name} must be a function`);
+  }
+});
+
+test('safe DOM view builds trusted structure without HTML string sinks', async () => {
+  const source = await readFile(viewPath, 'utf8');
+
+  for (const unsafePattern of [
+    /\.innerHTML\b/,
+    /\binsertAdjacentHTML\b/,
+    /\beval\s*\(/,
+    /\bdocument\.write\s*\(/,
+    /\bhref\s*=\s*`[^`]*\$\{/,
+    /setAttribute\(\s*['"]href['"]\s*,\s*`[^`]*\$\{(?!encodeURIComponent\(topic\))/,
+  ]) {
+    assert.doesNotMatch(source, unsafePattern);
+  }
+
+  assert.match(source, /\.textContent\s*=/);
+  assert.match(source, /document\.createElement\(/);
+  assert.match(source, /document\.createDocumentFragment\(/);
+  assert.match(source, /\.replaceChildren\(/);
+  assert.match(
+    source,
+    /https:\/\/github\.com\/topics\/\$\{encodeURIComponent\(topic\)\}/,
+  );
+  assert.match(source, /setAttribute\(\s*['"]target['"]\s*,\s*['"]_blank['"]\s*\)/);
+  assert.match(
+    source,
+    /setAttribute\(\s*['"]rel['"]\s*,\s*['"]noopener noreferrer['"]\s*\)/,
+  );
+  assert.match(source, /setAttribute\(\s*['"]loading['"]\s*,\s*['"]lazy['"]\s*\)/);
+  assert.match(source, /setAttribute\(\s*['"]decoding['"]\s*,\s*['"]async['"]\s*\)/);
+  assert.match(source, /setAttribute\(\s*['"]width['"]\s*,\s*['"]40['"]\s*\)/);
+  assert.match(source, /setAttribute\(\s*['"]height['"]\s*,\s*['"]40['"]\s*\)/);
+  assert.match(source, /setAttribute\(\s*['"]data-action['"]\s*,\s*['"]filter-language['"]\s*\)/);
+  assert.match(source, /setAttribute\(\s*['"]data-action['"]\s*,\s*['"]retry['"]\s*\)/);
+  assert.match(source, /setAttribute\(\s*['"]data-action['"]\s*,\s*['"]clear-filters['"]\s*\)/);
+  assert.match(source, /\.slice\(0,\s*3\)/);
 });
