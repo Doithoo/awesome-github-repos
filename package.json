@@ -8,7 +8,9 @@
     "dev": "npx serve . --listen 3000",
     "serve": "npx serve . --listen 8000",
     "build": "echo 'Static site - no build needed'",
-    "preview": "npx serve . --listen 4173"
+    "preview": "npx serve . --listen 4173",
+    "test": "node --test",
+    "update-awesome-list": "node scripts/update-awesome-list.mjs"
   },
   "repository": {
     "type": "git",
