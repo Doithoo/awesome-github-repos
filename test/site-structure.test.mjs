@@ -1429,6 +1429,19 @@ test('active page contains no legacy ownership or unsafe rendering hook', async 
   assert.equal(existsSync(new URL('index-simple.html', root)), false);
 });
 
+test('tracked tree excludes obsolete templates and process documents', () => {
+  const trackedFiles = execFileSync('git', ['ls-files', '-z'], {
+    cwd: root,
+    encoding: 'utf8',
+  }).split('\0').filter(Boolean);
+
+  assert.equal(trackedFiles.includes('template/README.ejs'), false);
+  assert.equal(
+    trackedFiles.some((relativePath) => relativePath.startsWith('docs/superpowers/')),
+    false,
+  );
+});
+
 test('active project files contain no legacy owner or domain references', async () => {
   const testSource = await readFile(new URL(import.meta.url), 'utf8');
   const legacyOwner = ['ton', 'ngw'].join('');
@@ -1448,7 +1461,6 @@ test('active project files contain no legacy owner or domain references', async 
   }).split('\0').filter(Boolean);
 
   for (const relativePath of trackedFiles) {
-    if (relativePath.startsWith('docs/superpowers/')) continue;
     if (excludedPaths.has(relativePath)) continue;
     const extension = relativePath.slice(relativePath.lastIndexOf('.'));
     if (!textExtensions.has(extension)) continue;
