@@ -77,6 +77,10 @@ class FakeElement {
   contains(candidate) {
     return candidate === this || candidate?.container === this;
   }
+
+  querySelectorAll() {
+    return this.queryResults ?? [];
+  }
 }
 
 function createControllerDocument() {
@@ -573,8 +577,21 @@ test('CatalogApp filter controls synchronize state and reset pagination', async 
   const app = new CatalogApp(document);
   let renderCount = 0;
   app.loadData = () => {};
+  const replacementQuickFilter = {
+    dataset: { language: 'Go' },
+    focusCount: 0,
+    focus() {
+      this.focusCount += 1;
+    },
+  };
   app.render = () => {
     renderCount += 1;
+    if (app.state.language === 'Go') {
+      elements.quickFilters.queryResults = [
+        { dataset: { language: 'Rust' }, focus() {} },
+        replacementQuickFilter,
+      ];
+    }
   };
   app.init();
 
@@ -600,6 +617,7 @@ test('CatalogApp filter controls synchronize state and reset pagination', async 
   assert.equal(app.state.language, 'Go');
   assert.equal(elements.languageFilter.value, 'Go');
   assert.equal(app.state.visibleCount, 24);
+  assert.equal(replacementQuickFilter.focusCount, 1);
   assert.equal(renderCount, 3);
 
   app.state.query = 'server';
@@ -673,27 +691,111 @@ test('CatalogApp loadMore advances by PAGE_SIZE and appends only newly visible c
   const { CatalogApp } = await importControllerModule();
   const { document, elements } = createControllerDocument();
   const { calls, view } = createViewSpies();
+  view.renderRepositoryGrid = (grid, repositories) => {
+    calls.push({ name: 'renderRepositoryGrid', args: [grid, repositories] });
+    grid.replaceChildren(...repositories.map((item) => ({ repository: item })));
+  };
   const app = new CatalogApp(document, { view });
   app.cacheElements();
   app.state.repositories = Array.from({ length: 30 }, (_, index) => repository(index + 1));
   app.state.status = 'ready';
 
+  app.render();
+  assert.equal(elements.repositoryGrid.children.length, 24);
+  const gridRenderCount = calls.filter(({ name }) => name === 'renderRepositoryGrid').length;
+
   app.loadMore();
 
   assert.equal(app.state.visibleCount, 48);
-  assert.equal(elements.repositoryGrid.children.length, 6);
+  assert.equal(elements.repositoryGrid.children.length, 30);
   assert.deepEqual(
     elements.repositoryGrid.children.map(({ repository: item }) => item.id),
-    [25, 26, 27, 28, 29, 30],
+    Array.from({ length: 30 }, (_, index) => index + 1),
+  );
+  assert.equal(
+    calls.filter(({ name }) => name === 'renderRepositoryGrid').length,
+    gridRenderCount,
+    'loadMore must append without replacing the existing grid',
   );
   assert.equal(elements.loadMoreButton.hidden, true);
-  const summary = calls.find(({ name }) => name === 'renderSummary');
+  const summary = calls.findLast(({ name }) => name === 'renderSummary');
   assert.deepEqual(summary.args[1], { visibleCount: 30, filteredCount: 30, totalCount: 30 });
 
   app.state.status = 'loading';
   app.loadMore();
   assert.equal(app.state.visibleCount, 48);
-  assert.equal(elements.repositoryGrid.children.length, 6);
+  assert.equal(elements.repositoryGrid.children.length, 30);
+});
+
+test('CatalogApp ignores an older aborted request after a newer request succeeds', async () => {
+  const { CatalogApp } = await importControllerModule();
+  const { document, elements } = createControllerDocument();
+  const { calls, view } = createViewSpies();
+  const requests = [];
+  const clearedTimers = [];
+  const app = new CatalogApp(document, {
+    view,
+    fetch: (url, options) => new Promise((resolve, reject) => {
+      requests.push({ options, reject, resolve, url });
+    }),
+    setTimeout: (callback, delay) => ({ callback, delay }),
+    clearTimeout: (timer) => clearedTimers.push(timer),
+  });
+  app.cacheElements();
+
+  const firstLoad = app.loadData();
+  const secondLoad = app.loadData();
+  assert.equal(requests.length, 2);
+  assert.equal(requests[0].options.signal.aborted, true);
+  assert.equal(requests[1].options.signal.aborted, false);
+
+  requests[1].resolve({ ok: true, json: () => Promise.resolve([{ id: 2, name: 'newer' }]) });
+  await secondLoad;
+  requests[0].reject(Object.assign(new Error('late abort'), { name: 'AbortError' }));
+  await firstLoad;
+
+  assert.equal(app.state.status, 'ready');
+  assert.equal(app.state.error, null);
+  assert.deepEqual(app.state.repositories.map(({ id }) => id), [2]);
+  assert.equal(elements.catalog.getAttribute('aria-busy'), null);
+  assert.equal(calls.some(({ name }) => name === 'renderError'), false);
+  assert.equal(clearedTimers.length, 2);
+});
+
+test('CatalogApp prevents an older success from overwriting newer repository data', async () => {
+  const { CatalogApp } = await importControllerModule();
+  const { document } = createControllerDocument();
+  const { calls, view } = createViewSpies();
+  const requests = [];
+  const app = new CatalogApp(document, {
+    view,
+    fetch: (url, options) => new Promise((resolve, reject) => {
+      requests.push({ options, reject, resolve, url });
+    }),
+    setTimeout: () => Symbol('timer'),
+    clearTimeout: () => {},
+  });
+  app.cacheElements();
+
+  const firstLoad = app.loadData();
+  const secondLoad = app.loadData();
+  requests[1].resolve({ ok: true, json: () => Promise.resolve([{ id: 2, name: 'newer' }]) });
+  await secondLoad;
+  requests[0].resolve({ ok: true, json: () => Promise.resolve([{ id: 1, name: 'older' }]) });
+  await firstLoad;
+
+  assert.deepEqual(app.state.repositories.map(({ id }) => id), [2]);
+  const gridRenders = calls.filter(({ name }) => name === 'renderRepositoryGrid');
+  assert.equal(gridRenders.length, 1);
+  assert.deepEqual(gridRenders[0].args[1].map(({ id }) => id), [2]);
+  assert.equal(calls.some(({ name }) => name === 'renderError'), false);
+});
+
+test('Task 7 retains a browser focus-restoration coverage marker', async () => {
+  const source = await readFile(appPath, 'utf8');
+
+  assert.match(source, /Task 7 browser test: verify quick-filter focus survives replacement\./);
+  assert.doesNotMatch(source, /querySelector(?:All)?\(\s*`[^`]*\$\{[^}]*language/);
 });
 
 test('CatalogApp executes loading, ready, and error controller transitions', async () => {
