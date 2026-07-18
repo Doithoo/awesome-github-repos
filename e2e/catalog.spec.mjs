@@ -1,6 +1,52 @@
-import { expect, test } from '@playwright/test';
+import { expect, test as base } from '@playwright/test';
 
 const DOWNLOAD_ERROR = 'The repository list could not be downloaded.';
+const TINY_PNG = Buffer.from(
+  'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=',
+  'base64',
+);
+
+function captureConsole(page) {
+  const messages = [];
+  page.on('console', (message) => {
+    if (message.type() === 'error' || message.type() === 'warning') {
+      messages.push(`${message.type()}: ${message.text()}`);
+    }
+  });
+  page.on('pageerror', (error) => messages.push(`pageerror: ${error.message}`));
+  return messages;
+}
+
+function expectConsoleHealthy(messages) {
+  expect(messages, `unexpected browser console messages:\n${messages.join('\n')}`).toEqual([]);
+}
+
+async function stubGitHubImages(page) {
+  await page.route('**/*', async (route) => {
+    const request = route.request();
+    const hostname = new URL(request.url()).hostname.toLowerCase();
+    const isGitHubImage = request.resourceType() === 'image'
+      && (hostname === 'avatars.githubusercontent.com' || hostname === 'github.com');
+    if (!isGitHubImage) {
+      await route.continue();
+      return;
+    }
+    await route.fulfill({
+      status: 200,
+      contentType: 'image/png',
+      body: TINY_PNG,
+    });
+  });
+}
+
+const test = base.extend({
+  consoleHealth: [async ({ page }, use) => {
+    const messages = captureConsole(page);
+    await stubGitHubImages(page);
+    await use();
+    expectConsoleHealthy(messages);
+  }, { auto: true }],
+});
 
 function repository(index, overrides = {}) {
   const language = index % 10 === 0 ? 'Rust' : index % 3 === 0 ? 'TypeScript' : 'JavaScript';
@@ -33,27 +79,11 @@ async function mockData(page, data) {
   await page.route('**/data.json', (route) => route.fulfill({ json: data }));
 }
 
-function captureConsole(page) {
-  const messages = [];
-  page.on('console', (message) => {
-    if (message.type() === 'error' || message.type() === 'warning') {
-      messages.push(`${message.type()}: ${message.text()}`);
-    }
-  });
-  page.on('pageerror', (error) => messages.push(`pageerror: ${error.message}`));
-  return messages;
-}
-
-async function expectConsoleHealthy(messages) {
-  expect(messages, `unexpected browser console messages:\n${messages.join('\n')}`).toEqual([]);
-}
-
 async function repositoryNames(page) {
   return page.locator('.repository-name').allTextContents();
 }
 
 test('loads a meaningful catalog without an overlay or console errors', async ({ page }) => {
-  const messages = captureConsole(page);
   await page.goto('/');
 
   await expect(page).toHaveTitle(/Doithoo's Starred Repositories/);
@@ -63,7 +93,6 @@ test('loads a meaningful catalog without an overlay or console errors', async ({
   await expect(page.locator('#resultSummary')).toHaveText(/Showing 24 of \d+ repositories\./);
   await expect(page.locator('nextjs-portal, vite-error-overlay, #webpack-dev-server-client-overlay')).toHaveCount(0);
   await expect(page.locator('.load-more')).toBeVisible();
-  await expectConsoleHealthy(messages);
 });
 
 test('language selection filters exactly and updates the summary', async ({ page }) => {
@@ -160,26 +189,34 @@ test('loading skeleton geometry is stable and the load-more band stays absent', 
 });
 
 test('a download error retries successfully with the exact message', async ({ page }) => {
-  let requests = 0;
-  await page.route('**/data.json', async (route) => {
-    requests += 1;
-    if (requests === 1) {
-      await route.fulfill({ status: 500, body: 'server error' });
-      return;
-    }
-    await route.fulfill({ json: fixture(30) });
+  await page.addInitScript(() => {
+    const nativeFetch = globalThis.fetch.bind(globalThis);
+    globalThis.__dataRequestCount = 0;
+    globalThis.fetch = (input, init) => {
+      const url = new URL(input instanceof Request ? input.url : input, location.href);
+      if (url.pathname.endsWith('/data.json')) {
+        globalThis.__dataRequestCount += 1;
+        if (globalThis.__dataRequestCount === 1) {
+          return Promise.resolve(new Response('server error', {
+            status: 500,
+            statusText: 'Internal Server Error',
+          }));
+        }
+      }
+      return nativeFetch(input, init);
+    };
   });
+  await mockData(page, fixture(30));
   await page.goto('/');
 
   await expect(page.getByText(DOWNLOAD_ERROR, { exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Retry' }).click();
   await expect(page.locator('.repository-card')).toHaveCount(24);
   await expect(page.getByText(DOWNLOAD_ERROR, { exact: true })).toHaveCount(0);
-  expect(requests).toBe(2);
+  expect(await page.evaluate(() => globalThis.__dataRequestCount)).toBe(2);
 });
 
 test('unsafe URLs and HTML-like content remain inert', async ({ page }) => {
-  const messages = captureConsole(page);
   await mockData(page, [{
     id: 1,
     name: '<img src=x onerror=alert(1)>',
@@ -210,7 +247,6 @@ test('unsafe URLs and HTML-like content remain inert', async ({ page }) => {
       .filter((value) => /^(?:javascript:|http:)/i.test(value))
   ));
   expect(unsafeAttributes).toEqual([]);
-  await expectConsoleHealthy(messages);
 });
 
 test('keyboard activation preserves focus on the replacement quick filter', async ({ page }) => {
@@ -276,15 +312,81 @@ test('all new-tab links carry both opener protections', async ({ page }) => {
   expect(insecureLinks).toEqual([]);
 });
 
+test('keyboard order, live updates, and reduced motion remain accessible', async ({ page }) => {
+  const accessibilityFixture = fixture(50);
+  for (const item of Object.values(accessibilityFixture).flat()) {
+    item.html_url = null;
+    item.homepage = null;
+    item.topics = [];
+    item.owner.avatar_url = null;
+    item.owner.html_url = null;
+  }
+  await mockData(page, accessibilityFixture);
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/');
+  await expect(page.locator('.repository-card')).toHaveCount(24);
+
+  const search = page.locator('#searchInput');
+  await search.focus();
+  await page.keyboard.press('Tab');
+  expect(await page.evaluate(() => document.activeElement?.id)).toBe('languageFilter');
+  await page.keyboard.press('Tab');
+  expect(await page.evaluate(() => document.activeElement?.id)).toBe('sortSelect');
+  await page.keyboard.press('Tab');
+  expect(await page.evaluate(() => document.activeElement?.classList.contains('quick-filter'))).toBe(true);
+
+  const summary = page.locator('#resultSummary');
+  await expect(summary).toHaveAttribute('aria-live', 'polite');
+  const initialSummary = await summary.textContent();
+  await page.keyboard.press('Enter');
+  await expect(page.locator('.quick-filter[data-language="JavaScript"]')).toHaveAttribute('aria-pressed', 'true');
+  await expect(summary).not.toHaveText(initialSummary);
+
+  const quickFilterCount = await page.locator('.quick-filter').count();
+  for (let index = 0; index < quickFilterCount; index += 1) {
+    await page.keyboard.press('Tab');
+  }
+  expect(await page.evaluate(() => document.activeElement?.id)).toBe('loadMoreButton');
+  await page.keyboard.press('Enter');
+  await expect(page.locator('.repository-card')).toHaveCount(30);
+
+  const reducedMotion = await page.locator('.repository-card').first().evaluate((card) => ({
+    mediaMatches: matchMedia('(prefers-reduced-motion: reduce)').matches,
+    transitionSeconds: getComputedStyle(card).transitionDuration
+      .split(',')
+      .map((duration) => duration.trim().endsWith('ms')
+        ? Number.parseFloat(duration) / 1000
+        : Number.parseFloat(duration)),
+  }));
+  expect(reducedMotion.mediaMatches).toBe(true);
+  expect(reducedMotion.transitionSeconds.every((duration) => duration <= 0.00001)).toBe(true);
+});
+
 test('load-more wrapper remains absent when JavaScript is disabled', async ({ browser }, testInfo) => {
+  const baseURL = testInfo.project.use.baseURL;
+  expect(baseURL).toBeTruthy();
   const context = await browser.newContext({
     javaScriptEnabled: false,
     viewport: testInfo.project.use.viewport,
   });
   const page = await context.newPage();
-  await page.goto('http://127.0.0.1:4173/');
+  const messages = captureConsole(page);
 
-  await expect(page.locator('.load-more')).toHaveAttribute('hidden', '');
-  await expect(page.locator('.load-more')).toBeHidden();
-  await context.close();
+  try {
+    await page.goto(new URL('/', baseURL).href);
+    await expect(page.locator('.load-more')).toHaveAttribute('hidden', '');
+    await expect(page.locator('.load-more')).toBeHidden();
+  } finally {
+    await context.close();
+    expectConsoleHealthy(messages);
+  }
+});
+
+test('browser semantics match the configured desktop and mobile projects', async ({ page }, testInfo) => {
+  const expectsMobile = testInfo.project.name === 'mobile-chromium';
+  const touchPoints = await page.evaluate(() => navigator.maxTouchPoints);
+
+  expect(touchPoints > 0).toBe(expectsMobile);
+  expect(Boolean(testInfo.project.use.isMobile)).toBe(expectsMobile);
+  expect(Boolean(testInfo.project.use.hasTouch)).toBe(expectsMobile);
 });
