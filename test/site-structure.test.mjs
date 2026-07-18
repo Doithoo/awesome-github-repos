@@ -12,6 +12,140 @@ const appPath = new URL('app.js', root);
 
 const readIndex = () => readFile(indexPath, 'utf8');
 
+let controllerModulePromise;
+
+function importControllerModule() {
+  controllerModulePromise ??= readFile(appPath, 'utf8').then((source) => {
+    const resolvedSource = source
+      .replace("'./lib/catalog.mjs'", `'${new URL('lib/catalog.mjs', root).href}'`)
+      .replace("'./lib/view.mjs'", `'${new URL('lib/view.mjs', root).href}'`);
+    const moduleUrl = `data:text/javascript;base64,${Buffer.from(resolvedSource).toString('base64')}`;
+    return import(moduleUrl);
+  });
+  return controllerModulePromise;
+}
+
+class FakeElement {
+  constructor() {
+    this.attributes = new Map();
+    this.children = [];
+    this.dataset = {};
+    this.hidden = false;
+    this.listeners = new Map();
+    this.textContent = '';
+    this.value = '';
+  }
+
+  addEventListener(name, listener) {
+    const listeners = this.listeners.get(name) ?? [];
+    listeners.push(listener);
+    this.listeners.set(name, listeners);
+  }
+
+  dispatch(name, { currentTarget = this, target = this } = {}) {
+    for (const listener of this.listeners.get(name) ?? []) {
+      listener({ currentTarget, target });
+    }
+  }
+
+  listenerCount(name) {
+    return (this.listeners.get(name) ?? []).length;
+  }
+
+  setAttribute(name, value) {
+    this.attributes.set(name, String(value));
+  }
+
+  removeAttribute(name) {
+    this.attributes.delete(name);
+  }
+
+  getAttribute(name) {
+    return this.attributes.get(name) ?? null;
+  }
+
+  replaceChildren(...children) {
+    this.children = [...children];
+  }
+
+  append(...children) {
+    for (const child of children) {
+      this.children.push(...(child?.fragmentChildren ?? [child]));
+    }
+  }
+
+  contains(candidate) {
+    return candidate === this || candidate?.container === this;
+  }
+}
+
+function createControllerDocument() {
+  const ids = [
+    'collectionStats',
+    'searchInput',
+    'catalog',
+    'languageFilter',
+    'sortSelect',
+    'quickFilters',
+    'resultSummary',
+    'repositoryGrid',
+    'loadMoreButton',
+    'statusPanel',
+  ];
+  const elements = Object.fromEntries(ids.map((id) => [id, new FakeElement()]));
+  return {
+    elements,
+    document: {
+      getElementById: (id) => elements[id] ?? null,
+      createDocumentFragment() {
+        return {
+          fragmentChildren: [],
+          append(child) {
+            this.fragmentChildren.push(child);
+          },
+        };
+      },
+    },
+  };
+}
+
+function createViewSpies() {
+  const calls = [];
+  const record = (name) => (...args) => calls.push({ name, args });
+  return {
+    calls,
+    view: {
+      createRepositoryCard: (repository) => ({ repository }),
+      renderEmpty: record('renderEmpty'),
+      renderError: record('renderError'),
+      renderLanguageOptions: record('renderLanguageOptions'),
+      renderLoading: record('renderLoading'),
+      renderQuickFilters: record('renderQuickFilters'),
+      renderRepositoryGrid: record('renderRepositoryGrid'),
+      renderSummary: record('renderSummary'),
+    },
+  };
+}
+
+function repository(id, overrides = {}) {
+  return {
+    id,
+    name: `repository-${id}`,
+    fullName: `owner/repository-${id}`,
+    description: '',
+    language: 'JavaScript',
+    topics: [],
+    stars: id,
+    createdAt: null,
+    updatedAt: null,
+    homepage: null,
+    repositoryUrl: null,
+    owner: { login: 'owner', avatarUrl: null, profileUrl: null },
+    sourceIndex: id - 1,
+    ...overrides,
+  };
+}
+
 function attributes(tag) {
   const values = {};
   const pattern = /([:\w-]+)\s*=\s*(["'])(.*?)\2/gs;
@@ -287,15 +421,15 @@ test('application controller has stable state, loading policy, and action routes
   );
   assert.match(source, /new\s+AbortController\s*\(/);
   assert.match(source, /const\s+LOAD_TIMEOUT_MS\s*=\s*10_?000\s*;/);
-  assert.match(source, /setTimeout\s*\([\s\S]*?,\s*LOAD_TIMEOUT_MS\s*\)/);
-  assert.match(source, /clearTimeout\s*\(/);
+  assert.match(source, /(?:this\.)?setTimeout\s*\([\s\S]*?,\s*LOAD_TIMEOUT_MS\s*\)/);
+  assert.match(source, /(?:this\.)?clearTimeout\s*\(/);
   assert.match(
     source,
     /response\.json\s*\(\s*\)[\s\S]*?catch\s*\(\s*error\s*\)\s*\{[\s\S]*?error\.name\s*===\s*['"]AbortError['"][\s\S]*?throw\s+error\s*;/,
     'JSON parsing must preserve AbortError for timeout handling',
   );
   assert.match(source, /fetch\s*\(\s*['"]data\.json['"]\s*,\s*\{\s*signal\s*:\s*[^,}]+,\s*cache\s*:\s*['"]default['"]\s*,?\s*\}\s*\)/s);
-  assert.match(source, /(?:const\s+SEARCH_DEBOUNCE_MS\s*=\s*|setTimeout\s*\([\s\S]*?,\s*)(?:1[5-9]\d|200)\b/);
+  assert.match(source, /const\s+SEARCH_DEBOUNCE_MS\s*=\s*175\s*;/);
 
   for (const message of [
     'The repository list took too long to load.',
@@ -339,6 +473,289 @@ test('application controller has stable state, loading policy, and action routes
     source,
     /searchInput\.addEventListener\(\s*['"]input['"]\s*,\s*\(event\)\s*=>\s*\{\s*const\s+query\s*=\s*event\.currentTarget\.value\.trim\(\);[\s\S]*?setTimeout\s*\([\s\S]*?this\.state\.query\s*=\s*query;/,
     'search input must be read before currentTarget is cleared',
+  );
+});
+
+test('CatalogApp starts with the exact public state contract', async () => {
+  const { CatalogApp } = await importControllerModule();
+  const { document } = createControllerDocument();
+  const app = new CatalogApp(document);
+
+  assert.deepEqual(app.state, {
+    repositories: [],
+    query: '',
+    language: '',
+    sort: 'recently-starred',
+    visibleCount: 24,
+    status: 'loading',
+    error: null,
+  });
+});
+
+test('CatalogApp init and retry never bind static listeners more than once', async () => {
+  const { CatalogApp } = await importControllerModule();
+  const { document, elements } = createControllerDocument();
+  const app = new CatalogApp(document);
+  let loadCount = 0;
+  let bindCount = 0;
+  const bindEvents = app.bindEvents.bind(app);
+
+  app.bindEvents = () => {
+    bindCount += 1;
+    bindEvents();
+  };
+  app.loadData = () => {
+    loadCount += 1;
+  };
+
+  app.init();
+  app.init();
+  assert.equal(bindCount, 1);
+  assert.equal(loadCount, 1);
+
+  for (const [id, eventName] of [
+    ['searchInput', 'input'],
+    ['languageFilter', 'change'],
+    ['sortSelect', 'change'],
+    ['quickFilters', 'click'],
+    ['loadMoreButton', 'click'],
+    ['statusPanel', 'click'],
+  ]) {
+    assert.equal(elements[id].listenerCount(eventName), 1, `unexpected ${id} listener count`);
+  }
+
+  const retry = {
+    dataset: { action: 'retry' },
+    closest: () => retry,
+  };
+  elements.statusPanel.dispatch('click', { target: retry });
+  assert.equal(loadCount, 2);
+  assert.equal(bindCount, 1);
+});
+
+test('CatalogApp search uses an exact controllable 175ms debounce', async () => {
+  const { CatalogApp } = await importControllerModule();
+  const { document, elements } = createControllerDocument();
+  const timers = [];
+  const cleared = [];
+  const app = new CatalogApp(document, {
+    setTimeout: (callback, delay) => {
+      const timer = { callback, delay };
+      timers.push(timer);
+      return timer;
+    },
+    clearTimeout: (timer) => cleared.push(timer),
+  });
+  let renderCount = 0;
+  app.loadData = () => {};
+  app.render = () => {
+    renderCount += 1;
+  };
+  app.init();
+  app.state.visibleCount = 72;
+  elements.searchInput.value = '  swift tools  ';
+
+  elements.searchInput.dispatch('input');
+
+  assert.equal(app.state.query, '');
+  assert.equal(timers.length, 1);
+  assert.equal(timers[0].delay, 175);
+  timers[0].callback();
+  assert.equal(app.state.query, 'swift tools');
+  assert.equal(app.state.visibleCount, 24);
+  assert.equal(renderCount, 1);
+  assert.deepEqual(cleared, [null]);
+});
+
+test('CatalogApp filter controls synchronize state and reset pagination', async () => {
+  const { CatalogApp } = await importControllerModule();
+  const { document, elements } = createControllerDocument();
+  const app = new CatalogApp(document);
+  let renderCount = 0;
+  app.loadData = () => {};
+  app.render = () => {
+    renderCount += 1;
+  };
+  app.init();
+
+  app.state.visibleCount = 60;
+  elements.languageFilter.value = 'Rust';
+  elements.languageFilter.dispatch('change');
+  assert.equal(app.state.language, 'Rust');
+  assert.equal(app.state.visibleCount, 24);
+
+  app.state.visibleCount = 60;
+  elements.sortSelect.value = 'stars';
+  elements.sortSelect.dispatch('change');
+  assert.equal(app.state.sort, 'stars');
+  assert.equal(app.state.visibleCount, 24);
+
+  const quickFilter = {
+    container: elements.quickFilters,
+    dataset: { action: 'filter-language', language: 'Go' },
+    closest: () => quickFilter,
+  };
+  app.state.visibleCount = 60;
+  elements.quickFilters.dispatch('click', { target: quickFilter });
+  assert.equal(app.state.language, 'Go');
+  assert.equal(elements.languageFilter.value, 'Go');
+  assert.equal(app.state.visibleCount, 24);
+  assert.equal(renderCount, 3);
+
+  app.state.query = 'server';
+  app.state.language = 'Go';
+  app.state.visibleCount = 72;
+  elements.searchInput.value = 'server';
+  elements.languageFilter.value = 'Go';
+  const clear = {
+    dataset: { action: 'clear-filters' },
+    closest: () => clear,
+  };
+  elements.statusPanel.dispatch('click', { target: clear });
+  assert.equal(app.state.query, '');
+  assert.equal(app.state.language, '');
+  assert.equal(app.state.visibleCount, 24);
+  assert.equal(elements.searchInput.value, '');
+  assert.equal(elements.languageFilter.value, '');
+  assert.equal(renderCount, 4);
+});
+
+test('CatalogApp derives filter, stable sort, and pagination without mutating repositories', async () => {
+  const { CatalogApp } = await importControllerModule();
+  const { document } = createControllerDocument();
+  const app = new CatalogApp(document);
+  const repositories = [
+    repository(1, { name: 'alpha tool', stars: 2 }),
+    repository(2, { name: 'alpha server', stars: 9 }),
+    repository(3, { name: 'alpha client', language: 'Rust', stars: 20 }),
+    repository(4, { name: 'unrelated', stars: 50 }),
+  ];
+  app.state.repositories = repositories;
+  app.state.query = 'alpha';
+  app.state.language = 'JavaScript';
+  app.state.sort = 'stars';
+  app.state.visibleCount = 1;
+
+  const derived = app.getDerivedRepositories();
+
+  assert.deepEqual(derived.filtered.map(({ id }) => id), [1, 2]);
+  assert.deepEqual(derived.sorted.map(({ id }) => id), [2, 1]);
+  assert.deepEqual(derived.visible.map(({ id }) => id), [2]);
+  assert.equal(derived.hasMore, true);
+  assert.equal(app.state.repositories, repositories);
+  assert.deepEqual(repositories.map(({ id }) => id), [1, 2, 3, 4]);
+});
+
+test('CatalogApp uses full collection language counts when rendering controls', async () => {
+  const { CatalogApp } = await importControllerModule();
+  const { document } = createControllerDocument();
+  const { calls, view } = createViewSpies();
+  const app = new CatalogApp(document, { view });
+  app.cacheElements();
+  app.state.repositories = [
+    repository(1),
+    repository(2, { language: 'Rust' }),
+    repository(3, { language: 'Rust' }),
+  ];
+  app.state.language = 'JavaScript';
+
+  app.renderCollectionControls();
+
+  const languageOptions = calls.find(({ name }) => name === 'renderLanguageOptions');
+  const quickFilters = calls.find(({ name }) => name === 'renderQuickFilters');
+  assert.deepEqual({ ...languageOptions.args[1] }, { JavaScript: 1, Rust: 2 });
+  assert.deepEqual({ ...quickFilters.args[1] }, { JavaScript: 1, Rust: 2 });
+  assert.equal(languageOptions.args[2], 'JavaScript');
+  assert.equal(app.elements.collectionStats.textContent, '3 repositories across 2 languages');
+});
+
+test('CatalogApp loadMore advances by PAGE_SIZE and appends only newly visible cards', async () => {
+  const { CatalogApp } = await importControllerModule();
+  const { document, elements } = createControllerDocument();
+  const { calls, view } = createViewSpies();
+  const app = new CatalogApp(document, { view });
+  app.cacheElements();
+  app.state.repositories = Array.from({ length: 30 }, (_, index) => repository(index + 1));
+  app.state.status = 'ready';
+
+  app.loadMore();
+
+  assert.equal(app.state.visibleCount, 48);
+  assert.equal(elements.repositoryGrid.children.length, 6);
+  assert.deepEqual(
+    elements.repositoryGrid.children.map(({ repository: item }) => item.id),
+    [25, 26, 27, 28, 29, 30],
+  );
+  assert.equal(elements.loadMoreButton.hidden, true);
+  const summary = calls.find(({ name }) => name === 'renderSummary');
+  assert.deepEqual(summary.args[1], { visibleCount: 30, filteredCount: 30, totalCount: 30 });
+
+  app.state.status = 'loading';
+  app.loadMore();
+  assert.equal(app.state.visibleCount, 48);
+  assert.equal(elements.repositoryGrid.children.length, 6);
+});
+
+test('CatalogApp executes loading, ready, and error controller transitions', async () => {
+  const { CatalogApp } = await importControllerModule();
+  const { document, elements } = createControllerDocument();
+  const { calls, view } = createViewSpies();
+  let resolveFetch;
+  const clearedTimers = [];
+  const app = new CatalogApp(document, {
+    view,
+    fetch: (url, options) => new Promise((resolve) => {
+      resolveFetch = () => resolve({
+        ok: true,
+        json: async () => [{ id: 1, name: 'catalog' }],
+      });
+      calls.push({ name: 'fetch', args: [url, options] });
+    }),
+    setTimeout: () => 'load-timeout',
+    clearTimeout: (timer) => clearedTimers.push(timer),
+  });
+  app.cacheElements();
+  app.state.status = 'error';
+  app.state.error = 'stale';
+  elements.repositoryGrid.children = ['stale-card'];
+  elements.resultSummary.textContent = 'stale summary';
+  elements.loadMoreButton.hidden = false;
+
+  const loading = app.loadData();
+  assert.equal(app.state.status, 'loading');
+  assert.equal(app.state.error, null);
+  assert.equal(elements.catalog.getAttribute('aria-busy'), 'true');
+  assert.deepEqual(elements.repositoryGrid.children, []);
+  assert.equal(elements.resultSummary.textContent, '');
+  assert.equal(elements.loadMoreButton.hidden, true);
+  assert.ok(calls.some(({ name }) => name === 'renderLoading'));
+  assert.deepEqual(calls.find(({ name }) => name === 'fetch').args.slice(0, 1), ['data.json']);
+  assert.equal(calls.find(({ name }) => name === 'fetch').args[1].cache, 'default');
+
+  resolveFetch();
+  await loading;
+  assert.equal(app.state.status, 'ready');
+  assert.equal(app.state.error, null);
+  assert.equal(app.state.repositories.length, 1);
+  assert.equal(elements.catalog.getAttribute('aria-busy'), null);
+  assert.equal(elements.statusPanel.hidden, true);
+  assert.deepEqual(clearedTimers, ['load-timeout']);
+  assert.ok(calls.some(({ name }) => name === 'renderRepositoryGrid'));
+
+  elements.repositoryGrid.children = ['stale-card'];
+  elements.resultSummary.textContent = 'stale summary';
+  elements.loadMoreButton.hidden = false;
+  elements.catalog.setAttribute('aria-busy', 'true');
+  app.showError('The repository list could not be downloaded.');
+  assert.equal(app.state.status, 'error');
+  assert.equal(app.state.error, 'The repository list could not be downloaded.');
+  assert.equal(elements.catalog.getAttribute('aria-busy'), null);
+  assert.deepEqual(elements.repositoryGrid.children, []);
+  assert.equal(elements.resultSummary.textContent, '');
+  assert.equal(elements.loadMoreButton.hidden, true);
+  assert.deepEqual(
+    calls.findLast(({ name }) => name === 'renderError').args.slice(1),
+    ['The repository list could not be downloaded.'],
   );
 });
 

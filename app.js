@@ -22,6 +22,16 @@ const LOAD_TIMEOUT_MS = 10_000;
 const DOWNLOAD_ERROR = 'The repository list could not be downloaded.';
 const INVALID_DATA_ERROR = 'The repository data is not valid.';
 const TIMEOUT_ERROR = 'The repository list took too long to load.';
+const DEFAULT_VIEW = {
+  createRepositoryCard,
+  renderEmpty,
+  renderError,
+  renderLanguageOptions,
+  renderLoading,
+  renderQuickFilters,
+  renderRepositoryGrid,
+  renderSummary,
+};
 const REQUIRED_ELEMENT_IDS = [
   'collectionStats',
   'searchInput',
@@ -36,8 +46,12 @@ const REQUIRED_ELEMENT_IDS = [
 ];
 
 export class CatalogApp {
-  constructor(documentNode = globalThis.document) {
+  constructor(documentNode = globalThis.document, dependencies = {}) {
     this.document = documentNode;
+    this.view = { ...DEFAULT_VIEW, ...dependencies.view };
+    this.fetch = dependencies.fetch ?? globalThis.fetch;
+    this.setTimeout = dependencies.setTimeout ?? globalThis.setTimeout;
+    this.clearTimeout = dependencies.clearTimeout ?? globalThis.clearTimeout;
     this.state = {
       repositories: [],
       query: '',
@@ -76,8 +90,8 @@ export class CatalogApp {
   bindEvents() {
     this.elements.searchInput.addEventListener('input', (event) => {
       const query = event.currentTarget.value.trim();
-      clearTimeout(this.searchTimer);
-      this.searchTimer = setTimeout(() => {
+      this.clearTimeout(this.searchTimer);
+      this.searchTimer = this.setTimeout(() => {
         this.state.query = query;
         this.state.visibleCount = PAGE_SIZE;
         this.render();
@@ -129,13 +143,13 @@ export class CatalogApp {
     this.elements.repositoryGrid.replaceChildren();
     this.elements.resultSummary.textContent = '';
     this.elements.loadMoreButton.hidden = true;
-    renderLoading(this.elements.statusPanel);
+    this.view.renderLoading(this.elements.statusPanel);
 
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), LOAD_TIMEOUT_MS);
+    const timeoutId = this.setTimeout(() => controller.abort(), LOAD_TIMEOUT_MS);
 
     try {
-      const response = await fetch('data.json', {
+      const response = await this.fetch('data.json', {
         signal: controller.signal,
         cache: 'default',
       });
@@ -169,7 +183,7 @@ export class CatalogApp {
         this.showError(DOWNLOAD_ERROR);
       }
     } finally {
-      clearTimeout(timeoutId);
+      this.clearTimeout(timeoutId);
     }
   }
 
@@ -180,13 +194,13 @@ export class CatalogApp {
     this.elements.repositoryGrid.replaceChildren();
     this.elements.resultSummary.textContent = '';
     this.elements.loadMoreButton.hidden = true;
-    renderError(this.elements.statusPanel, message);
+    this.view.renderError(this.elements.statusPanel, message);
   }
 
   renderCollectionControls() {
     const counts = getLanguageCounts(this.state.repositories);
-    renderLanguageOptions(this.elements.languageFilter, counts, this.state.language);
-    renderQuickFilters(this.elements.quickFilters, counts, this.state.language);
+    this.view.renderLanguageOptions(this.elements.languageFilter, counts, this.state.language);
+    this.view.renderQuickFilters(this.elements.quickFilters, counts, this.state.language);
 
     const languageCount = Object.keys(counts).length;
     const repositoryLabel = this.state.repositories.length === 1 ? 'repository' : 'repositories';
@@ -214,17 +228,17 @@ export class CatalogApp {
     this.elements.sortSelect.value = this.state.sort;
 
     const derived = this.getDerivedRepositories();
-    renderQuickFilters(
+    this.view.renderQuickFilters(
       this.elements.quickFilters,
       getLanguageCounts(this.state.repositories),
       this.state.language,
     );
-    renderRepositoryGrid(this.elements.repositoryGrid, derived.visible);
+    this.view.renderRepositoryGrid(this.elements.repositoryGrid, derived.visible);
     this.finishResultsRender(derived);
   }
 
   finishResultsRender({ filtered, visible, hasMore }) {
-    renderSummary(this.elements.resultSummary, {
+    this.view.renderSummary(this.elements.resultSummary, {
       visibleCount: visible.length,
       filteredCount: filtered.length,
       totalCount: this.state.repositories.length,
@@ -234,7 +248,7 @@ export class CatalogApp {
     this.elements.statusPanel.removeAttribute('aria-busy');
 
     if (filtered.length === 0) {
-      renderEmpty(this.elements.statusPanel);
+      this.view.renderEmpty(this.elements.statusPanel);
     } else {
       this.elements.statusPanel.replaceChildren();
       this.elements.statusPanel.hidden = true;
@@ -248,22 +262,19 @@ export class CatalogApp {
 
     const before = this.getDerivedRepositories();
     const previousCount = before.visible.length;
-    this.state.visibleCount = Math.min(
-      previousCount + PAGE_SIZE,
-      before.filtered.length,
-    );
+    this.state.visibleCount += PAGE_SIZE;
     const after = this.getDerivedRepositories();
     const fragment = this.document.createDocumentFragment();
 
     for (const repository of after.sorted.slice(previousCount, after.visible.length)) {
-      fragment.append(createRepositoryCard(repository));
+      fragment.append(this.view.createRepositoryCard(repository));
     }
     this.elements.repositoryGrid.append(fragment);
     this.finishResultsRender(after);
   }
 
   clearFilters() {
-    clearTimeout(this.searchTimer);
+    this.clearTimeout(this.searchTimer);
     this.state.query = '';
     this.state.language = '';
     this.state.visibleCount = PAGE_SIZE;
