@@ -148,6 +148,7 @@ test('Pages workflow gates tests and deployment and applies least privilege', as
     workflow_run: {
       workflows: ['Update awesome list'],
       types: ['completed'],
+      branches: ['main'],
     },
     push: { branches: ['main'] },
     workflow_dispatch: null,
