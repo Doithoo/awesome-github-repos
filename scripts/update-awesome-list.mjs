@@ -61,30 +61,21 @@ export async function fetchStarredRepositories(token, fetchImpl = fetch) {
 export function projectRepository(repository) {
   return {
     id: repository.id,
-    node_id: repository.node_id,
     name: repository.name,
     full_name: repository.full_name,
     owner: {
       login: repository.owner.login,
-      id: repository.owner.id,
       avatar_url: repository.owner.avatar_url,
-      url: repository.owner.url,
       html_url: repository.owner.html_url,
     },
     html_url: repository.html_url,
     description: repository.description,
-    url: repository.url,
-    languages_url: repository.languages_url,
-    created_at: repository.created_at,
-    updated_at: repository.updated_at,
-    git_url: repository.git_url,
-    ssh_url: repository.ssh_url,
-    clone_url: repository.clone_url,
     homepage: repository.homepage,
     stargazers_count: repository.stargazers_count,
-    watchers_count: repository.watchers_count,
     language: repository.language,
     topics: repository.topics,
+    created_at: repository.created_at,
+    updated_at: repository.updated_at,
   };
 }
 
@@ -130,7 +121,7 @@ export function renderMarkdown(groups) {
   const slugCounts = new Map();
   const slugs = languages.map((language) => headingSlug(language, slugCounts));
   const lines = [
-    '# [![Awesome](https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)](https://github.com/tonngw) [![Awesome](https://badgen.net/static/GitHub/Repos/blue)](https://github.com/tonngw)',
+    '# [![Awesome](https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)](https://github.com/Doithoo) [![Awesome](https://badgen.net/static/GitHub/Repos/blue)](https://github.com/Doithoo)',
     '',
     '## Table of Contents',
     '',

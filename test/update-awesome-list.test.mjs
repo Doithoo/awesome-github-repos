@@ -117,20 +117,34 @@ test('rejects malformed next-page links instead of truncating results', async ()
   );
 });
 
-test('projects repositories to the existing data contract', () => {
-  const projected = projectRepository(repository());
+test('projects repositories to the reduced browser data contract', () => {
+  const projected = projectRepository(repository({
+    description: null,
+    homepage: null,
+    language: null,
+    topics: [],
+  }));
 
   assert.deepEqual(Object.keys(projected), [
-    'id', 'node_id', 'name', 'full_name', 'owner', 'html_url', 'description',
-    'url', 'languages_url', 'created_at', 'updated_at', 'git_url', 'ssh_url',
-    'clone_url', 'homepage', 'stargazers_count', 'watchers_count', 'language',
-    'topics',
+    'id', 'name', 'full_name', 'owner', 'html_url', 'description', 'homepage',
+    'stargazers_count', 'language', 'topics', 'created_at', 'updated_at',
   ]);
   assert.deepEqual(Object.keys(projected.owner), [
-    'login', 'id', 'avatar_url', 'url', 'html_url',
+    'login', 'avatar_url', 'html_url',
   ]);
-  assert.equal('private' in projected, false);
-  assert.equal('forks_count' in projected, false);
+  for (const field of [
+    'node_id', 'url', 'languages_url', 'git_url', 'ssh_url', 'clone_url',
+    'watchers_count', 'private', 'forks_count',
+  ]) {
+    assert.equal(field in projected, false, `${field} should be omitted`);
+  }
+  for (const field of ['id', 'url', 'ignored']) {
+    assert.equal(field in projected.owner, false, `owner.${field} should be omitted`);
+  }
+  assert.equal(projected.description, null);
+  assert.equal(projected.homepage, null);
+  assert.equal(projected.language, null);
+  assert.deepEqual(projected.topics, []);
 });
 
 test('groups repositories by first-seen language and uses miscellaneous', () => {
@@ -171,7 +185,14 @@ test('renders compatible Markdown headings and duplicate GitHub slugs', () => {
   ]);
 
   const markdown = renderMarkdown(grouped);
+  const [header] = markdown.split('\n');
 
+  assert.equal(
+    header,
+    '# [![Awesome](https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)](https://github.com/Doithoo) [![Awesome](https://badgen.net/static/GitHub/Repos/blue)](https://github.com/Doithoo)',
+  );
+  assert.equal((header.match(/https:\/\/github\.com\/Doithoo/g) ?? []).length, 2);
+  assert.doesNotMatch(header, /tonngw/);
   assert.match(markdown, /\* \[JavaScript\]\(#javascript\)/);
   assert.match(markdown, /\* \[C\+\+\]\(#c\)/);
   assert.match(markdown, /\* \[C\]\(#c-1\)/);
