@@ -13,7 +13,7 @@ export default defineConfig({
     screenshot: 'only-on-failure',
   },
   webServer: {
-    command: 'python3 -m http.server 4173',
+    command: 'npm run preview',
     cwd: '.',
     url: 'http://127.0.0.1:4173',
     reuseExistingServer: !process.env.CI,
@@ -30,7 +30,8 @@ export default defineConfig({
     {
       name: 'mobile-chromium',
       use: {
-        ...devices['Desktop Chrome'],
+        ...devices['iPhone 13'],
+        browserName: 'chromium',
         viewport: { width: 390, height: 844 },
       },
     },
