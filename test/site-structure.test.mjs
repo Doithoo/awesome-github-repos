@@ -1528,7 +1528,7 @@ test('README documents the bilingual project, operation, security, and testing c
   assert.match(chineseReadme, /\[英文版\]\(README\.md\)/);
   assert.match(chineseReadme, /自动更新|GitHub API/);
   assert.match(chineseReadme, /API_TOKEN/);
-  assert.match(documentation, /daily|每天/i);
+  assert.match(documentation, /every six hours|每六小时/i);
   assert.match(documentation, /GitHub Actions/);
   assert.match(documentation, /GitHub Pages/);
   assert.match(documentation, /fine-grained PAT/i);

@@ -49,7 +49,7 @@ test('update workflow separates read-only validation from credentialed generatio
   assert.ok(Object.hasOwn(workflow, 'on'), 'YAML 1.2 must preserve the on key');
   assert.deepEqual(workflow.on, {
     workflow_dispatch: null,
-    schedule: [{ cron: '00 00 */1 * *' }],
+    schedule: [{ cron: '0 */6 * * *' }],
   });
   assert.deepEqual(workflow.permissions, {});
   assert.deepEqual(workflow.concurrency, {

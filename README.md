@@ -1,12 +1,12 @@
 # Awesome GitHub Repositories
 
-A searchable, responsive catalog of repositories starred by Doithoo. The public UI is in English and the catalog updates daily.
+A searchable, responsive catalog of repositories starred by Doithoo. The public UI is in English and the catalog updates every six hours.
 
 [Live site](https://doithoo.github.io/awesome-github-repos/) | [Source](https://github.com/Doithoo/awesome-github-repos) | [MIT License](LICENSE) | [中文](README.zh-CN.md)
 
 ## Overview
 
-This project presents Doithoo's starred GitHub repositories in a Graphic Signal interface. The English UI supports search, language and quick filters, stable sorting, paginated loading, and responsive desktop and mobile layouts. Catalog data updates daily.
+This project presents Doithoo's starred GitHub repositories in a Graphic Signal interface. The English UI supports search, language and quick filters, stable sorting, paginated loading, and responsive desktop and mobile layouts. Catalog data updates every six hours.
 
 ## Features
 
@@ -41,7 +41,7 @@ Open `http://127.0.0.1:4173`. `npm run dev` serves port 3000. The npm scripts re
 
 ## Update and deployment
 
-Set `Settings > Pages > Source` to GitHub Actions and enable Actions. `Update awesome list` runs automatically every day and can also be dispatched manually. After its test gate, that workflow's scoped `GITHUB_TOKEN` commits refreshed `data.json` and `data.md`. Separately, `Deploy static content to Pages` repeats the test gate and uses least-privilege Pages write permission plus OIDC deployment authentication to publish the default branch.
+Set `Settings > Pages > Source` to GitHub Actions and enable Actions. `Update awesome list` runs automatically every six hours and can also be dispatched manually. After its test gate, that workflow's scoped `GITHUB_TOKEN` commits refreshed `data.json` and `data.md`. Separately, `Deploy static content to Pages` repeats the test gate and uses least-privilege Pages write permission plus OIDC deployment authentication to publish the default branch.
 
 ## API token security
 
