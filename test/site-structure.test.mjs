@@ -8,6 +8,7 @@ const root = new URL('../', import.meta.url);
 const indexPath = new URL('index.html', root);
 const ignorePath = new URL('.gitignore', root);
 const readmePath = new URL('README.md', root);
+const chineseReadmePath = new URL('README.zh-CN.md', root);
 const viewPath = new URL('lib/view.mjs', root);
 const appPath = new URL('app.js', root);
 const stylesPath = new URL('styles.css', root);
@@ -1500,7 +1501,11 @@ test('package metadata and locked local scripts belong to Doithoo', async () => 
 });
 
 test('README documents the bilingual project, operation, security, and testing contract', async () => {
-  const readme = await readFile(readmePath, 'utf8');
+  const [readme, chineseReadme] = await Promise.all([
+    readFile(readmePath, 'utf8'),
+    readFile(chineseReadmePath, 'utf8'),
+  ]);
+  const documentation = `${readme}\n${chineseReadme}`;
   const requiredText = [
     'https://doithoo.github.io/awesome-github-repos/',
     'https://github.com/Doithoo/awesome-github-repos',
@@ -1519,27 +1524,30 @@ test('README documents the bilingual project, operation, security, and testing c
   ];
 
   for (const text of requiredText) assert.ok(readme.includes(text), `README missing ${text}`);
-  assert.ok(readme.indexOf('## 中文') < readme.indexOf('## English'), 'Chinese section must precede English');
-  assert.match(readme, /daily|每天/i);
-  assert.match(readme, /GitHub Actions/);
-  assert.match(readme, /GitHub Pages/);
-  assert.match(readme, /fine-grained PAT/i);
-  assert.match(readme, /Starring: read/i);
-  assert.match(readme, /read-only|只读/i);
-  assert.match(readme, /private repositor|私有仓库/i);
-  assert.match(readme, /explicitly marked public|明确标记为公开/i);
-  assert.match(readme, /private[^\n]*internal[^\n]*unknown|私有[^\n]*内部[^\n]*未知/i);
-  assert.match(readme, /publicly committed|公开提交/i);
-  assert.match(readme, /OIDC/i);
-  assert.match(readme, /Node\.js 22[^\n]*(?:CI|test)|(?:CI|test)[^\n]*Node\.js 22/i);
-  assert.match(readme, /npm ci\s*\n+npx playwright install chromium\s*\n+npm run test:all/);
-  assert.match(readme, /repository contents[^\n]*(?:not required|no access)|不需要[^\n]*仓库内容/i);
-  assert.match(readme, /private repositor[^\n]*(?:no access|not required)|不需要[^\n]*私有仓库/i);
-  assert.match(readme, /English UI|界面.*英文/i);
-  assert.doesNotMatch(readme, /\]\((?:CONTRIBUTING\.md|docs\/[^)]+)\)/i);
-  assert.doesNotMatch(readme, /mawesome/i);
-  assert.doesNotMatch(readme, /(?:ik\.imagekit\.io|githubusercontent\.com)\/[^\s)]*(?:ton|ngw)/i);
-  assert.doesNotMatch(readme, /(?:add|grant|enable|increase|增加|授予|开启)[^\n]*(?:private repositor|私有仓库)/i);
+  assert.match(readme, /\[中文\]\(README\.zh-CN\.md\)/);
+  assert.match(chineseReadme, /\[英文版\]\(README\.md\)/);
+  assert.match(chineseReadme, /自动更新|GitHub API/);
+  assert.match(chineseReadme, /API_TOKEN/);
+  assert.match(documentation, /daily|每天/i);
+  assert.match(documentation, /GitHub Actions/);
+  assert.match(documentation, /GitHub Pages/);
+  assert.match(documentation, /fine-grained PAT/i);
+  assert.match(documentation, /Starring: read/i);
+  assert.match(documentation, /read-only|只读/i);
+  assert.match(documentation, /private repositor|私有仓库/i);
+  assert.match(documentation, /explicitly marked public|明确标记为公开/i);
+  assert.match(documentation, /private[^\n]*internal[^\n]*unknown|私有[^\n]*内部[^\n]*未知/i);
+  assert.match(documentation, /publicly committed|公开提交/i);
+  assert.match(documentation, /OIDC/i);
+  assert.match(documentation, /Node\.js 22[^\n]*(?:CI|test)|(?:CI|test)[^\n]*Node\.js 22/i);
+  assert.match(documentation, /npm ci\s*\n+npx playwright install chromium\s*\n+npm run test:all/);
+  assert.match(documentation, /repository contents[^\n]*(?:not required|no access)|不需要[^\n]*仓库内容/i);
+  assert.match(documentation, /private repositor[^\n]*(?:no access|not required)|不需要[^\n]*私有仓库/i);
+  assert.match(documentation, /English UI|界面.*英文/i);
+  assert.doesNotMatch(documentation, /\]\((?:CONTRIBUTING\.md|docs\/[^)]+)\)/i);
+  assert.doesNotMatch(documentation, /mawesome/i);
+  assert.doesNotMatch(documentation, /(?:ik\.imagekit\.io|githubusercontent\.com)\/[^\s)]*(?:ton|ngw)/i);
+  assert.doesNotMatch(documentation, /(?:add|grant|enable|increase|增加|授予|开启)[^\n]*(?:private repositor|私有仓库)/i);
 });
 
 test('changelog covers the unreleased redesign and delivery gates', async () => {
