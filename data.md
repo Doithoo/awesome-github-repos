@@ -366,6 +366,8 @@
 
 * [Pintree-io/pintree](https://github.com/Pintree-io/pintree) - Pintree: Easily turn your browser bookmarks into a directory website and start monetizing in minutes.
 
+* [OpenHands/OpenHands](https://github.com/OpenHands/OpenHands) - 🙌 OpenHands: AI-Driven Development
+
 ## Python
 
 * [ericosiu/ai-marketing-skills](https://github.com/ericosiu/ai-marketing-skills) - Open-source AI marketing skills — growth experiments, sales pipeline, content ops, outbound, SEO, and finance automation
@@ -741,8 +743,6 @@
 * [VikParuchuri/tabled](https://github.com/VikParuchuri/tabled) - Detect and extract tables to markdown and csv
 
 * [docling-project/docling](https://github.com/docling-project/docling) - Get your documents ready for gen AI
-
-* [OpenHands/OpenHands](https://github.com/OpenHands/OpenHands) - 🙌 OpenHands: AI-Driven Development
 
 * [mingrammer/diagrams](https://github.com/mingrammer/diagrams) - :art: Diagram as Code for prototyping cloud system architectures
 
