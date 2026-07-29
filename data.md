@@ -2,6 +2,7 @@
 
 ## Table of Contents
 
+* [Zig](#zig)
 * [Java](#java)
 * [TypeScript](#typescript)
 * [Python](#python)
@@ -25,12 +26,17 @@
 * [Kotlin](#kotlin)
 * [MDX](#mdx)
 * [Scala](#scala)
-* [Zig](#zig)
 * [Cuda](#cuda)
 * [Roff](#roff)
 * [Less](#less)
 * [C#](#c-2)
 * [LLVM](#llvm)
+
+## Zig
+
+* [lightpanda-io/browser](https://github.com/lightpanda-io/browser) - Lightpanda: the headless browser designed for AI and automation
+
+* [ghostty-org/ghostty](https://github.com/ghostty-org/ghostty) - 👻 Ghostty is a fast, feature-rich, and cross-platform terminal emulator that uses platform-native UI and GPU acceleration.
 
 ## Java
 
@@ -309,8 +315,6 @@
 * [fmaclen/hollama](https://github.com/fmaclen/hollama) - A minimal LLM chat app that runs entirely in your browser
 
 * [browseros-ai/BrowserOS](https://github.com/browseros-ai/BrowserOS) - 🌐 The open-source Agentic browser; alternative to ChatGPT Atlas, Perplexity Comet, Dia.
-
-* [QuantumNous/new-api](https://github.com/QuantumNous/new-api) - A unified AI model hub for aggregation & distribution. It supports cross-converting various LLMs into OpenAI-compatible, Claude-compatible, or Gemini-compatible formats. A centralized gateway for personal and enterprise model management. 🍥
 
 * [presenton/presenton](https://github.com/presenton/presenton) - Open-Source AI Presentation Generator and API (Gamma, Canva, Beautiful AI, Decktopus, Presentations AI Alternative)
 
@@ -1156,6 +1160,8 @@
 
 * [charmbracelet/crush](https://github.com/charmbracelet/crush) - Glamourous agentic coding for all 💘
 
+* [QuantumNous/new-api](https://github.com/QuantumNous/new-api) - A unified AI model hub for aggregation & distribution. It supports cross-converting various LLMs into OpenAI-compatible, Claude-compatible, or Gemini-compatible formats. A centralized gateway for personal and enterprise model management. 🍥
+
 * [krillinai/KrillinAI](https://github.com/krillinai/KrillinAI) - AI video translation & dubbing tool for humans and AI Agents, powered by LLMs. Full pipeline: download, transcribe, translate, TTS dub, reformat, cover generation. 100+ languages, optimized for YouTube, TikTok, Bilibili, Douyin, and more.AI视频翻译配音工具，面向人类与AI Agent，100+语言全链路，CLI分阶段调用，适配抖音、小红书、哔哩哔哩、视频号、TikTok、YouTube
 
 * [sinclairtarget/git-who](https://github.com/sinclairtarget/git-who) - Git blame for file trees
@@ -1446,13 +1452,9 @@
 
 * [joernio/joern](https://github.com/joernio/joern) - Open-source code analysis platform for C/C++/Java/Binary/Javascript/Python/Kotlin based on code property graphs. Discord https://discord.gg/vv4MH284Hc
 
-## Zig
-
-* [ghostty-org/ghostty](https://github.com/ghostty-org/ghostty) - 👻 Ghostty is a fast, feature-rich, and cross-platform terminal emulator that uses platform-native UI and GPU acceleration.
-
 ## Cuda
 
-* [xlite-dev/LeetCUDA](https://github.com/xlite-dev/LeetCUDA) - 📚LeetCUDA: Modern CUDA Learn Notes with PyTorch for Beginners🐑, 200+ CUDA Kernels, Tensor Cores, HGEMM, FA-2 MMA.🎉
+* [xlite-dev/LeetCUDA](https://github.com/xlite-dev/LeetCUDA) - LeetCUDA: Modern CUDA Learn Notes with PyTorch for Beginners, 200+ CUDA Kernels, Tensor Cores, HGEMM, FA-2 MMA.
 
 ## Roff
 
