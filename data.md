@@ -38,7 +38,7 @@
 
 * [jamiemill/layers-skills](https://github.com/jamiemill/layers-skills) - AI skills for product designers — guidance through the seven layers of product design.
 
-* [emilkowalski/skills](https://github.com/emilkowalski/skills) - Skills for Design Engineers.
+* [emilkowalski/skills](https://github.com/emilkowalski/skills) - Skills for Designers and Engineers.
 
 * [zgwl/chinese-buy-us-stock-guide](https://github.com/zgwl/chinese-buy-us-stock-guide) - 美股指南
 
