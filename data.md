@@ -580,7 +580,7 @@
 
 * [himomohi/AirTranslate](https://github.com/himomohi/AirTranslate) - AirTranslate macOS app
 
-* [jatinkrmalik/vocamac](https://github.com/jatinkrmalik/vocamac) - Open-source, offline voice-to-text for macOS. Hold a hotkey, speak, text appears. 100% private, powered by WhisperKit
+* [VocaHQ/vocamac](https://github.com/VocaHQ/vocamac) - Open-source, offline voice-to-text for macOS. Hold a hotkey, speak, text appears. 100% private, powered by WhisperKit
 
 * [jordanbaird/Ice](https://github.com/jordanbaird/Ice) - Powerful menu bar manager for macOS
 
