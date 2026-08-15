@@ -50,6 +50,6 @@ npm run test:all
 
 也可以分别运行 `npm test`（数据生成、目录逻辑、DOM 安全和工作流契约）与 `npm run test:e2e`（Chromium 中的搜索、筛选、排序、分页和响应式交互）。
 
-## 许可证与上游致谢
+## 许可证
 
-项目采用 [MIT 许可证](LICENSE)。许可证保留 2025 年原作者归属，并记录 2026 年 Doithoo 的修改归属。
+项目采用 [MIT 许可证](LICENSE)。

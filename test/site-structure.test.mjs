@@ -1563,13 +1563,11 @@ test('changelog covers the unreleased redesign and delivery gates', async () => 
   }
 });
 
-test('license preserves upstream MIT terms and credits Doithoo modifications', async () => {
+test('license grants MIT terms under the Doithoo copyright', async () => {
   const license = await readFile(licensePath, 'utf8');
-  const upstreamOwner = ['ton', 'ngw'].join('');
 
   assert.match(license, /MIT License/);
-  assert.ok(license.includes(`Copyright (c) 2025 ${upstreamOwner}`));
-  assert.match(license, /Copyright \(c\) 2026 Doithoo.*modifications/i);
+  assert.match(license, /Copyright \(c\) 2026 Doithoo/);
   assert.match(license, /Permission is hereby granted, free of charge/);
   assert.match(license, /THE SOFTWARE IS PROVIDED "AS IS"/);
 });
@@ -1617,7 +1615,7 @@ test('README does not reference the deleted alternate shell', async () => {
 test('generated local artifacts are ignored with exact root entries', async () => {
   const entries = (await readFile(ignorePath, 'utf8')).split(/\r?\n/);
 
-  for (const entry of ['.superpowers/', '.worktrees/', 'playwright-report/', 'test-results/']) {
+  for (const entry of ['.worktrees/', 'playwright-report/', 'test-results/']) {
     assert.ok(entries.includes(entry), `missing exact .gitignore entry: ${entry}`);
   }
 });

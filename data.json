@@ -13099,32 +13099,6 @@
       "starred_order": 496
     },
     {
-      "id": 1019622726,
-      "name": "awesome-github-repos",
-      "full_name": "tonngw/awesome-github-repos",
-      "owner": {
-        "login": "tonngw",
-        "avatar_url": "https://avatars.githubusercontent.com/u/33111688?v=4",
-        "html_url": "https://github.com/tonngw"
-      },
-      "html_url": "https://github.com/tonngw/awesome-github-repos",
-      "description": "🚀 A curated collection of awesome GitHub repositories, organized by language and topic from my starred projects. Modern, elegant platform for showcasing your starred GitHub repositories.",
-      "homepage": "https://awesome.tonngw.com",
-      "stargazers_count": 49,
-      "language": "JavaScript",
-      "topics": [
-        "awesome-github-repos",
-        "css3",
-        "github-action",
-        "github-pages",
-        "html5",
-        "javascript"
-      ],
-      "created_at": "2025-07-14T16:00:22Z",
-      "updated_at": "2026-07-22T07:09:33Z",
-      "starred_order": 516
-    },
-    {
       "id": 1021622358,
       "name": "fogsight",
       "full_name": "fogsightai/fogsight",

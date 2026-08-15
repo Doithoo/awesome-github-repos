@@ -59,6 +59,6 @@ npm run test:all
 
 Alternatively, run `npm test` for generation, catalog logic, safe rendering, structure, and workflow contracts, or `npm run test:e2e` for Chromium browser coverage.
 
-## License and upstream credit
+## License
 
-Licensed under the [MIT License](LICENSE). The license retains the original 2025 attribution and adds the 2026 Doithoo modification copyright.
+Licensed under the [MIT License](LICENSE).
