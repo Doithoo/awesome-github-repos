@@ -547,7 +547,7 @@ test('header navigation carries the exact brand and secure icon-only source link
   const primaryNav = openingTags(header.body, 'nav')
     .find((tag) => attributes(tag)['aria-label'] === 'Primary navigation');
   const brand = header.body.match(/<a\b[^>]*\bclass=["'][^"']*\bbrand-link\b[^"']*["'][^>]*>([\s\S]*?)<\/a>/i);
-  const sourceUrl = 'https://github.com/Doithoo/awesome-github-repos';
+  const sourceUrl = 'https://github.com/Doithoo/awesome-stars';
   const source = linkByHref(header.body, sourceUrl);
   const sourceAttrs = attributes(source.openingTag);
 
@@ -663,8 +663,8 @@ test('footer identifies Doithoo and links to source and Pages securely', async (
   const footer = elementById(html, 'footer');
   const expectedLinks = [
     ['https://github.com/Doithoo', 'Doithoo'],
-    ['https://github.com/Doithoo/awesome-github-repos', 'Source'],
-    ['https://doithoo.github.io/awesome-github-repos/', 'Pages'],
+    ['https://github.com/Doithoo/awesome-stars', 'Source'],
+    ['https://doithoo.github.io/awesome-stars/', 'Pages'],
   ];
 
   assert.equal(footer.name, 'footer');
@@ -1424,7 +1424,7 @@ test('active page contains no legacy ownership or unsafe rendering hook', async 
   const html = await readIndex();
 
   assert.match(html, />DOITHOO \/ STARS</);
-  assert.match(html, /https:\/\/github\.com\/Doithoo\/awesome-github-repos/);
+  assert.match(html, /https:\/\/github\.com\/Doithoo\/awesome-stars/);
   assert.doesNotMatch(html, /tonngw/i);
   assert.doesNotMatch(html, /innerHTML/);
   assert.equal(existsSync(new URL('index-simple.html', root)), false);
@@ -1484,9 +1484,9 @@ test('package metadata and locked local scripts belong to Doithoo', async () => 
   const lockRoot = packageLock.packages[''];
 
   assert.equal(packageJson.description, 'A searchable, responsive catalog of GitHub repositories starred by Doithoo');
-  assert.equal(packageJson.repository.url, 'git+https://github.com/Doithoo/awesome-github-repos.git');
-  assert.equal(packageJson.bugs.url, 'https://github.com/Doithoo/awesome-github-repos/issues');
-  assert.equal(packageJson.homepage, 'https://doithoo.github.io/awesome-github-repos/');
+  assert.equal(packageJson.repository.url, 'git+https://github.com/Doithoo/awesome-stars.git');
+  assert.equal(packageJson.bugs.url, 'https://github.com/Doithoo/awesome-stars/issues');
+  assert.equal(packageJson.homepage, 'https://doithoo.github.io/awesome-stars/');
   assert.equal(packageJson.author, 'Doithoo');
   assert.equal(packageJson.keywords.includes('dark-theme'), false);
   assert.equal(packageJson.keywords.includes('light-theme'), false);
@@ -1507,8 +1507,8 @@ test('README documents the bilingual project, operation, security, and testing c
   ]);
   const documentation = `${readme}\n${chineseReadme}`;
   const requiredText = [
-    'https://doithoo.github.io/awesome-github-repos/',
-    'https://github.com/Doithoo/awesome-github-repos',
+    'https://doithoo.github.io/awesome-stars/',
+    'https://github.com/Doithoo/awesome-stars',
     'API_TOKEN',
     'GITHUB_TOKEN',
     'npm ci',
@@ -1578,8 +1578,8 @@ test('document metadata identifies the current Doithoo catalog', async () => {
   assert.match(html, /<title>Doithoo's Starred Repositories<\/title>/);
   assert.match(html, /<meta name="author" content="Doithoo">/);
   assert.match(html, /<meta name="description" content="A searchable catalog of repositories starred by Doithoo\.">/);
-  assert.match(html, /https:\/\/github\.com\/Doithoo\/awesome-github-repos/);
-  assert.match(html, /https:\/\/doithoo\.github\.io\/awesome-github-repos\//);
+  assert.match(html, /https:\/\/github\.com\/Doithoo\/awesome-stars/);
+  assert.match(html, /https:\/\/doithoo\.github\.io\/awesome-stars\//);
   assert.match(html, /<meta name="theme-color" content="#f8f9fb">/);
 });
 

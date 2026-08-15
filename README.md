@@ -1,8 +1,8 @@
-# Awesome GitHub Repositories
+# Awesome Stars
 
 A searchable, responsive catalog of repositories starred by Doithoo. The public UI is in English and the catalog updates every six hours.
 
-[Live site](https://doithoo.github.io/awesome-github-repos/) | [Source](https://github.com/Doithoo/awesome-github-repos) | [MIT License](LICENSE) | [中文](README.zh-CN.md)
+[Live site](https://doithoo.github.io/awesome-stars/) | [Source](https://github.com/Doithoo/awesome-stars) | [MIT License](LICENSE) | [中文](README.zh-CN.md)
 
 ## Overview
 

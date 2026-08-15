@@ -1,8 +1,8 @@
-# Awesome GitHub Repositories
+# Awesome Stars
 
 一个可搜索、响应式展示 Doithoo 收藏仓库的目录。公开界面使用英文，目录每六小时自动更新。
 
-[在线网站](https://doithoo.github.io/awesome-github-repos/) | [源代码](https://github.com/Doithoo/awesome-github-repos) | [MIT 许可证](LICENSE) | [英文版](README.md)
+[在线网站](https://doithoo.github.io/awesome-stars/) | [源代码](https://github.com/Doithoo/awesome-stars) | [MIT 许可证](LICENSE) | [英文版](README.md)
 
 ## 项目简介
 
