@@ -57,7 +57,7 @@
 
 * [paperclipai/paperclip](https://github.com/paperclipai/paperclip) - The open-source app everyone uses to manage agents at work
 
-* [texpile/texpile](https://github.com/texpile/texpile) - A modern, local, offline LaTeX & Typst editor with both visual and source editing.
+* [texpile/texpile](https://github.com/texpile/texpile) - Modern offline LaTeX & Typst editor with visual and source editing.
 
 * [tobi/qmd](https://github.com/tobi/qmd) - mini cli search engine for your docs, knowledge bases, meeting notes, whatever. Tracking current sota approaches while being all local
 
