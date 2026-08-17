@@ -49,7 +49,7 @@
 
 * [pireel/pireel](https://github.com/pireel/pireel) - The open-source alternative to Capcut、ChatCut. Drivable by any AI agent over MCP.
 
-* [Jakubantalik/Libraries](https://github.com/Jakubantalik/Libraries) - Collection of effects for React: Border beam, Liquid Gooey
+* [Jakubantalik/Libraries](https://github.com/Jakubantalik/Libraries) - Collection of effects for React: Border beam, Liquid Gooey, Thinking orbs
 
 * [Jakubantalik/thinking-orbs](https://github.com/Jakubantalik/thinking-orbs) - Dotted thought-orb loading indicators for AI & agent UIs, 9 tuned types, two sizes, auto dark/light
 
@@ -849,7 +849,7 @@
 
 * [zgwl/chinese-buy-us-stock-guide](https://github.com/zgwl/chinese-buy-us-stock-guide) - 美股指南
 
-* [Anil-matcha/awesome-deepseek-harness](https://github.com/Anil-matcha/awesome-deepseek-harness) - Curated guide to DeepSeek Harness (dsh) and its best community plugins
+* [Anil-matcha/awesome-dsh-plugin](https://github.com/Anil-matcha/awesome-dsh-plugin) - A curated list of plugins for DeepSeek Harness (dsh) - DeepSeek Harness plugin ecosystem
 
 * [bidah/skill-set](https://github.com/bidah/skill-set) - Collection of Claude Code skills
 
