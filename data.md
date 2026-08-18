@@ -35,6 +35,8 @@
 
 ## TypeScript
 
+* [ibelick/prompt-kit](https://github.com/ibelick/prompt-kit) - Core building blocks for AI apps.  High-quality, accessible, and customizable components for AI interfaces.
+
 * [PrimeIntellect-ai/prime-agent](https://github.com/PrimeIntellect-ai/prime-agent) - A self-improving RLM agent for coding workflows and long-running autonomous tasks.
 
 * [thinkany-ai/dscode](https://github.com/thinkany-ai/dscode) - Coding agent powered by DeepSeek.
