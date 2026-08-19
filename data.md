@@ -65,7 +65,7 @@
 
 * [SchroederNathan/amber](https://github.com/SchroederNathan/amber) - Save it for later
 
-* [maka-agent/maka-agent](https://github.com/maka-agent/maka-agent) - Maka — local-first AI desktop assistant
+* [apache/maka](https://github.com/apache/maka) - Maka — local-first AI desktop assistant
 
 * [Younesfdj/gitfut](https://github.com/Younesfdj/gitfut) - Your GitHub stats, turned into a World-Cup-style player card
 
