@@ -1205,7 +1205,7 @@
 
 * [wy51ai/edulab](https://github.com/wy51ai/edulab) -
 
-* [cathrynlavery/diagram-design](https://github.com/cathrynlavery/diagram-design) - 27 editorial diagram types for Claude Code. Self-contained HTML + SVG. No shadows, no Mermaid-slop.
+* [cathrynlavery/diagram-design](https://github.com/cathrynlavery/diagram-design) - 38 editorial diagram types for Claude Code, Codex, and Pi. Self-contained HTML + SVG. No shadows. No Mermaid slop.
 
 * [Jane-xiaoer/claude-design-principles](https://github.com/Jane-xiaoer/claude-design-principles) - Distilled design judgment from Claude Design system prompt, packaged as a Claude Code skill.
 
