@@ -467,6 +467,8 @@
 
 * [mutonby/openshorts](https://github.com/mutonby/openshorts) - Open source AI clip generator: turns long videos into viral 9:16 shorts with AI moment detection, face tracking, subtitles and dubbing. Self-host free with Docker (MIT), or use the cloud with GPU speed from $12/mo. MCP server and API for AI agents.
 
+* [Anil-matcha/AI-Youtube-Shorts-Generator](https://github.com/Anil-matcha/AI-Youtube-Shorts-Generator) - Open-source alternative to Opus Clip, Vidyo.ai, Klap & SubMagic. Turn long-form YouTube videos into viral 9:16 shorts using LLM highlight detection, Whisper transcription, and auto vertical cropping — free, no watermarks, no per-clip credits.
+
 * [abus-aikorea/voice-pro](https://github.com/abus-aikorea/voice-pro) - Gradio WebUI for creators and developers, featuring key TTS (Edge-TTS, kokoro) and zero-shot Voice Cloning (E2 & F5-TTS, CosyVoice), with Whisper audio processing, YouTube download, Demucs vocal isolation, and multilingual translation.
 
 * [Lynpoint/CyberVerse](https://github.com/Lynpoint/CyberVerse) - Self hosted, real-time digital human agent platform. Build voice-first AI agents with WebRTC, persona memory, tools, RAG, and optional digital-human video.
@@ -848,6 +850,8 @@
 * [jamiemill/layers-skills](https://github.com/jamiemill/layers-skills) - AI skills for product designers — guidance through the seven layers of product design.
 
 * [zgwl/chinese-buy-us-stock-guide](https://github.com/zgwl/chinese-buy-us-stock-guide) - 美股指南
+
+* [Anil-matcha/awesome-dsh-plugin](https://github.com/Anil-matcha/awesome-dsh-plugin) - A curated list of plugins for DeepSeek Harness (dsh) - DeepSeek Harness plugin ecosystem
 
 * [bidah/skill-set](https://github.com/bidah/skill-set) - Collection of Claude Code skills
 
